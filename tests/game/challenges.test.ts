@@ -35,6 +35,10 @@ describe('shipped challenges', () => {
     }
   });
 
+  it('keep single-colour pieces: none of the twelve turns the mixed share on', () => {
+    for (const def of CHALLENGES) expect(def.mixedShare ?? 0, def.id).toBe(0);
+  });
+
   it('use every goal kind and get harder: more colours and bigger boards later', () => {
     expect(new Set(CHALLENGES.map((c) => c.goal.kind)).size).toBe(4);
     const tiles = CHALLENGES.map((c) => parsePrefill(c.prefill).filter((t) => t !== null).length);

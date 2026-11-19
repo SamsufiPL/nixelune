@@ -46,7 +46,7 @@ export function solveChallenge(def: ChallengeDef, beamWidth: number, pieceLimit 
     { board: parsePrefill(def.prefill), paths: 0, tiles: 0, bestChain: 0, score: 0, commands: null, parent: null, value: 0 },
   ];
   for (let depth = 0; depth < pieceLimit && beam.length > 0; depth++) {
-    const piece = generator.next();
+    const piece = generator.next(def.mixedShare ?? 0);
     const children: Node[] = [];
     const seen = new Set<string>();
     for (const node of beam) {

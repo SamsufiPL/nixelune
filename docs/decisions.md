@@ -156,9 +156,19 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
   Realizacja decyzji D-11.
 - **Dlaczego:** przy elementach jednokolorowych trudność bierze się prawie tylko z tempa
   (pomiary botów w D-11).
-- **Parametry:** <!-- do uzupełnienia: od którego etapu, udział elementów mieszanych, liczba kolorów w elemencie; stałe w `src/game/tuning.ts` -->
+- **Parametry:** etapy 1–2 jednokolorowe; od etapu 3 udział elementów dwukolorowych
+  30%, +15 punktów procentowych na etap, maksymalnie 90% od etapu 7. Element dzieli
+  się na dwie spójne części (2+1, 3+1, 2+2). Wyzwania bez zmian (opcjonalne pole
+  `mixedShare`). Dodatkowo: po 40 elementach w jednym etapie grawitacja przyspiesza
+  o 1,5% na element (do 150 ms), żeby nie dało się przeczekać etapu. Stałe w
+  `src/game/tuning.ts`.
+- **Wynik pomiarów:** bot losowy — mediana bez zmian (ok. 72–77 elementów), ale długie
+  szczęśliwe serie znikają (maksimum 186 zamiast 400). Bot zachłanny nadal nie
+  przegrywa; ignoruje on czas, więc nie mierzy presji tempa. Realną presję na uważnego
+  gracza dałby dopiero szybszy wzrost tempa albo rzędy rosnące od dołu — do oceny po
+  testach z ludźmi.
 - **Kto:** twórca zdecydował; realizuje agent rdzenia gry. **Data:** 2026-11-19.
-- **Status:** obowiązuje, w realizacji.
+- **Status:** obowiązuje, wdrożone.
 
 ### D-15 Kierunek wizualny z pakietu odrzucony
 

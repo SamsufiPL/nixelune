@@ -32,8 +32,12 @@ function colorName(i18n: I18n, color: TileColor): string {
 }
 
 function pieceColor(i18n: I18n, piece: PiecePreview): string {
-  const first = piece.cells[0];
-  return first ? colorName(i18n, first.color) : '';
+  // A piece may carry two colours; name each once, in cell order.
+  const colors: TileColor[] = [];
+  for (const cell of piece.cells) {
+    if (!colors.includes(cell.color)) colors.push(cell.color);
+  }
+  return colors.map((color) => colorName(i18n, color)).join(' + ');
 }
 
 /** The text alternative of the canvas: what a sighted player reads off the board. */

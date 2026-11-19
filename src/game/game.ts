@@ -14,7 +14,7 @@ import type { ActivePiece } from './motion';
 import { createPieceGenerator } from './pieces';
 import type { Piece, PieceGenerator } from './pieces';
 import { activationPoints, hardDropPoints, stageBonus } from './scoring';
-import { stageDropIntervalMs, stageGoal } from './stages';
+import { stageDropIntervalMs, stageGoal, stageMixedShare } from './stages';
 import { ACTIVATION_TICKS, CHALLENGE_DROP_MS, COLLAPSE_TICKS, LOCK_DELAY_TICKS, MAX_LOCK_RESETS } from './tuning';
 import { ACTIVATION_THRESHOLD, TICK_MS, TILE_COLORS } from './types';
 import type {
@@ -75,6 +75,8 @@ class GameCore implements Game {
   private goalTiles = 0;
   private goalBestChain = 0;
   private goalScoreBase = 0;
+  /** Pieces locked inside the current stage; drives the gravity creep. */
+  private piecesInStage = 0;
 
   constructor(config: GameConfig) {
     this.mode = config.mode;
@@ -93,7 +95,7 @@ class GameCore implements Game {
       this.dropIntervalMs = stageDropIntervalMs(1);
       this.events.push({ type: 'stageStarted', stage: 1 });
     }
-    this.next = this.generator.next();
+    this.next = this.generator.next(this.mixedShare());
     if (this.piecesLeft !== null && this.piecesLeft <= 0) this.end('challengeFailed');
     else this.spawnNext();
   }
@@ -197,7 +199,8 @@ class GameCore implements Game {
       this.end(this.mode.kind === 'challenge' ? 'challengeFailed' : 'blocked');
       return;
     }
-    this.next = this.generator.next();
+    this.next = this.generator.next(this.mixedShare());
+    if (this.mode.kind === 'endless') this.dropIntervalMs = stageDropIntervalMs(this.stage, this.piecesInStage);
     this.canSwap = true;
     this.phase = 'falling';
     this.stateVersion++;
@@ -211,7 +214,7 @@ class GameCore implements Game {
       this.events.push({ type: 'blocked', command: 'swap' });
       return;
     }
-    if (this.held === null) this.next = this.generator.next();
+    if (this.held === null) this.next = this.generator.next(this.mixedShare());
     this.held = active.piece;
     this.canSwap = false;
     this.stateVersion++;
@@ -241,6 +244,7 @@ class GameCore implements Game {
     this.setActive(null);
     this.canSwap = false;
     if (this.piecesLeft !== null) this.piecesLeft--;
+    this.piecesInStage++;
     this.events.push({ type: 'locked', cells: landed.lockCells, hard, rowsDropped: landed.rowsDropped });
     if (moves.length > 0) this.events.push({ type: 'settled', moves });
     this.chainPoints = 0;
@@ -318,6 +322,11 @@ class GameCore implements Game {
     this.events.push({ type: 'stageCompleted', stage: this.stage, bonus });
   }
 
+  /** Share of two-colour pieces for the piece generated now. */
+  private mixedShare(): number {
+    return this.mode.kind === 'challenge' ? (this.mode.challenge.mixedShare ?? 0) : stageMixedShare(this.stage);
+  }
+
   private goalProgress(kind: GoalKind): number {
     switch (kind) {
       case 'paths':
@@ -337,6 +346,7 @@ class GameCore implements Game {
     this.goalTiles = 0;
     this.goalBestChain = 0;
     this.goalScoreBase = this.score;
+    this.piecesInStage = 0;
     this.goal = { ...stageGoal(this.stage), progress: 0 };
     this.dropIntervalMs = stageDropIntervalMs(this.stage);
     this.stateVersion++;

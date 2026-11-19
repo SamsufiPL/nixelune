@@ -97,6 +97,20 @@ export const MIN_DROP_MS = 150;
 export const CHALLENGE_DROP_MS = 900;
 
 /**
+ * Pieces a stage may take before its gravity starts to creep. Unit: pieces placed
+ * inside the stage. Twice what the greedy bot needs for a typical stage, so normal
+ * play never notices; it only closes the loophole of idling in a stage (for example
+ * waiting forever on a chain goal) at constant speed.
+ */
+export const STAGE_CREEP_GRACE_PIECES = 40;
+/**
+ * Gravity interval factor per piece placed beyond the grace. Unit: factor per piece.
+ * 0.985 halves the interval after about 46 further pieces - slow enough to be fair,
+ * fast enough that sitting in one stage is not a strategy. Reset by the next stage.
+ */
+export const STAGE_CREEP_FACTOR = 0.985;
+
+/**
  * Goal kinds of consecutive stages; the table repeats, each pass is one "round".
  * The chain goal closes a round: it is the one a tidy player has to plan for.
  */
@@ -127,6 +141,26 @@ export const MAX_SHAPE_RUN = 1;
 export const COLOR_BAG_COPIES = 2;
 /** Longest allowed run of one colour. Unit: pieces. Pairs help, triples feel rigged. */
 export const MAX_COLOR_RUN = 2;
+
+/**
+ * First endless stage with two-colour pieces. Unit: stage number. Stages 1-2 stay
+ * single-colour so the start is gentle and the rule "five of a colour" is learnt first.
+ */
+export const MIXED_FIRST_STAGE = 3;
+/** Share of two-colour pieces in MIXED_FIRST_STAGE. Unit: probability 0..1. A first taste. */
+export const MIXED_SHARE_START = 0.3;
+/**
+ * Share added per stage after MIXED_FIRST_STAGE. Unit: probability per stage.
+ * Reaches the cap at stage 7, while gravity is still above 60% of its first interval.
+ */
+export const MIXED_SHARE_PER_STAGE = 0.15;
+/**
+ * Highest share of two-colour pieces. Unit: probability 0..1. One piece in ten stays
+ * single-colour: those close paths cleanly. Measured with tools/balance.ts: the ramp
+ * cuts the long lucky runs of random play (mean survival about 104 -> 75 pieces) but
+ * does not threaten a careful player on its own; speed remains the main pressure.
+ */
+export const MIXED_SHARE_MAX = 0.9;
 
 // --- View ------------------------------------------------------------------------
 

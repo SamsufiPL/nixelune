@@ -5,7 +5,7 @@
  */
 import { CHALLENGES } from '../src/game/challenges';
 import { createRng } from '../src/game/rng';
-import { stageDropIntervalMs, stageGoal } from '../src/game/stages';
+import { stageDropIntervalMs, stageGoal, stageMixedShare } from '../src/game/stages';
 import { greedyPolicy, playEndless, randomPolicy } from './bot';
 import type { RunResult } from './bot';
 import { replayChallenge, solveChallenge } from './solver';
@@ -56,19 +56,22 @@ export function balanceReport(): string {
   lines.push('ENDLESS, greedy bot, 600 pieces per seed');
   lines.push(`  runs ended early: ${greedy.filter((r) => r.outcome !== null).length} of ${greedy.length}`);
   lines.push(`  stage reached (median): ${median(greedy.map((r) => r.stage))}, score (median): ${median(greedy.map((r) => r.score))}`);
-  lines.push('  stage: goal, gravity, pieces the greedy bot needs (min / median / max)');
+  lines.push('  stage: goal, gravity, share of two-colour pieces, pieces the greedy bot needs (min / median / max)');
   for (let stage = 1; stage <= 12; stage++) {
     const counts = greedy.map((r) => r.piecesPerStage[stage - 1]).filter((n): n is number => n !== undefined);
     const goal = stageGoal(stage);
     lines.push(
-      `  ${String(stage).padStart(2)}: ${goal.kind} ${goal.target}, ${stageDropIntervalMs(stage)} ms/row, ` +
+      `  ${String(stage).padStart(2)}: ${goal.kind} ${goal.target}, ${stageDropIntervalMs(stage)} ms/row, ${Math.round(stageMixedShare(stage) * 100)}% mixed, ` +
         `${Math.min(...counts)} / ${median(counts)} / ${Math.max(...counts)}`,
     );
   }
+  const long = greedyRuns(seeds.slice(0, 6), 1500);
+  lines.push(`ENDLESS, greedy bot, 1500 pieces on 6 seeds: lost ${long.filter((r) => r.outcome !== null).length}, lowest stage reached ${Math.min(...long.map((r) => r.stage))}`);
   const random = randomRuns(seeds, 5000);
   lines.push('ENDLESS, random placement bot, up to 5000 pieces per seed');
   lines.push(`  lost: ${random.filter((r) => r.outcome === 'blocked').length} of ${random.length}`);
   lines.push(`  pieces survived: min ${Math.min(...random.map((r) => r.pieces))}, median ${median(random.map((r) => r.pieces))}, max ${Math.max(...random.map((r) => r.pieces))}`);
+  lines.push(`  mean pieces survived: ${Math.round(random.reduce((sum, r) => sum + r.pieces, 0) / random.length)}`);
   lines.push(`  pieces for stage 1 (median of runs that finished it): ${median(random.map((r) => r.piecesPerStage[0]).filter((n): n is number => n !== undefined))}`);
   lines.push('CHALLENGES: id, goal, colours, piece limit, pieces used by the solver, beam width');
   const proofs = proveChallenges();

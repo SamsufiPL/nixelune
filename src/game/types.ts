@@ -66,6 +66,11 @@ export interface ChallengeDef {
   readonly pieceLimit: number;
   /** Colours used by the piece generator in this challenge. */
   readonly colors: readonly TileColor[];
+  /**
+   * Share of two-colour pieces in this challenge, 0..1. Optional; absent means 0
+   * (every piece has one colour).
+   */
+  readonly mixedShare?: number;
 }
 
 export type GameMode =

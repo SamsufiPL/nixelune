@@ -27,6 +27,12 @@ describe('endless balance', () => {
     expect((STAGE_BASE_DROP_MS * BOARD_ROWS) / 1000).toBeLessThan(15);
   });
 
+  it('stage 1 is untouched by two-colour pieces and the bot gets comfortably past stage 5', () => {
+    // Same numbers as before decision D-14 (single-colour stages 1-2, unchanged streams).
+    expect(greedy.map((run) => run.piecesPerStage[0])).toEqual([18, 18, 17, 17, 18, 18, 18, 18]);
+    for (const run of greedy) expect(run.stage).toBeGreaterThan(10);
+  });
+
   it('no stage is a wall or a formality for the greedy bot in the first twelve', () => {
     for (const run of greedy) {
       expect(run.stage).toBeGreaterThan(12);
@@ -44,7 +50,9 @@ describe('endless balance', () => {
       expect(run.pieces).toBeGreaterThanOrEqual(8);
       expect(run.pieces).toBeLessThan(5000);
     }
-    expect(median(random.map((run) => run.pieces))).toBeLessThan(400);
+    expect(median(random.map((run) => run.pieces))).toBeLessThan(150);
+    // Two-colour pieces cut the long lucky runs (single-colour only: up to 400 pieces on these seeds).
+    expect(Math.max(...random.map((run) => run.pieces))).toBeLessThan(300);
   });
 });
 

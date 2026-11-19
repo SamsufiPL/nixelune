@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { AXIAL_DIRECTIONS } from '../../src/game/hex';
-import { createBag, createPieceGenerator, makePiece, rotateCells, SHAPES } from '../../src/game/pieces';
+import { colorSplits, createBag, createPieceGenerator, makePiece, rotateCells, SHAPES } from '../../src/game/pieces';
 import { createRng } from '../../src/game/rng';
 import { MAX_COLOR_RUN } from '../../src/game/tuning';
 import { TILE_COLORS } from '../../src/game/types';
@@ -96,5 +96,70 @@ describe('generator', () => {
   it('bag keeps the run limit with a single item to choose from', () => {
     const draw = createBag(createRng(1), ['a'], 2, 1);
     expect([draw(), draw(), draw()]).toEqual(['a', 'a', 'a']);
+  });
+});
+
+describe('two-colour pieces', () => {
+  const connected = (cells: readonly { q: number; r: number }[]): boolean => {
+    const reached = [cells[0]!];
+    for (let i = 0; i < reached.length; i++) {
+      for (const c of cells) if (!reached.includes(c) && adjacent(reached[i]!, c)) reached.push(c);
+    }
+    return reached.length === cells.length;
+  };
+
+  it('every shape can be cut into two connected parts: 2+1, 3+1 or 2+2', () => {
+    for (const shape of SHAPES) {
+      const splits = colorSplits(shape);
+      expect(splits.length, shape.id).toBeGreaterThan(0);
+      for (const part of splits) {
+        expect(part.length).toBeGreaterThanOrEqual(1);
+        expect(part.length * 2).toBeLessThanOrEqual(shape.cells.length);
+        expect(connected(part.map((i) => shape.cells[i]!))).toBe(true);
+        expect(connected(shape.cells.filter((_, i) => !part.includes(i)))).toBe(true);
+      }
+    }
+    expect(colorSplits(SHAPES.find((s) => s.id === 'line')!)).toEqual([[0], [2]]);
+  });
+
+  it('are generated as a contiguous split, never a scatter, at the asked share', () => {
+    const gen = createPieceGenerator(5, TILE_COLORS);
+    const sizes = new Set<string>();
+    for (let i = 0; i < 600; i++) {
+      const piece = gen.next(1);
+      const colors = [...new Set(piece.cells.map((c) => c.color))];
+      expect(colors).toHaveLength(2);
+      const parts = colors.map((color) => piece.cells.filter((c) => c.color === color));
+      for (const part of parts) expect(connected(part)).toBe(true);
+      sizes.add(parts.map((p) => p.length).sort().reverse().join('+'));
+    }
+    expect([...sizes].sort()).toEqual(['2+1', '2+2', '3+1']);
+
+    const half = createPieceGenerator(5, TILE_COLORS);
+    let mixed = 0;
+    for (let i = 0; i < 2000; i++) if (new Set(half.next(0.5).cells.map((c) => c.color)).size === 2) mixed++;
+    expect(mixed).toBeGreaterThan(900);
+    expect(mixed).toBeLessThan(1100);
+  });
+
+  it('do not disturb the shape and base colour streams, whatever the share', () => {
+    const plain = createPieceGenerator(9, TILE_COLORS);
+    const mixed = createPieceGenerator(9, TILE_COLORS);
+    const wavering = createPieceGenerator(9, TILE_COLORS);
+    for (let i = 0; i < 300; i++) {
+      const a = plain.next();
+      const b = mixed.next(1);
+      const c = wavering.next(i % 3 === 0 ? 1 : 0);
+      expect(b.shapeId).toBe(a.shapeId);
+      const base = a.cells[0]!.color;
+      // The base colour keeps the larger (or equal) part.
+      expect(b.cells.filter((cell) => cell.color === base).length * 2).toBeGreaterThanOrEqual(b.cells.length);
+      expect(c).toEqual(i % 3 === 0 ? b : a);
+    }
+  });
+
+  it('are off by default and impossible with a single colour', () => {
+    const one = createPieceGenerator(2, ['teal']);
+    for (let i = 0; i < 50; i++) expect(new Set(one.next(1).cells.map((c) => c.color)).size).toBe(1);
   });
 });

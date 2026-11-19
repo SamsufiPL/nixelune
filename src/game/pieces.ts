@@ -4,7 +4,7 @@
  * Shapes are clusters native to the hex grid, given as axial offsets from the pivot
  * in spawn orientation. They are deliberately not the tetromino silhouettes.
  */
-import { rotateCcw, rotateCw } from './hex';
+import { AXIAL_DIRECTIONS, rotateCcw, rotateCw } from './hex';
 import type { Axial } from './hex';
 import { createRng, deriveSeed, shuffle } from './rng';
 import type { Rng } from './rng';
@@ -83,13 +83,69 @@ export function createBag<T>(rng: Rng, items: readonly T[], copies: number, maxR
   };
 }
 
-export interface PieceGenerator {
-  next(): Piece;
+function connected(cells: readonly Axial[]): boolean {
+  const reached = [cells[0] as Axial];
+  for (let i = 0; i < reached.length; i++) {
+    const from = reached[i] as Axial;
+    for (const c of cells) {
+      if (!reached.includes(c) && AXIAL_DIRECTIONS.some((d) => from.q + d.q === c.q && from.r + d.r === c.r)) reached.push(c);
+    }
+  }
+  return reached.length === cells.length;
 }
 
-/** Deterministic piece stream; shapes and colours come from independent bags. */
+/**
+ * Ways to cut a shape into two connected parts, as the cell indices of the smaller
+ * (or equal) part - the part that takes the second colour: 2+1, 3+1 or 2+2.
+ */
+export function colorSplits(shape: ShapeDef): number[][] {
+  const n = shape.cells.length;
+  const splits: number[][] = [];
+  for (let mask = 1; mask < (1 << n) - 1; mask++) {
+    const part: number[] = [];
+    const rest: number[] = [];
+    for (let i = 0; i < n; i++) (((mask >> i) & 1) === 1 ? part : rest).push(i);
+    if (part.length * 2 > n) continue;
+    if (connected(part.map((i) => shape.cells[i] as Axial)) && connected(rest.map((i) => shape.cells[i] as Axial))) splits.push(part);
+  }
+  return splits;
+}
+
+const SPLITS: ReadonlyMap<string, number[][]> = new Map(SHAPES.map((shape) => [shape.id, colorSplits(shape)]));
+
+export interface PieceGenerator {
+  /**
+   * The next piece. With probability `mixedShare` (0..1, default 0) it has two
+   * colours, split into two connected parts.
+   */
+  next(mixedShare?: number): Piece;
+}
+
+/**
+ * Deterministic piece stream. Shapes and base colours come from independent bags;
+ * a third stream decides about the second colour and always advances by the same
+ * amount, so the shapes and base colours of a seed do not depend on the mixed share.
+ */
 export function createPieceGenerator(seed: number, colors: readonly TileColor[]): PieceGenerator {
   const nextShape = createBag(createRng(deriveSeed(seed, 1)), SHAPES, SHAPE_BAG_COPIES, MAX_SHAPE_RUN);
   const nextColor = createBag(createRng(deriveSeed(seed, 2)), colors, COLOR_BAG_COPIES, MAX_COLOR_RUN);
-  return { next: () => makePiece(nextShape(), nextColor()) };
+  const mix = createRng(deriveSeed(seed, 3));
+  return {
+    next: (mixedShare = 0) => {
+      const shape = nextShape();
+      const color = nextColor();
+      const roll = mix.float();
+      const colorRoll = mix.float();
+      const splitRoll = mix.float();
+      const others = colors.filter((c) => c !== color);
+      const splits = SPLITS.get(shape.id) ?? [];
+      if (roll >= mixedShare || others.length === 0 || splits.length === 0) return makePiece(shape, color);
+      const second = others[Math.floor(colorRoll * others.length)] as TileColor;
+      const part = splits[Math.floor(splitRoll * splits.length)] as number[];
+      return {
+        shapeId: shape.id,
+        cells: shape.cells.map((c, i) => ({ q: c.q, r: c.r, color: part.includes(i) ? second : color })),
+      };
+    },
+  };
 }
