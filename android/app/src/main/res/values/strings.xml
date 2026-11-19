@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">NIXELUNE</string>
+    <string name="title_activity_main">NIXELUNE</string>
+    <string name="package_name">com.nixelune.game</string>
+    <string name="custom_url_scheme">com.nixelune.game</string>
+</resources>

@@ -1,0 +1,33 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # A version must be a week old before it is proposed.
+    cooldown:
+      default-days: 7
+    groups:
+      capacitor:
+        patterns:
+          - '@capacitor/*'
+
+  # The androidx versions in android/variables.gradle come from the Capacitor template;
+  # check a proposed bump against the Capacitor release notes before merging.
+  - package-ecosystem: gradle
+    directory: /android
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      android:
+        patterns:
+          - '*'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7

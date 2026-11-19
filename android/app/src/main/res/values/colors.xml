@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ink navy from the brand kit (docs/brand-kit/04_design_system/tokens.css). -->
+    <color name="ink">#0E1522</color>
+</resources>

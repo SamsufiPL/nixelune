@@ -1,0 +1,105 @@
+import groovy.json.JsonSlurper
+
+apply plugin: 'com.android.application'
+
+// One version for web and Android: package.json. CI injects the build number.
+def packageJson = new JsonSlurper().parse(rootProject.file('../package.json'))
+def buildNumber = (System.getenv('NIXELUNE_VERSION_CODE') ?: '1') as Integer
+
+// Release signing comes from environment variables or from android/keystore.properties
+// (ignored by git). There is no fallback: without it a release build fails.
+def signingKeys = ['storeFile', 'storePassword', 'keyAlias', 'keyPassword']
+def signingEnv = [
+    storeFile    : 'NIXELUNE_KEYSTORE_FILE',
+    storePassword: 'NIXELUNE_KEYSTORE_PASSWORD',
+    keyAlias     : 'NIXELUNE_KEY_ALIAS',
+    keyPassword  : 'NIXELUNE_KEY_PASSWORD',
+]
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('keystore.properties')
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withInputStream { keystoreProperties.load(it) }
+}
+def releaseSigning = signingKeys.collectEntries { key ->
+    [(key): System.getenv(signingEnv[key]) ?: keystoreProperties.getProperty(key)]
+}
+def missingSigning = signingKeys.findAll { !releaseSigning[it] }
+def hasReleaseSigning = missingSigning.isEmpty()
+
+android {
+    namespace = "com.nixelune.game"
+    compileSdk = rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.nixelune.game"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode buildNumber
+        versionName packageJson.version
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    signingConfigs {
+        if (hasReleaseSigning) {
+            release {
+                storeFile file(releaseSigning.storeFile)
+                storePassword releaseSigning.storePassword
+                keyAlias releaseSigning.keyAlias
+                keyPassword releaseSigning.keyPassword
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            versionNameSuffix "-debug"
+        }
+        release {
+            debuggable false
+            jniDebuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (hasReleaseSigning) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+    dependenciesInfo {
+        // No encrypted dependency blob for Google in the APK / bundle.
+        includeInApk = false
+        includeInBundle = false
+    }
+}
+
+// A release artefact is never produced unsigned or with the debug key.
+gradle.taskGraph.whenReady { graph ->
+    def releaseTasks = graph.allTasks.findAll {
+        it.project == project && it.name ==~ /(assemble|bundle|package|install)Release.*/
+    }
+    if (!releaseTasks.isEmpty() && !hasReleaseSigning) {
+        throw new GradleException(
+            "Release signing is not configured (missing: ${missingSigning.join(', ')}). " +
+            "Set ${signingEnv.values().join(', ')} or create android/keystore.properties. " +
+            "Release builds never fall back to the debug key.")
+    }
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.activity:activity:$androidxActivityVersion"
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    implementation project(':capacitor-cordova-android-plugins')
+}
+
+apply from: 'capacitor.build.gradle'
