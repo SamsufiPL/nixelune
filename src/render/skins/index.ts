@@ -20,4 +20,4 @@ export const SKINS: Readonly<Record<string, SkinEntry>> = {
 };
 
 /** Skin used when neither the URL nor the save names one that exists. */
-export const DEFAULT_SKIN = 'kit';
+export const DEFAULT_SKIN = 'szklarnia';

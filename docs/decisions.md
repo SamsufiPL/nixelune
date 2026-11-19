@@ -23,6 +23,7 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
 | D-14 | Elementy mieszane kolorystycznie od wyższych etapów | twórca | obowiązuje, w realizacji |
 | D-15 | Kierunek wizualny z pakietu odrzucony; nowy w wyborze | twórca | obowiązuje; wybór kierunku **otwarty (twórca)** |
 | D-16 | Telefony zablokowane w pionie; tablety i rozłożone składane obracają się | twórca | obowiązuje |
+| D-17 | Kierunek wizualny: skórka „Szklarnia” | twórca | obowiązuje, w dopracowaniu |
 
 ## Wpisy
 
@@ -196,4 +197,18 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
 - **Dlaczego:** decyzja twórcy (2026-11-19) — gra na telefonie ma być pionowa.
 - **Kto:** twórca. **Status:** obowiązuje.
 
-<!-- Kolejne wpisy: D-17, D-18, ... Dodaj wiersz w tabeli przeglądu i sekcję poniżej. -->
+### D-17 Kierunek wizualny: Szklarnia
+
+- **Co:** gra dostaje oprawę „Szklarnia”: wiktoriańska oranżeria w porannym słońcu,
+  pionki jako szkliwione kafle majolikowe z reliefem (liść, kwiat, fala, gwiazda,
+  słońce), ścieżka światła jako promień słońca. Poziom odniesienia wskazany przez
+  twórcę: Candy Crush / Royal Match (głębia, materiał, świat, elegancja, ruch).
+- **Historia:** twórca odrzucił oprawę z pakietu (D-15), trzy płaskie propozycje
+  (Druk, Atlas, Klocki), a z trzech grywalnych skórek (Klejnoty, Lampiony, Szklarnia)
+  wybrał Szklarnię z uwagą, że wszystkie mają jeszcze „szczegóły AI slop” do usunięcia.
+- **Skutki:** Szklarnia jest skórką domyślną. Skórki `kit`, `demo`, `klejnoty`
+  i `lampiony` zostaną usunięte po dopracowaniu Szklarni. D-07 (Inter) i D-13 tracą
+  znaczenie razem ze skórką `kit`. Ikona i ekran startowy do wymiany pod nowy kierunek.
+- **Kto:** twórca (2026-11-19). **Status:** obowiązuje, w dopracowaniu.
+
+<!-- Kolejne wpisy: D-18, D-19, ... Dodaj wiersz w tabeli przeglądu i sekcję poniżej. -->
