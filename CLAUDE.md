@@ -4,9 +4,10 @@ A calm hex-grid puzzle game: mineral clusters fall, the player joins five or mor
 same-colour tiles into a light path, the path activates and disappears. Target:
 Android first, iOS port later, web for development.
 
-The creator's design input is the brand kit in `docs/brand-kit/` (read
-`00_START/START_HERE_PL.md`, `04_design_system/`, `05_game_design/`, and look at
-`02_visuals/*.png`). Decisions are recorded in `docs/decisions.md`.
+The creator's game design input is in `docs/brand-kit/05_game_design/` (GDD, player
+instructions, microcopy). The kit's visuals (`02_visuals/`, `03_logo/`,
+`04_design_system/`) were rejected by the creator (D-15) and are not a visual brief.
+Decisions are recorded in `docs/decisions.md`.
 
 ## Stack
 
@@ -60,19 +61,28 @@ docs/           decisions, roadmap, research, specs in progress, brand kit
   no `Co-Authored-By` line and no session link.
 - Split files by responsibility before they grow into a place where everything lives.
 
-## Art direction (zero AI slop)
+## Art direction (D-15, D-17: being chosen)
 
-From `docs/brand-kit/04_design_system/ZASADY_STYLU_ZERO_AI_SLOP.md`; it is binding.
+The creator rejected the brand kit's look as AI slop (space background, pastel-on-navy
+with brass, thin wide-tracked capitals in Inter, bevelled hexagons, rounded outlined
+panels) and then three flat graphic proposals (print, engraving, flat toy blocks).
+What the creator asked for instead, in their own choices:
 
-- More silence than effects. Ink-navy background, at most one faint orbit / horizon.
-- Light has meaning: teal = active connection, coral = piece in motion accents,
-  brass = main call to action / reward, ice = preview, lilac = rarer modules.
-- A tile is one flat hexagon with a micro-bevel and one reflection surface.
-- No glow on every element, no glass panels, no random gradients, no blur,
-  no cards for the sake of cards: separate with space, a thin line and hierarchy.
-- At most two heading sizes per view; wide tracking only in the logo and micro-labels.
-- One radius family per row of interface (8 px and 16 px tokens).
-- The signature moment is the path activation: tiles light in sequence along the
-  path in 200-260 ms, then disperse in silence. Nothing else competes with it.
-- Motion 120-260 ms, no flashing, no camera shake; honour reduced motion.
-- Not a Tetris look-alike: no rectangular well, no tetrominoes, no row clearing.
+- Production level and character of Candy Crush / Royal Match: rich, glossy, objects
+  that look three-dimensional, shading and highlights, lots of life in motion.
+- Depth and material: pieces must look like real objects, not flat polygons.
+- A world and a mood: a theme and a place, not an abstract board on a plain ground.
+- Elegance: grown-up and composed, still colourful; not childish, not garish.
+- Life in motion: bounce, squash, sparkle, satisfying joins; judged in play.
+
+Skins live in `src/render/skins/<name>/` with a matching `src/ui/themes/<name>.css`;
+the creator picks one from playable candidates, the others are then deleted.
+
+Still binding whatever the skin:
+- Effects serve game state and never hide the board; the falling piece, its landing
+  spot and the free space read at a glance.
+- Honour reduced motion; no full-screen flashing.
+- Not a Tetris look-alike, and no copying of another game's art, characters or UI.
+- Never colour alone: every tile colour also differs by shape or mark.
+- No raster art from unknown sources; everything is drawn in code or from assets with
+  a recorded licence.
