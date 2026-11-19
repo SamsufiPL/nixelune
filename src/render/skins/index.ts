@@ -14,6 +14,8 @@ export interface SkinEntry {
 export const SKINS: Readonly<Record<string, SkinEntry>> = {
   kit: { name: { pl: 'Kit', en: 'Kit' }, load: () => import('./kit/index') },
   demo: { name: { pl: 'Demo (próbny)', en: 'Demo (rough)' }, load: () => import('./demo/index') },
+  lampiony: { name: { pl: 'Lampiony', en: 'Lanterns' }, load: () => import('./lampiony/index') },
+  klejnoty: { name: { pl: 'Klejnoty', en: 'Jewels' }, load: () => import('./klejnoty/index') },
 };
 
 /** Skin used when neither the URL nor the save names one that exists. */
