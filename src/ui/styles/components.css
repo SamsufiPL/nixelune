@@ -1,0 +1,509 @@
+/* --- Type roles ----------------------------------------------------------------- */
+
+.label {
+  font-size: var(--nx-text-label);
+  font-weight: 600;
+  letter-spacing: var(--nx-track-label);
+  text-transform: uppercase;
+  color: var(--nx-muted);
+  line-height: 1.3;
+}
+
+.heading {
+  font-size: var(--nx-text-heading);
+  font-weight: 500;
+  letter-spacing: var(--nx-track-tight);
+  line-height: 1.25;
+}
+
+.help {
+  font-size: var(--nx-text-help);
+  color: var(--nx-muted);
+}
+
+/* --- Brand ---------------------------------------------------------------------- */
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--nx-text);
+}
+
+.brand__symbol {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+}
+
+.brand__word {
+  font-size: 1rem;
+  font-weight: 450;
+  letter-spacing: var(--nx-track-label);
+  /* Optical centring: tracking adds space after the last letter. */
+  margin-right: calc(var(--nx-track-label) * -1);
+  line-height: 1;
+}
+
+.brand--stacked {
+  flex-direction: column;
+  gap: 6px;
+}
+
+.brand--stacked .brand__symbol {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.brand--stacked .brand__word {
+  font-size: min(var(--nx-text-logo), 10vw);
+}
+
+/* --- Buttons -------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--nx-touch);
+  padding: 0 var(--nx-space-3);
+  border-radius: var(--nx-radius-md);
+  font-size: var(--nx-text-button);
+  font-weight: 600;
+  letter-spacing: var(--nx-track-button);
+  text-transform: uppercase;
+  text-align: center;
+  transition:
+    background-color var(--nx-dur-fast) var(--nx-ease),
+    border-color var(--nx-dur-fast) var(--nx-ease),
+    color var(--nx-dur-fast) var(--nx-ease),
+    transform var(--nx-dur-fast) var(--nx-ease);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+}
+
+/* Brass: the one main call to action of a view. */
+.btn--primary {
+  background: var(--nx-brass);
+  color: var(--nx-ink);
+  font-weight: 700;
+}
+
+.btn--primary:active:not(:disabled) {
+  background: var(--nx-brass-pressed);
+}
+
+.btn--secondary {
+  background: var(--nx-panel);
+  border: 1px solid var(--nx-outline);
+  color: var(--nx-text);
+  font-weight: 500;
+}
+
+.btn--secondary:active:not(:disabled) {
+  background: var(--nx-panel2);
+}
+
+.btn--text {
+  color: var(--nx-muted);
+  font-weight: 500;
+}
+
+.btn--text:active:not(:disabled) {
+  color: var(--nx-text);
+}
+
+@media (hover: hover) {
+  .btn--primary:hover:not(:disabled) {
+    background: var(--nx-brass-hover);
+  }
+
+  .btn--secondary:hover:not(:disabled) {
+    background: var(--nx-panel2);
+    border-color: var(--nx-muted);
+  }
+
+  .btn--text:hover:not(:disabled) {
+    color: var(--nx-text);
+  }
+}
+
+.btn--large {
+  min-height: 3.5rem;
+  font-size: 1rem;
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: var(--nx-touch);
+  height: var(--nx-touch);
+  border-radius: var(--nx-radius-sm);
+  color: var(--nx-muted);
+  transition: color var(--nx-dur-fast) var(--nx-ease);
+}
+
+.icon-btn svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.icon-btn:active {
+  color: var(--nx-text);
+}
+
+@media (hover: hover) {
+  .icon-btn:hover {
+    color: var(--nx-text);
+  }
+}
+
+/* --- Round thumb actions (mobile mockup) ---------------------------------------- */
+
+.act {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  min-width: min(var(--nx-touch), 22vw);
+  color: var(--nx-muted);
+}
+
+.act__disc {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--act-size, 3.5rem);
+  height: var(--act-size, 3.5rem);
+  border: 1.5px solid var(--nx-brass);
+  border-radius: 50%;
+  background: var(--nx-panel);
+  color: var(--nx-text);
+  transition:
+    background-color var(--nx-dur-fast) var(--nx-ease),
+    transform var(--nx-dur-fast) var(--nx-ease),
+    opacity var(--nx-dur-fast) var(--nx-ease);
+}
+
+.act__disc svg {
+  width: 44%;
+  height: 44%;
+}
+
+.act__label {
+  font-size: var(--nx-text-label);
+  font-weight: 600;
+  letter-spacing: var(--nx-track-label);
+  margin-right: calc(var(--nx-track-label) * -1);
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.act--main {
+  color: var(--nx-text);
+}
+
+.act--main .act__disc {
+  width: var(--act-size-main, 4.25rem);
+  height: var(--act-size-main, 4.25rem);
+  border-color: transparent;
+  background: var(--nx-brass);
+  color: var(--nx-ink);
+}
+
+.act:active:not(:disabled) .act__disc,
+.act[data-pressed] .act__disc {
+  transform: scale(0.95);
+  background: var(--nx-panel2);
+}
+
+.act--main:active:not(:disabled) .act__disc,
+.act--main[data-pressed] .act__disc {
+  background: var(--nx-brass-pressed);
+}
+
+.act:disabled .act__disc {
+  opacity: 0.55;
+}
+
+.act__held {
+  position: absolute;
+  inset: 12%;
+  width: 76%;
+  height: 76%;
+  display: none;
+}
+
+.act[data-held] .act__held {
+  display: block;
+}
+
+.act[data-held] .act__disc svg {
+  display: none;
+}
+
+/* --- Dialog panel (results mockup) ---------------------------------------------- */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  padding: max(var(--nx-space-2), var(--nx-safe-top)) max(var(--nx-space-2), var(--nx-safe-right))
+    max(var(--nx-space-2), var(--nx-safe-bottom)) max(var(--nx-space-2), var(--nx-safe-left));
+  background: var(--nx-scrim);
+  overflow-y: auto;
+  animation: nx-fade var(--nx-dur) var(--nx-ease);
+}
+
+.panel {
+  display: grid;
+  justify-items: center;
+  gap: var(--nx-space-3);
+  width: min(100%, 23rem);
+  padding: var(--nx-space-4) var(--nx-space-3);
+  border: 1px solid var(--nx-brass);
+  border-radius: var(--nx-radius-md);
+  background: var(--nx-dialog);
+  text-align: center;
+  animation: nx-rise var(--nx-dur-slow) var(--nx-ease);
+}
+
+.panel__symbol {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+
+.panel__title {
+  font-size: 1.625rem;
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  margin-right: -0.09em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.panel__title span {
+  display: block;
+}
+
+.panel__title span + span {
+  color: var(--nx-brass);
+}
+
+.panel__note {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: var(--nx-track-label);
+  margin-right: calc(var(--nx-track-label) * -1);
+  text-transform: uppercase;
+  color: var(--nx-teal);
+}
+
+.panel__figures {
+  display: grid;
+  gap: var(--nx-space-2);
+  justify-items: center;
+}
+
+.panel__score {
+  font-size: 2.25rem;
+  font-weight: 400;
+  letter-spacing: var(--nx-track-tight);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.panel__actions {
+  display: grid;
+  gap: var(--nx-space-1);
+  width: min(100%, 17rem);
+}
+
+.panel__actions .btn {
+  width: 100%;
+}
+
+@keyframes nx-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes nx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* --- Form controls (settings) --------------------------------------------------- */
+
+.segmented {
+  display: inline-flex;
+  border: 1px solid var(--nx-outline);
+  border-radius: var(--nx-radius-sm);
+  background: var(--nx-panel);
+}
+
+.segmented__option {
+  position: relative;
+  display: grid;
+}
+
+.segmented__option input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.segmented__option span {
+  display: grid;
+  place-items: center;
+  min-height: var(--nx-touch);
+  min-width: 4rem;
+  padding: 0 14px;
+  border-radius: 7px;
+  font-size: var(--nx-text-help);
+  font-weight: 500;
+  color: var(--nx-muted);
+  transition:
+    background-color var(--nx-dur-fast) var(--nx-ease),
+    color var(--nx-dur-fast) var(--nx-ease);
+}
+
+.segmented__option input:checked + span {
+  background: var(--nx-slate);
+  color: var(--nx-text);
+}
+
+.segmented__option input:focus-visible + span {
+  outline: 2px solid var(--nx-focus);
+  outline-offset: 2px;
+}
+
+.switch {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--nx-touch);
+  min-height: var(--nx-touch);
+  flex: none;
+}
+
+.switch__track {
+  position: relative;
+  width: 3.25rem;
+  height: 2rem;
+  border: 1px solid var(--nx-outline);
+  border-radius: 1rem;
+  background: var(--nx-panel);
+  transition:
+    background-color var(--nx-dur-fast) var(--nx-ease),
+    border-color var(--nx-dur-fast) var(--nx-ease);
+}
+
+.switch__track::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0.25rem;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-top: -0.6875rem;
+  border-radius: 50%;
+  background: var(--nx-muted);
+  transition:
+    transform var(--nx-dur-fast) var(--nx-ease),
+    background-color var(--nx-dur-fast) var(--nx-ease);
+}
+
+/* Teal marks an active connection; a switch that is on is one. The knob moves too. */
+.switch[aria-checked="true"] .switch__track {
+  border-color: var(--nx-teal);
+  background: rgba(100, 211, 193, 0.16);
+}
+
+.switch[aria-checked="true"] .switch__track::after {
+  transform: translateX(1.25rem);
+  background: var(--nx-teal);
+}
+
+.range {
+  display: flex;
+  align-items: center;
+  gap: var(--nx-space-2);
+}
+
+.range output {
+  min-width: 3.25em;
+  text-align: right;
+  font-size: var(--nx-text-help);
+  font-variant-numeric: tabular-nums;
+  color: var(--nx-muted);
+}
+
+.range input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: min(11rem, 40vw);
+  height: var(--nx-touch);
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.range input::-webkit-slider-runnable-track {
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(
+    to right,
+    var(--nx-text) var(--fill, 50%),
+    var(--nx-outline) var(--fill, 50%)
+  );
+}
+
+.range input::-moz-range-track {
+  height: 2px;
+  border-radius: 1px;
+  background: var(--nx-outline);
+}
+
+.range input::-moz-range-progress {
+  height: 2px;
+  background: var(--nx-text);
+}
+
+.range input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-top: calc(-0.6875rem + 1px);
+  border: 0;
+  border-radius: 50%;
+  background: var(--nx-text);
+}
+
+.range input::-moz-range-thumb {
+  width: 1.375rem;
+  height: 1.375rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--nx-text);
+}
+
+.range input:focus-visible {
+  outline: 2px solid var(--nx-focus);
+  outline-offset: 0;
+  border-radius: var(--nx-radius-sm);
+}

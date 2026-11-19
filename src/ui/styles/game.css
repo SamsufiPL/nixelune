@@ -1,0 +1,813 @@
+/*
+ * Game screen. One DOM, three arrangements:
+ *   portrait (phones, tablets)  - mobile mockup: stats, board, mission strip, thumb actions
+ *   wide (desktop, landscape)   - desktop mockup: info left, board centre, queue right
+ *   wide and short              - phone landscape: the wide arrangement, compacted
+ * The board always takes what is left; everything else is sized by content.
+ */
+
+.game {
+  --gap: 12px;
+  /* Capped by the viewport so three actions still fit when text is scaled to 200%. */
+  --act-size: min(3.5rem, 22vw);
+  --act-size-main: min(4.25rem, 27vw);
+  position: relative;
+  height: 100%;
+  width: min(100%, 42rem);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "header"
+    "stats"
+    "board"
+    "goal"
+    "actions";
+  gap: var(--gap);
+  padding: max(4px, var(--nx-safe-top)) max(var(--nx-space-2), var(--nx-safe-right))
+    max(12px, var(--nx-safe-bottom)) max(var(--nx-space-2), var(--nx-safe-left));
+}
+
+/* Header: small logo, pause on the right. */
+
+.game__header {
+  grid-area: header;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--nx-touch);
+  border-bottom: 1px solid var(--nx-line);
+}
+
+.game__pause {
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  margin-top: calc(var(--nx-touch) / -2);
+}
+
+/* Stats */
+
+.game__stats {
+  grid-area: stats;
+  display: flex;
+  /* One row normally; wraps instead of overlapping when text is scaled up. */
+  flex-wrap: wrap;
+  gap: 4px var(--nx-space-2);
+  align-items: flex-start;
+}
+
+.stat--score {
+  flex: 1 0 auto;
+}
+
+.stat {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.stat__value {
+  font-size: var(--nx-text-score);
+  font-weight: 400;
+  letter-spacing: var(--nx-track-tight);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.stat--stage .stat__value {
+  color: var(--nx-brass);
+}
+
+/* Teal means an active connection: the chain counter lights only while a chain runs. */
+.stat--chain .stat__value {
+  color: var(--nx-muted);
+  transition: color var(--nx-dur) var(--nx-ease);
+}
+
+.stat--chain[data-live] .stat__value {
+  color: var(--nx-teal);
+}
+
+.stat--next {
+  justify-items: end;
+}
+
+.stat--next canvas {
+  width: 4rem;
+  height: calc(var(--nx-text-score) * 1.15);
+}
+
+/* Board */
+
+.game__board {
+  grid-area: board;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+
+.board-frame {
+  /* The largest frame of the board's own proportions that fits the slot. */
+  width: min(100cqw, calc(100cqh * var(--board-ratio, 0.73)));
+  aspect-ratio: var(--board-ratio, 0.73);
+  position: relative;
+  padding: 3px;
+  border: 1px solid var(--nx-outline);
+  border-radius: var(--nx-radius-md);
+  background: var(--nx-frame);
+}
+
+.board-frame__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(215, 170, 117, 0.72);
+  border-radius: 13px;
+  background: var(--nx-board);
+  overflow: hidden;
+}
+
+.board {
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.board-describe {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  z-index: 2;
+}
+
+.board-describe:not(:focus-visible) {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  min-height: 0;
+  padding: 0;
+  border: 0;
+}
+
+.countdown {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  background: rgba(11, 20, 33, 0.66);
+  border-radius: inherit;
+  font-size: 4rem;
+  font-weight: 350;
+  font-variant-numeric: tabular-nums;
+  color: var(--nx-text);
+  pointer-events: none;
+}
+
+.countdown span {
+  animation: nx-count 560ms var(--nx-ease) both;
+}
+
+@keyframes nx-count {
+  from {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.25;
+  }
+}
+
+/* Goal: a one-line strip under the board. */
+
+.game__goal {
+  grid-area: goal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 0.6em;
+  min-height: 2.5rem;
+  padding: 6px var(--nx-space-2);
+  border: 1px solid var(--nx-outline);
+  border-radius: var(--nx-radius-md);
+  background: var(--nx-panel);
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--nx-teal);
+  line-height: 1.3;
+}
+
+.goal__label {
+  display: none;
+}
+
+.goal__progress {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.goal__progress::before {
+  content: "·";
+  margin-right: 0.6em;
+  color: var(--nx-muted);
+}
+
+/* First-run hint: takes the strip for a moment, in text colour, then gives it back. */
+.goal__hint {
+  display: none;
+  color: var(--nx-text);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.game__goal[data-hint] .goal__hint {
+  display: block;
+  animation: nx-fade var(--nx-dur-slow) var(--nx-ease);
+}
+
+.game__goal[data-hint] .goal__text,
+.game__goal[data-hint] .goal__progress {
+  display: none;
+}
+
+/* Actions */
+
+.game__actions {
+  grid-area: actions;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(8px, 7vw, 36px);
+}
+
+.game__actions .act__label {
+  font-size: min(var(--nx-text-label), 3.3vw);
+}
+
+.game__header .brand__word {
+  font-size: min(1rem, 5.5vw);
+}
+
+.game__actions .act:not(.act--main) {
+  margin-top: calc((var(--act-size-main) - var(--act-size)) / 2);
+}
+
+.game__queue,
+.game__keys {
+  display: none;
+}
+
+/* "Następny układ" where there is room, "Następny" where there is not. */
+.queue__short {
+  display: none;
+}
+
+/* Small and short phones: tighten the chrome, never the touch targets. */
+@media (max-height: 700px) {
+  .game {
+    --gap: 8px;
+    --act-size: min(3rem, 22vw);
+    --act-size-main: min(3.75rem, 27vw);
+    padding-bottom: max(8px, var(--nx-safe-bottom));
+  }
+
+  .game__header {
+    min-height: 2.75rem;
+  }
+
+  .game__goal {
+    min-height: 2rem;
+    padding-block: 3px;
+  }
+}
+
+@media (max-height: 600px) and (max-aspect-ratio: 6/5) {
+  /* 320x568: the logo yields its row; pause sits at the end of the stats row. */
+  .game {
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "stats"
+      "board"
+      "goal"
+      "actions";
+  }
+
+  .game__header {
+    position: absolute;
+    top: max(0px, var(--nx-safe-top));
+    right: max(var(--nx-space-2), var(--nx-safe-right));
+    min-height: 0;
+    border: 0;
+  }
+
+  .game__header .brand {
+    display: none;
+  }
+
+  .game__pause {
+    position: static;
+    margin: 0 -12px 0 0;
+  }
+
+  .game__stats {
+    padding-right: 2.75rem;
+    padding-top: 4px;
+  }
+}
+
+/* 320 px wide: the three counters keep their labels; the next piece speaks for itself. */
+@media (max-width: 350px) {
+  .game__stats {
+    column-gap: 10px;
+  }
+
+  .stat__value {
+    font-size: 1.375rem;
+  }
+
+  .stat--next {
+    align-self: center;
+  }
+
+  .stat--next .label {
+    display: none;
+  }
+
+  .stat--next canvas {
+    width: 2.75rem;
+    height: 2.25rem;
+  }
+
+  .game__goal {
+    padding-inline: var(--nx-space-1);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* Tablets in portrait: same arrangement, type inside the table's upper range. */
+@media (min-width: 700px) and (max-aspect-ratio: 6/5) {
+  .game {
+    --gap: 20px;
+    --act-size: 4.25rem;
+    --act-size-main: 5.25rem;
+    --nx-text-score: 2.25rem;
+    --nx-text-label: 0.75rem;
+    padding-top: max(12px, var(--nx-safe-top));
+    padding-bottom: max(24px, var(--nx-safe-bottom));
+  }
+
+  .game__header {
+    min-height: 4rem;
+  }
+
+  .game__header .brand__symbol {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .game__header .brand__word {
+    font-size: 1.375rem;
+  }
+
+  .game__stats {
+    column-gap: var(--nx-space-4);
+  }
+
+  .stat--next canvas {
+    width: 6rem;
+  }
+
+  .game__goal {
+    min-height: 3rem;
+    font-size: 0.875rem;
+  }
+
+  .goal__hint {
+    font-size: 0.9375rem;
+  }
+
+  .game__actions {
+    gap: 56px;
+  }
+}
+
+/* --- Wide: desktop mockup -------------------------------------------------------- */
+
+@media (min-width: 640px) and (min-aspect-ratio: 6/5) {
+  .game {
+    --pad-x: clamp(24px, 5.5vw, 96px);
+    --pad-y: clamp(12px, 3.5vh, 32px);
+    --header-h: 5.5rem;
+    --gap: 24px;
+    /* The board column is as wide as the tallest board that fits under the header. */
+    --board-h: calc(100dvh - var(--header-h) - var(--gap) - var(--pad-y) * 2 - var(--nx-safe-top) - var(--nx-safe-bottom));
+    --board-w: min(calc(var(--board-h) * var(--board-ratio, 0.73)), 44vw);
+    width: 100%;
+    max-width: 110rem;
+    grid-template-columns: minmax(0, 1fr) var(--board-w) minmax(0, 1fr);
+    grid-template-rows: var(--header-h) auto minmax(0, 1fr);
+    grid-template-areas:
+      "header header header"
+      "stats board queue"
+      "goal board side";
+    column-gap: clamp(24px, 4.5vw, 72px);
+    row-gap: var(--gap);
+    padding: calc(var(--pad-y) + var(--nx-safe-top)) calc(var(--pad-x) + var(--nx-safe-right))
+      calc(var(--pad-y) + var(--nx-safe-bottom)) calc(var(--pad-x) + var(--nx-safe-left));
+  }
+
+  .game__header {
+    justify-content: flex-start;
+    min-height: 0;
+  }
+
+  .game__header .brand {
+    gap: 16px;
+  }
+
+  .game__header .brand__symbol {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .game__header .brand__word {
+    font-size: 2.625rem;
+  }
+
+  .game__pause {
+    right: -12px;
+  }
+
+  .game__board {
+    grid-row: 2 / span 2;
+  }
+
+  .game__stats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nx-space-3);
+    padding-top: var(--nx-space-4);
+  }
+
+  .stat {
+    gap: 6px;
+  }
+
+  .stat--score {
+    padding-bottom: var(--nx-space-3);
+    border-bottom: 1px solid var(--nx-outline);
+  }
+
+  .stat--score .stat__value {
+    font-size: clamp(2.75rem, 4.2vw, 3.75rem);
+    font-weight: 350;
+  }
+
+  .stat--chain {
+    order: 2;
+  }
+
+  .stat--chain .stat__value {
+    font-size: clamp(2.25rem, 3.4vw, 3.25rem);
+    font-weight: 350;
+  }
+
+  .stat--stage {
+    order: 3;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6em;
+  }
+
+  .stat--stage .label,
+  .stat--stage .stat__value {
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: var(--nx-track-label);
+    color: var(--nx-brass);
+    line-height: 1.3;
+  }
+
+  .stat--next {
+    display: none;
+  }
+
+  .game__goal {
+    display: grid;
+    justify-content: start;
+    justify-items: start;
+    align-content: start;
+    gap: 10px;
+    min-height: 0;
+    padding: var(--nx-space-3) 0 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    text-align: left;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--nx-text);
+  }
+
+  .goal__label {
+    display: block;
+  }
+
+  .goal__text {
+    max-width: 11em;
+    font-size: clamp(1.25rem, 1.9vw, 1.875rem);
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  .goal__progress {
+    margin-top: var(--nx-space-1);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: var(--nx-track-label);
+    color: var(--nx-teal);
+  }
+
+  .goal__progress::before {
+    content: none;
+  }
+
+  .goal__hint {
+    max-width: 18em;
+    font-size: 0.9375rem;
+    color: var(--nx-muted);
+  }
+
+  .game__goal[data-hint] .goal__text,
+  .game__goal[data-hint] .goal__progress {
+    display: block;
+  }
+
+  .game__queue {
+    grid-area: queue;
+    display: grid;
+    align-content: start;
+    gap: var(--nx-space-3);
+    padding-top: var(--nx-space-4);
+    width: min(100%, 20rem);
+  }
+
+  .queue__slot {
+    display: grid;
+    gap: 12px;
+  }
+
+  .queue__box {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    max-height: 10rem;
+    border: 1px solid var(--nx-outline);
+    border-radius: var(--nx-radius-md);
+    background: var(--nx-panel);
+  }
+
+  .queue__box canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  .game__side {
+    grid-area: side;
+    align-self: end;
+    display: grid;
+    gap: var(--nx-space-3);
+    width: min(100%, 20rem);
+  }
+
+  .game__actions {
+    grid-area: auto;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+
+  .act[data-held] .act__held {
+    display: none;
+  }
+
+  .act[data-held] .act__disc svg {
+    display: block;
+  }
+
+  .game__keys {
+    display: grid;
+    gap: 12px;
+  }
+
+  .keys__list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 14px;
+    align-items: center;
+    font-size: 0.9375rem;
+    color: var(--nx-muted);
+  }
+
+  .keys__caps {
+    display: flex;
+    gap: 4px;
+  }
+
+  .keys__list kbd {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.75rem;
+    height: 1.75rem;
+    padding: 0 6px;
+    border: 1px solid var(--nx-outline);
+    border-radius: var(--nx-radius-sm);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--nx-text);
+  }
+
+  .keys__list kbd svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  /* Keyboard hint for a mouse and keys; thumb buttons where the main pointer is a finger. */
+  @media (pointer: coarse) {
+    .game__keys {
+      display: none;
+    }
+  }
+
+  @media (pointer: fine) {
+    .game__actions {
+      display: none;
+    }
+  }
+}
+
+/* Wide and short: phone landscape. */
+@media (min-width: 640px) and (min-aspect-ratio: 6/5) and (max-height: 560px) {
+  .game {
+    --pad-x: 16px;
+    --pad-y: 8px;
+    --header-h: 0px;
+    --gap: 0px;
+    --act-size: 3rem;
+    --act-size-main: 3.75rem;
+    --board-w: min(calc((100dvh - 16px - var(--nx-safe-top) - var(--nx-safe-bottom)) * var(--board-ratio, 0.73)), 40vw);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      "stats board queue"
+      "goal board side";
+    column-gap: 24px;
+    row-gap: 0;
+  }
+
+  .game__board {
+    grid-row: 1 / span 2;
+  }
+
+  .game__header {
+    position: absolute;
+    top: max(4px, var(--nx-safe-top));
+    right: max(8px, var(--nx-safe-right));
+    border: 0;
+  }
+
+  .game__header .brand {
+    display: none;
+  }
+
+  .game__pause {
+    position: static;
+    margin: 0;
+  }
+
+  .game__stats {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    gap: 12px var(--nx-space-4);
+    padding-top: 4px;
+    padding-right: 0;
+  }
+
+  .stat--score {
+    grid-column: 1 / -1;
+    padding-bottom: 12px;
+  }
+
+  .stat--score .stat__value {
+    font-size: 2rem;
+  }
+
+  .stat--chain {
+    order: 0;
+  }
+
+  .stat--chain .stat__value,
+  .stat--stage .stat__value {
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: var(--nx-track-tight);
+  }
+
+  .stat--stage {
+    display: grid;
+    gap: 2px;
+  }
+
+  .stat--stage .label {
+    font-size: var(--nx-text-label);
+    font-weight: 600;
+    color: var(--nx-muted);
+  }
+
+  .game__goal {
+    padding-top: var(--nx-space-2);
+    gap: 4px;
+  }
+
+  .goal__text {
+    font-size: 1rem;
+  }
+
+  .goal__progress {
+    margin-top: 0;
+    font-size: 0.8125rem;
+  }
+
+  .goal__hint {
+    font-size: 0.8125rem;
+  }
+
+  .game__queue {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--nx-space-2);
+    padding-top: 4px;
+    padding-right: 3rem;
+    width: min(100%, 17rem);
+  }
+
+  .queue__slot {
+    gap: 6px;
+  }
+
+  .queue__long {
+    display: none;
+  }
+
+  .queue__short {
+    display: inline;
+  }
+
+  .queue__box {
+    aspect-ratio: 3 / 2;
+    border-radius: var(--nx-radius-sm);
+  }
+
+  .game__actions {
+    gap: 16px;
+  }
+
+  .game__keys {
+    display: none;
+  }
+}
+
+/* In portrait the side group is transparent to layout: its children are grid items. */
+@media not ((min-width: 640px) and (min-aspect-ratio: 6/5)) {
+  .game__side {
+    display: contents;
+  }
+}
+
+.game-screen {
+  position: relative;
+  height: 100%;
+}

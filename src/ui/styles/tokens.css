@@ -1,0 +1,80 @@
+/*
+ * Design tokens. The first block is the kit file
+ * docs/brand-kit/04_design_system/tokens.css, copied unchanged apart from the font
+ * stack naming the bundled variable font first. The second block extends it with the
+ * scales of TYPOGRAFIA_I_UKLAD.md and the surfaces measured from the mockup SVGs.
+ */
+:root {
+  --nx-ink: #0E1522;
+  --nx-night: #111D2C;
+  --nx-panel: #172434;
+  --nx-panel2: #1C2C3E;
+  --nx-slate: #304356;
+  --nx-outline: #3A5063;
+  --nx-text: #F2EFE8;
+  --nx-muted: #A8B3BF;
+  --nx-brass: #D7AA75;
+  --nx-teal: #64D3C1;
+  --nx-coral: #F18479;
+  --nx-ice: #8DBEF1;
+  --nx-lilac: #B5A7E4;
+  --nx-amber: #F0BD75;
+  --nx-focus: #F9D99D;
+
+  --nx-radius-sm: 8px;
+  --nx-radius-md: 16px;
+  --nx-space-unit: 8px;
+  --nx-font: "Inter Variable", Inter, "Segoe UI", system-ui, sans-serif;
+}
+
+:root {
+  /* Spacing: the kit's 8 px grid. */
+  --nx-space-1: 8px;
+  --nx-space-2: 16px;
+  --nx-space-3: 24px;
+  --nx-space-4: 32px;
+  --nx-space-6: 48px;
+  --nx-space-8: 64px;
+
+  /* Type scale (mobile values; wider layouts raise them inside the table's ranges). */
+  --nx-text-label: 0.6875rem; /* 11 px, weight 600, +0.12em */
+  --nx-text-help: 0.875rem; /* 14 px, weight 400 */
+  --nx-text-button: 0.9375rem; /* 15 px, weight 600 */
+  --nx-text-heading: 1.125rem; /* 18 px, weight 500, +0.02em */
+  --nx-text-score: 1.6875rem; /* 27 px, weight 400, +0.02em */
+  --nx-text-logo: 1.8125rem; /* 29 px, weight 450, +0.12em */
+  --nx-track-label: 0.12em;
+  --nx-track-button: 0.1em;
+  --nx-track-tight: 0.02em;
+
+  /* Surfaces from the mockups. */
+  --nx-deep: #080E17;
+  --nx-board: #0B1421;
+  --nx-frame: #101A29;
+  --nx-dialog: #0D1726;
+  --nx-line: rgba(58, 80, 99, 0.7);
+  --nx-scrim: rgba(8, 14, 23, 0.72);
+  --nx-brass-hover: #E0B888;
+  --nx-brass-pressed: #C79A66;
+
+  /* Motion: 120-260 ms, nothing flashes. */
+  --nx-dur-fast: 120ms;
+  --nx-dur: 180ms;
+  --nx-dur-slow: 240ms;
+  --nx-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Touch target: the kit's goal of 48 px, in rem so it grows with text scaling. */
+  --nx-touch: 3rem;
+  --nx-safe-top: env(safe-area-inset-top, 0px);
+  --nx-safe-right: env(safe-area-inset-right, 0px);
+  --nx-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --nx-safe-left: env(safe-area-inset-left, 0px);
+}
+
+/* High contrast: muted text and hairlines step up; colours keep their meaning. */
+:root[data-contrast="more"] {
+  --nx-muted: #D3DAE2;
+  --nx-outline: #7C93A8;
+  --nx-line: rgba(124, 147, 168, 0.95);
+  --nx-scrim: rgba(4, 8, 14, 0.9);
+}
