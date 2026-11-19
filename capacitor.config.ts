@@ -3,8 +3,8 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const INK = '#0E1522';
 
 const config: CapacitorConfig = {
-  // Placeholder application id; the final one is an open decision (docs/decisions.md, D-08).
-  appId: 'com.nixelune.game',
+  // Application id decided by the creator (docs/decisions.md, D-08).
+  appId: 'pl.samsufi.nixelune',
   appName: 'NIXELUNE',
   webDir: 'dist',
   // Ink colour behind the WebView so nothing white shows before the first paint.

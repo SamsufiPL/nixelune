@@ -27,10 +27,10 @@ def missingSigning = signingKeys.findAll { !releaseSigning[it] }
 def hasReleaseSigning = missingSigning.isEmpty()
 
 android {
-    namespace = "com.nixelune.game"
+    namespace = "pl.samsufi.nixelune"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.nixelune.game"
+        applicationId "pl.samsufi.nixelune"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode buildNumber

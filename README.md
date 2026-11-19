@@ -32,7 +32,13 @@ npm run android:debug
 ```
 
 Plik powstaje w `android/app/build/outputs/apk/debug/app-debug.apk`.
+Identyfikator aplikacji: `pl.samsufi.nixelune`.
 Wersje do sklepu buduje wyłącznie CI; lokalny build wydania bez klucza kończy się błędem.
+
+## Wersja w przeglądarce
+
+Po zielonych testach CI publikuje build web na GitHub Pages:
+https://samsufipl.github.io/nixelune/ (ostatnio wdrożona gałąź).
 
 ## Inne polecenia
 

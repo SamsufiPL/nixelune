@@ -1,4 +1,4 @@
-package com.nixelune.game;
+package pl.samsufi.nixelune;
 
 import android.graphics.Color;
 import android.os.Bundle;

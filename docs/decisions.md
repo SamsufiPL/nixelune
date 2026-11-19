@@ -13,13 +13,15 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
 | D-04 | Bez ESLint; lintem są ścisłe flagi `tsc` | agent | obowiązuje |
 | D-05 | Zasady rozgrywki pierwszej wersji | agent (z GDD) | obowiązuje, do sprawdzenia w testach z graczami |
 | D-06 | Dźwięk syntezowany w kodzie, bez plików próbek | agent | obowiązuje |
-| D-07 | Font Inter dołączony przez `@fontsource-variable/inter` (OFL) | agent | obowiązuje |
-| D-08 | Identyfikator aplikacji: tymczasowo `com.nixelune.game` | — | **otwarta (twórca)** |
+| D-07 | Font Inter dołączony przez `@fontsource-variable/inter` (OFL) | agent | do rewizji (D-15) |
+| D-08 | Identyfikator aplikacji: `pl.samsufi.nixelune` | twórca | obowiązuje |
 | D-09 | Nazwa NIXELUNE jest robocza | — | **otwarta (twórca)** |
 | D-10 | Szczegóły rozgrywki: kształty, etapy, cele, wyzwania | agent | obowiązuje, do sprawdzenia w testach z graczami |
-| D-11 | Poziom trudności: jednokolorowe elementy czy mieszane | — | **otwarta (twórca)** |
+| D-11 | Poziom trudności: elementy mieszane od wyższych etapów | twórca | obowiązuje (realizacja: D-14) |
 | D-12 | Znaki na polach domyślnie włączone | agent | obowiązuje |
-| D-13 | Odstępstwa interfejsu od makiet | agent | obowiązuje, do oceny przez twórcę |
+| D-13 | Odstępstwa interfejsu od makiet | agent | do rewizji (D-15) |
+| D-14 | Elementy mieszane kolorystycznie od wyższych etapów | twórca | obowiązuje, w realizacji |
+| D-15 | Kierunek wizualny z pakietu odrzucony; nowy w wyborze | twórca | obowiązuje; wybór kierunku **otwarty (twórca)** |
 
 ## Wpisy
 
@@ -75,23 +77,24 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
 - **Dlaczego:** mały pakiet, brak praw do rozliczania, łatwe strojenie.
 - **Kto:** agent. **Status:** obowiązuje.
 
-### D-07 Font Inter
+### D-07 Font Inter (do rewizji)
 
 - **Co:** font Inter dołączony do gry przez pakiet `@fontsource-variable/inter`.
 - **Dlaczego:** typografia z pakietu; licencja SIL OFL 1.1 pozwala na dołączenie; gra nie
   pobiera niczego z sieci.
-- **Kto:** agent. **Status:** obowiązuje.
+- **Kto:** agent. **Status:** do rewizji — krój pisma zależy od nowego kierunku
+  wizualnego (D-15). Do tego czasu Inter zostaje w kodzie.
 
-### D-08 Identyfikator aplikacji (otwarta)
+### D-08 Identyfikator aplikacji
 
-- **Co:** w projekcie jest tymczasowy identyfikator `com.nixelune.game`
-  (`capacitor.config.ts`, `android/app/build.gradle`). Propozycja `uk.popolsku.nixelune`
-  **nie została zatwierdzona**.
-- **Dlaczego to ważne:** identyfikatora nie da się zmienić po pierwszej publikacji
-  w Google Play; powinien należeć do domeny, którą twórca kontroluje, i zależy od
-  ostatecznej nazwy (D-09).
-- **Do decyzji twórcy:** ostateczny identyfikator (ten sam dla Androida i iOS).
-- **Status:** otwarta.
+- **Co:** identyfikator aplikacji to `pl.samsufi.nixelune`, ten sam dla Androida i iOS
+  (`capacitor.config.ts`, `android/app/build.gradle`, pakiet `MainActivity`).
+- **Dlaczego:** decyzja twórcy. Identyfikatora nie da się zmienić po pierwszej publikacji
+  w Google Play.
+- **Historia:** do decyzji w projekcie był tymczasowy `com.nixelune.game`; propozycja
+  `uk.popolsku.nixelune` nie została zatwierdzona.
+- **Uwaga:** identyfikator zawiera roboczą nazwę gry (D-09).
+- **Kto:** twórca. **Data:** 2026-11-19. **Status:** obowiązuje.
 
 ### D-09 Nazwa NIXELUNE (otwarta)
 
@@ -115,15 +118,17 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
   (`tools/`), a każde wyzwanie ma dowód wygrywalności w `tests/tools/solver.test.ts`.
 - **Kto:** agent. **Status:** obowiązuje, do sprawdzenia w testach z graczami.
 
-### D-11 Poziom trudności (otwarta)
+### D-11 Poziom trudności
 
 - **Stan wiedzy:** przy jednokolorowych elementach i progu 5 dwa stykające się elementy
   tego samego koloru już tworzą ścieżkę. Bot układający losowo przegrywa dopiero po
   medianie 83 elementów, bot zachłanny nie przegrywa wcale; trudność bierze się prawie
   tylko z tempa.
-- **Do decyzji twórcy:** zostawić (spokojna gra), dodać elementy mieszane kolorystycznie
-  od wyższych etapów (model to obsługuje) albo podnieść próg aktywacji.
-- **Status:** otwarta.
+- **Rozważane:** zostawić (spokojna gra), dodać elementy mieszane kolorystycznie od
+  wyższych etapów albo podnieść próg aktywacji.
+- **Co:** twórca wybrał elementy mieszane kolorystycznie od wyższych etapów.
+  Realizację opisuje D-14.
+- **Kto:** twórca. **Data:** 2026-11-19. **Status:** obowiązuje.
 
 ### D-12 Znaki na polach
 
@@ -133,7 +138,7 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
   to odstępstwo od wizualizacji.
 - **Kto:** agent. **Status:** obowiązuje.
 
-### D-13 Odstępstwa interfejsu od makiet
+### D-13 Odstępstwa interfejsu od makiet (do rewizji)
 
 - **Co:** przycisk „Zamień” (wg mikrocopy, nie „Zamiana” z makiety); na telefonie
   podgląd następnego układu jest w wierszu statystyk, a zachowany element w przycisku
@@ -141,6 +146,34 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
   księżyca i linie morza z tła; ikony to własne rysunki liniowe.
 - **Dlaczego:** mikrocopy ma pierwszeństwo przed tekstami makiet; makieta mobilna nie
   przewiduje podglądów; tło ma nie konkurować z planszą.
-- **Kto:** agent. **Status:** obowiązuje, do oceny przez twórcę.
+- **Kto:** agent. **Status:** do rewizji — makiety przestały być wzorcem (D-15), więc
+  ten wpis trzeba napisać od nowa po wyborze kierunku wizualnego.
 
-<!-- Kolejne wpisy: D-14, D-15, ... Dodaj wiersz w tabeli przeglądu i sekcję poniżej. -->
+### D-14 Elementy mieszane kolorystycznie od wyższych etapów
+
+- **Co:** od wyższych etapów elementy mogą składać się z pól w różnych kolorach.
+  Realizacja decyzji D-11.
+- **Dlaczego:** przy elementach jednokolorowych trudność bierze się prawie tylko z tempa
+  (pomiary botów w D-11).
+- **Parametry:** <!-- do uzupełnienia: od którego etapu, udział elementów mieszanych, liczba kolorów w elemencie; stałe w `src/game/tuning.ts` -->
+- **Kto:** twórca zdecydował; realizuje agent rdzenia gry. **Data:** 2026-11-19.
+- **Status:** obowiązuje, w realizacji.
+
+### D-15 Kierunek wizualny z pakietu odrzucony
+
+- **Co:** twórca odrzucił kierunek wizualny z pakietu jako „AI slop”. Wymienił: kosmiczne
+  tło, pastelową paletę na granacie z mosiądzem, cienkie wersaliki Inter z szerokimi
+  odstępami, fazowane sześciokąty i zaokrąglone panele. Nowy kierunek jest wybierany
+  spośród trzech propozycji.
+- **Skutki do czasu wyboru:**
+  - D-07 (Inter) i D-13 (odstępstwa od makiet) mają status „do rewizji”;
+  - materiały wizualne w `docs/brand-kit/` (makiety, kolory, typografia, logo, zasady
+    stylu) nie są już wytycznymi dla wyglądu gry;
+  - teksty projektu gry i mikrocopy z pakietu (`05_game_design/`) nadal obowiązują.
+- **Do zmiany po wyborze:** style i rysowanie planszy, ikona aplikacji i ekran startowy
+  Androida (dziś generowane z logo pakietu, kolor tła `#0E1522`), sekcja „Art direction”
+  w `CLAUDE.md`.
+- **Kto:** twórca. **Data:** 2026-11-19.
+- **Status:** obowiązuje; wybór nowego kierunku otwarty (twórca).
+
+<!-- Kolejne wpisy: D-16, D-17, ... Dodaj wiersz w tabeli przeglądu i sekcję poniżej. -->

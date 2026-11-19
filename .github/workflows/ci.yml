@@ -31,6 +31,32 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      # The same build is published as the browser test channel (job `pages`).
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  # Web build on GitHub Pages so the creator can open the game in a phone browser.
+  # Runs only after the tests passed, never for pull requests. The last deployed
+  # branch wins: there is one site.
+  pages:
+    name: Deploy web build to GitHub Pages
+    if: github.event_name != 'pull_request'
+    # Pages must be switched on in the repository settings; until then this job may fail without failing the run.
+    continue-on-error: true
+    needs: web
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v5
 
   android-debug:
     name: Debug APK

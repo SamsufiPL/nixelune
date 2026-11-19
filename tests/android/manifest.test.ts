@@ -158,8 +158,8 @@ describe('Gradle configuration', () => {
 
 describe('Capacitor configuration', () => {
   it('matches the Android application id and serves the Vite build', () => {
-    expect(capacitorConfig.appId).toBe('com.nixelune.game');
-    expect(appGradle).toContain('applicationId "com.nixelune.game"');
+    expect(capacitorConfig.appId).toBe('pl.samsufi.nixelune');
+    expect(appGradle).toContain('applicationId "pl.samsufi.nixelune"');
     expect(capacitorConfig.appName).toBe('NIXELUNE');
     expect(capacitorConfig.webDir).toBe('dist');
   });
