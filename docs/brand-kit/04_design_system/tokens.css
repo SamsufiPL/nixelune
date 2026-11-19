@@ -1,0 +1,22 @@
+:root {
+  --nx-ink: #0E1522;
+  --nx-night: #111D2C;
+  --nx-panel: #172434;
+  --nx-panel2: #1C2C3E;
+  --nx-slate: #304356;
+  --nx-outline: #3A5063;
+  --nx-text: #F2EFE8;
+  --nx-muted: #A8B3BF;
+  --nx-brass: #D7AA75;
+  --nx-teal: #64D3C1;
+  --nx-coral: #F18479;
+  --nx-ice: #8DBEF1;
+  --nx-lilac: #B5A7E4;
+  --nx-amber: #F0BD75;
+  --nx-focus: #F9D99D;
+
+  --nx-radius-sm: 8px;
+  --nx-radius-md: 16px;
+  --nx-space-unit: 8px;
+  --nx-font: Inter, "Segoe UI", system-ui, sans-serif;
+}

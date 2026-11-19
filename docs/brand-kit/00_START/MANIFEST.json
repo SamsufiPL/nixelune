@@ -1,0 +1,201 @@
+{
+  "project": "NIXELUNE",
+  "version": "1.0",
+  "date": "2026-11-19",
+  "status": "concept",
+  "file_count_excluding_manifest": 48,
+  "files": [
+    {
+      "path": "00_START/MANIFEST.json",
+      "bytes": 4153
+    },
+    {
+      "path": "00_START/NIXELUNE_preview.png",
+      "bytes": 467948
+    },
+    {
+      "path": "00_START/START_HERE_PL.md",
+      "bytes": 2409
+    },
+    {
+      "path": "01_brandbook/NIXELUNE_Brandbook.pdf",
+      "bytes": 836602
+    },
+    {
+      "path": "01_brandbook/NIXELUNE_Brandbook.pptx",
+      "bytes": 2095226
+    },
+    {
+      "path": "02_visuals/01_desktop_gameplay.png",
+      "bytes": 339294
+    },
+    {
+      "path": "02_visuals/01_desktop_gameplay.svg",
+      "bytes": 52508
+    },
+    {
+      "path": "02_visuals/02_mobile_gameplay.png",
+      "bytes": 334919
+    },
+    {
+      "path": "02_visuals/02_mobile_gameplay.svg",
+      "bytes": 53113
+    },
+    {
+      "path": "02_visuals/03_mobile_menu.png",
+      "bytes": 332466
+    },
+    {
+      "path": "02_visuals/03_mobile_menu.svg",
+      "bytes": 13780
+    },
+    {
+      "path": "02_visuals/04_mobile_results.png",
+      "bytes": 233751
+    },
+    {
+      "path": "02_visuals/04_mobile_results.svg",
+      "bytes": 54470
+    },
+    {
+      "path": "02_visuals/05_ui_components.png",
+      "bytes": 89196
+    },
+    {
+      "path": "02_visuals/05_ui_components.svg",
+      "bytes": 7591
+    },
+    {
+      "path": "03_logo/NIXELUNE_icon_app.png",
+      "bytes": 128624
+    },
+    {
+      "path": "03_logo/NIXELUNE_icon_app.svg",
+      "bytes": 1827
+    },
+    {
+      "path": "03_logo/NIXELUNE_logo_horizontal_dark.png",
+      "bytes": 23548
+    },
+    {
+      "path": "03_logo/NIXELUNE_logo_horizontal_dark.svg",
+      "bytes": 1987
+    },
+    {
+      "path": "03_logo/NIXELUNE_logo_horizontal_transparent.png",
+      "bytes": 23868
+    },
+    {
+      "path": "03_logo/NIXELUNE_logo_horizontal_transparent.svg",
+      "bytes": 1920
+    },
+    {
+      "path": "03_logo/NIXELUNE_logo_stacked_dark.png",
+      "bytes": 24852
+    },
+    {
+      "path": "03_logo/NIXELUNE_logo_stacked_dark.svg",
+      "bytes": 2009
+    },
+    {
+      "path": "03_logo/NIXELUNE_logo_stacked_transparent.png",
+      "bytes": 25079
+    },
+    {
+      "path": "03_logo/NIXELUNE_logo_stacked_transparent.svg",
+      "bytes": 1943
+    },
+    {
+      "path": "03_logo/NIXELUNE_symbol_monochrome.png",
+      "bytes": 15556
+    },
+    {
+      "path": "03_logo/NIXELUNE_symbol_monochrome.svg",
+      "bytes": 1668
+    },
+    {
+      "path": "03_logo/NIXELUNE_symbol_monochrome_transparent.png",
+      "bytes": 15148
+    },
+    {
+      "path": "03_logo/NIXELUNE_symbol_monochrome_transparent.svg",
+      "bytes": 1602
+    },
+    {
+      "path": "04_design_system/TYPOGRAFIA_I_UKLAD.md",
+      "bytes": 1622
+    },
+    {
+      "path": "04_design_system/ZASADY_STYLU_ZERO_AI_SLOP.md",
+      "bytes": 1951
+    },
+    {
+      "path": "04_design_system/colors.json",
+      "bytes": 329
+    },
+    {
+      "path": "04_design_system/palette_swatches.png",
+      "bytes": 47803
+    },
+    {
+      "path": "04_design_system/palette_swatches.svg",
+      "bytes": 4668
+    },
+    {
+      "path": "04_design_system/tokens.css",
+      "bytes": 479
+    },
+    {
+      "path": "04_design_system/tokens.json",
+      "bytes": 651
+    },
+    {
+      "path": "05_game_design/GDD_PL.md",
+      "bytes": 4687
+    },
+    {
+      "path": "05_game_design/INSTRUKCJA_GRACZA.md",
+      "bytes": 905
+    },
+    {
+      "path": "05_game_design/MIKROCOPY_PL.md",
+      "bytes": 842
+    },
+    {
+      "path": "06_prototype/README.md",
+      "bytes": 860
+    },
+    {
+      "path": "06_prototype/game.js",
+      "bytes": 10071
+    },
+    {
+      "path": "06_prototype/index.html",
+      "bytes": 4764
+    },
+    {
+      "path": "06_prototype/style.css",
+      "bytes": 9381
+    },
+    {
+      "path": "07_references/README.md",
+      "bytes": 172
+    },
+    {
+      "path": "08_handoff/NAZWA_I_PRAWA.md",
+      "bytes": 1372
+    },
+    {
+      "path": "08_handoff/README_KOD_ZRODLOWY.md",
+      "bytes": 455
+    },
+    {
+      "path": "08_handoff/WDROZENIE_I_CHECKLISTA.md",
+      "bytes": 2577
+    },
+    {
+      "path": "08_handoff/assets_source.py",
+      "bytes": 17230
+    }
+  ]
+}

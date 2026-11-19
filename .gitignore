@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+*.apk
+*.aab
+*.ipa
+.env.local
+CLAUDE.local.md
+*.keystore
+*.jks
+.DS_Store
+test-results/
