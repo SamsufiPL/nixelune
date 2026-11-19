@@ -6,7 +6,6 @@
  */
 import type { TileColor } from '../../../game/types';
 import {
-  lightDelay,
   resolveTiming,
   type BoardInfo,
   type BurstSpec,
@@ -66,88 +65,58 @@ const DUST: BurstSpec = {
 };
 const DUST_HARD: BurstSpec = { ...DUST, count: 5, size: [0.35, 0.7], speed: [2.2, 5], life: [300, 480] };
 
-/** Glints thrown off the glaze as the sun reaches a tile. */
-const GLINT: BurstSpec = {
-  count: 2,
-  shape: 'glint',
-  size: [0.5, 0.95],
-  speed: [0.5, 2],
-  life: [260, 440],
-  spin: [-3, 3],
-  drag: 2,
-  spread: 0.4,
-};
-/** The flare itself: a bloom of warm light over the tile. */
-const BLOOM: BurstSpec = {
-  count: 1,
-  shape: 'bloom',
-  size: [3, 3],
-  speed: [0, 0],
-  life: [280, 280],
-  shrink: false,
-  additive: true,
-};
-
+/**
+ * Petals are thrown up and outwards, then the air takes them: strong drag, light
+ * gravity, a slow turn. They stay full size and fade, as things that drift do.
+ */
 const PETALS: BurstSpec = {
-  count: 6,
+  count: 8,
   shape: 'petal',
-  size: [0.34, 0.62],
-  speed: [2.6, 7.5],
-  life: [520, 860],
-  gravity: 10,
-  drag: 2.2,
-  spin: [-7, 7],
-  spread: 0.3,
+  size: [0.46, 0.8],
+  speed: [5, 12],
+  angle: [Math.PI * 0.9, Math.PI * 2.1],
+  life: [620, 900],
+  gravity: 9,
+  drag: 3.2,
+  spin: [-6, 6],
+  spread: 0.35,
+  shrink: false,
 };
-const BLOSSOMS: BurstSpec = { ...PETALS, shape: 'blossom', size: [0.3, 0.52], count: 7 };
-const LEAFLETS: BurstSpec = { ...PETALS, shape: 'leaflet', size: [0.4, 0.7], spin: [-5, 5], gravity: 8 };
+const BLOSSOMS: BurstSpec = { ...PETALS, shape: 'blossom', size: [0.38, 0.66], count: 9 };
+const LEAFLETS: BurstSpec = { ...PETALS, shape: 'leaflet', size: [0.5, 0.86], spin: [-4, 4], gravity: 7 };
 const DROPS: BurstSpec = {
-  count: 7,
+  count: 9,
   shape: 'drop',
-  size: [0.2, 0.42],
-  speed: [3.5, 9.5],
-  angle: [Math.PI * 1.05, Math.PI * 1.95],
-  life: [420, 680],
+  size: [0.2, 0.46],
+  speed: [5, 12],
+  angle: [Math.PI * 1.08, Math.PI * 1.92],
+  life: [460, 720],
   gravity: 26,
   drag: 0.6,
   spread: 0.3,
   shrink: false,
 };
 const POLLEN: BurstSpec = {
-  count: 5,
+  count: 7,
   shape: 'pollen',
-  size: [0.14, 0.26],
+  size: [0.16, 0.3],
   speed: [2, 6.5],
   life: [460, 760],
   gravity: 3,
   drag: 2.6,
   spread: 0.35,
 };
-/** What every tile adds, whatever its colour: a couple of green leaves and a drop. */
-const GREENERY: BurstSpec = {
-  count: 2,
-  shape: 'leaf',
-  size: [0.36, 0.6],
-  speed: [2, 5.5],
-  life: [600, 900],
-  gravity: 7,
-  drag: 2.4,
-  spin: [-5, 5],
-  spread: 0.3,
-};
-const SPRAY: BurstSpec = { ...DROPS, count: 2, size: [0.16, 0.3] };
-
 /** The burst that belongs to each relief. */
 const SIGNATURE: Readonly<Record<TileColor, BurstSpec>> = {
   teal: LEAFLETS,
   coral: PETALS,
   ice: DROPS,
   lilac: BLOSSOMS,
-  amber: { ...PETALS, count: 4 },
+  amber: { ...PETALS, count: 5 },
 };
 
 const FANFARE: BurstSpec = {
-  count: 18,
+  count: 12,
   shape: 'petal',
   size: [0.4, 0.8],
   speed: [4, 12],
@@ -218,7 +187,7 @@ function paintParticle(ctx: Ctx2D, shape: ParticleShape, color: string, size: nu
     case 'petal':
     case 'blossom': {
       // A cupped petal: round at the top, drawn to a point, pale at the base.
-      const narrow = shape === 'blossom' ? 0.78 : 1;
+      const narrow = shape === 'blossom' ? 0.62 : 0.84;
       const g = ctx.createLinearGradient(size * 0.75, size * 0.1, size * 0.3, size * 0.95);
       g.addColorStop(0, mix(color, '#FFFFFF', 0.55));
       g.addColorStop(0.5, color);
@@ -275,36 +244,6 @@ function paintParticle(ctx: Ctx2D, shape: ParticleShape, color: string, size: nu
       ctx.fill();
       return true;
     }
-    case 'glint': {
-      // A four-point sparkle, white with a gilt edge so it reads on pale stone too.
-      const trace = (reach: number): void => {
-        ctx.beginPath();
-        ctx.moveTo(c, c - reach);
-        ctx.quadraticCurveTo(c, c, c + reach, c);
-        ctx.quadraticCurveTo(c, c, c, c + reach);
-        ctx.quadraticCurveTo(c, c, c - reach, c);
-        ctx.quadraticCurveTo(c, c, c, c - reach);
-      };
-      trace(c);
-      ctx.fillStyle = '#F3B93A';
-      ctx.fill();
-      trace(c * 0.86);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(c, c, size * 0.1, 0, Math.PI * 2);
-      ctx.fill();
-      return true;
-    }
-    case 'bloom': {
-      const g = ctx.createRadialGradient(c, c, 0, c, c, c);
-      g.addColorStop(0, 'rgba(255,244,196,0.62)');
-      g.addColorStop(0.45, 'rgba(255,226,140,0.26)');
-      g.addColorStop(1, 'rgba(255,214,110,0)');
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, size, size);
-      return true;
-    }
     case 'dust': {
       const g = ctx.createRadialGradient(c, c, 0, c, c, c);
       g.addColorStop(0, 'rgba(255,250,238,0.85)');
@@ -330,22 +269,8 @@ function onEvent(event: GameEvent, fx: FxApi, board: BoardInfo): void {
       }
       return;
     }
-    case 'activated': {
-      for (const group of event.groups) {
-        const count = group.cells.length;
-        for (let i = 0; i < count; i++) {
-          const cell = group.cells[i];
-          if (!cell) continue;
-          const delay = lightDelay(i, count, RESOLVED) + RESOLVED.lightUp * 0.25;
-          fx.burst(BLOOM, board.cellX(cell.col, cell.row), board.cellY(cell.row), group.color, delay);
-        }
-      }
-      return;
-    }
     case 'removed': {
       const count = event.cells.length;
-      // Long paths thin the greenery out so the pool is never exhausted.
-      const lean = count > 12;
       for (let i = 0; i < count; i++) {
         const cell = event.cells[i];
         if (!cell) continue;
@@ -354,9 +279,6 @@ function onEvent(event: GameEvent, fx: FxApi, board: BoardInfo): void {
         const delay = (count <= 1 ? 0 : (i / (count - 1)) * RESOLVED.popStagger) + RESOLVED.pop * 0.32;
         fx.burst(SIGNATURE[cell.color], x, y, cell.color, delay);
         if (cell.color === 'amber') fx.burst(POLLEN, x, y, cell.color, delay);
-        if (lean && i % 2 === 1) continue;
-        fx.burst(GREENERY, x, y, cell.color, delay + 20);
-        if (cell.color !== 'ice') fx.burst(SPRAY, x, y, 'ice', delay);
       }
       return;
     }
@@ -400,7 +322,7 @@ export const EFFECTS: EffectsSkin = {
   timing: TIMING,
   land: { squash: 0.2, ms: 300, dust: DUST },
   fall: { bounce: 0.13, ms: 240 },
-  light: { pulse: 0.15, burst: GLINT, energy: { color: '#FFE9A8', width: 0.3, alpha: 0.92 } },
+  light: { pulse: 0.15, burst: null, energy: { color: '#FFE9A8', width: 0.3, alpha: 0.92 } },
   // The tile's own swell; what it bursts into is thrown in `onEvent`, by relief.
   pop: { scale: 1.26, burst: null },
   scorePop: {
@@ -410,14 +332,14 @@ export const EFFECTS: EffectsSkin = {
     fill: '#FFFDF2',
     stroke: '#17432F',
     strokeWidth: 0.2,
-    ms: 850,
-    rise: 2.1,
+    ms: 720,
+    rise: 2.4,
   },
   chainBanner: {
     family: DISPLAY,
     weight: 800,
     size: 3.3,
-    fill: '#FFE9A8',
+    fill: '#FFFDF2',
     stroke: '#17432F',
     strokeWidth: 0.13,
     ms: 950,

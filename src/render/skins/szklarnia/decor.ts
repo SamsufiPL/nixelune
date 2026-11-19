@@ -1,7 +1,6 @@
 /**
  * Decorative, aria-hidden nodes the theme needs and CSS alone cannot draw: the chains
- * and the flourish of the hanging name sign, sparkles over the menu picture, brass
- * bosses on the corners of the board frame. Idempotent: it runs again after every
+ * and the flourish of the hanging name sign, sparkles over the menu picture. Idempotent: it runs again after every
  * live skin switch and every rebuild of a screen.
  */
 import type { SkinScreen } from '../../skin';
@@ -60,13 +59,6 @@ function decorateMenu(root: HTMLElement): void {
   }
 }
 
-function decorateGame(root: HTMLElement): void {
-  const frame = root.querySelector('.board-frame');
-  if (!frame || frame.querySelector(`.${NS}-boss`)) return;
-  for (const corner of ['tl', 'tr', 'bl', 'br']) frame.append(span(`${NS}-boss ${NS}-boss--${corner}`));
-}
-
 export function decorate(root: HTMLElement, screen: SkinScreen): void {
   if (screen === 'menu') decorateMenu(root);
-  else if (screen === 'game') decorateGame(root);
 }

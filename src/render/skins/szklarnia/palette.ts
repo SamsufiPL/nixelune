@@ -27,7 +27,7 @@ export const GLAZES: Readonly<Record<TileColor, Glaze>> = {
   // Wisteria violet.
   lilac: { light: '#E5D4FA', base: '#A07CDA', deep: '#6E4AB2', pool: '#462C82', relief: '#F8F1FF' },
   // Saffron yellow.
-  amber: { light: '#FFEDA8', base: '#F4B224', deep: '#CC7F10', pool: '#8F4F08', relief: '#FFFBE6' },
+  amber: { light: '#FFE694', base: '#F2A81C', deep: '#CB7610', pool: '#7C4003', relief: '#FFFCEC' },
 };
 
 /** Unglazed fired clay of the tile body. */

@@ -272,23 +272,6 @@ export function pot(ctx: Ctx2D, x: number, footY: number, w: number): void {
   ctx.fill();
 }
 
-/** A raceme of wisteria hanging from above. */
-function wisteria(ctx: Ctx2D, x: number, y: number, length: number, rnd: () => number): void {
-  const blooms = Math.round(length / 3.2);
-  for (let i = 0; i < blooms; i++) {
-    const t = i / blooms;
-    const spread = length * 0.17 * (1 - t * 0.85);
-    const px = x + (rnd() - 0.5) * 2 * spread + Math.sin(t * 3) * length * 0.03;
-    const py = y + t * length + (rnd() - 0.5) * 3;
-    const size = length * 0.055 * (1.15 - t * 0.6) * (0.8 + rnd() * 0.5);
-    const tone = rnd();
-    ctx.fillStyle = tone < 0.34 ? '#B79AE6' : tone < 0.7 ? '#9A78D4' : tone < 0.9 ? '#D9C6F6' : '#7C58BC';
-    ctx.beginPath();
-    ctx.ellipse(px, py, size, size * 1.25, rnd() * Math.PI, 0, TAU);
-    ctx.fill();
-  }
-}
-
 /** A wire basket lined with moss, hung on three chains, overflowing with fern. */
 function basket(ctx: Ctx2D, x: number, y: number, size: number, rnd: () => number): void {
   ctx.strokeStyle = 'rgba(120,96,52,0.9)';
@@ -622,7 +605,8 @@ export function paintScene(ctx: Ctx2D, W: number, H: number, env: PaintEnv): voi
   ctx.restore();
 
   // 8. Middle distance: shrubs and broad leaves along the wall, softened by haze.
-  const shrubs = portrait ? 5 : 9;
+  // Only on wide screens: on a phone this band lies behind the goal strip.
+  const shrubs = portrait ? 0 : 9;
   for (let i = 0; i < shrubs; i++) {
     const f = (i + 0.5) / shrubs;
     // Leave the middle open: the board stands there.
@@ -676,27 +660,20 @@ export function paintScene(ctx: Ctx2D, W: number, H: number, env: PaintEnv): voi
   ctx.fillStyle = calm;
   ctx.fillRect(0, 0, W, H);
 
-  // 11. Foreground, strong and saturated: wisteria and baskets above, pots below.
+  // 11. Foreground, strong and saturated: a hanging basket above, pots below.
   const edge = portrait ? W * 0.085 : W * 0.06;
   const basketSize = (portrait ? 44 : 58) * u;
-  for (let i = 0; i < (portrait ? 3 : 5); i++) {
-    wisteria(ctx, edge * (0.2 + i * 0.62) + rnd() * 6, -6, (64 + rnd() * 46) * u, rnd);
-    wisteria(ctx, W - edge * (0.2 + i * 0.62) - rnd() * 6, -6, (56 + rnd() * 40) * u, rnd);
-  }
+  // One basket on the left; the right is left to the sun.
   basket(ctx, edge * 1.05, H * (portrait ? 0.062 : 0.1), basketSize, rnd);
-  basket(ctx, W - edge * 0.95, H * (portrait ? 0.05 : 0.085), basketSize * 0.92, rnd);
-  if (!portrait) {
-    basket(ctx, W * 0.21, H * 0.06, basketSize * 0.7, rnd);
-    basket(ctx, W * 0.8, H * 0.055, basketSize * 0.74, rnd);
-  }
+  if (!portrait) basket(ctx, W * 0.83, H * 0.05, basketSize * 0.66, rnd);
 
   const potW = (portrait ? 62 : 84) * u;
   const footY = H + potW * 0.2;
   // Left: a tall fern. Right: a canna with paddle leaves and a smaller fern in front.
   const leftX = portrait ? W * 0.04 : W * 0.07;
   const rightX = portrait ? W * 0.97 : W * 0.93;
-  crown(ctx, leftX, footY - potW * 0.86, potW * 1.9, Math.PI * 1.1, Math.PI * 1.96, 10, 0.5, DEEP, rnd);
-  crown(ctx, leftX, footY - potW * 0.84, potW * 1.45, Math.PI * 1.18, Math.PI * 1.92, 7, 0.38, NEAR, rnd);
+  crown(ctx, leftX, footY - potW * 0.86, potW * 1.5, Math.PI * 1.14, Math.PI * 1.84, 9, 0.42, DEEP, rnd);
+  crown(ctx, leftX, footY - potW * 0.84, potW * 1.15, Math.PI * 1.22, Math.PI * 1.8, 6, 0.32, NEAR, rnd);
   pot(ctx, leftX, footY, potW);
   for (let k = 0; k < 6; k++) {
     const a = -Math.PI / 2 - 0.15 + (k - 2.5) * 0.3 + (rnd() - 0.5) * 0.12;
@@ -711,18 +688,6 @@ export function paintScene(ctx: Ctx2D, W: number, H: number, env: PaintEnv): voi
     crown(ctx, x3, H - potW * 0.46, potW * 1.1, Math.PI * 1.08, Math.PI * 1.92, 8, 0.6, NEAR, rnd);
     pot(ctx, x3, H + potW * 0.14, potW * 0.7);
   }
-  // Geraniums in the left pot: a few coral heads for a clear accent.
-  for (let i = 0; i < 5; i++) {
-    const gx = leftX + (rnd() - 0.2) * potW * 0.9;
-    const gy = footY - potW * (0.95 + rnd() * 0.5);
-    for (let k = 0; k < 7; k++) {
-      ctx.fillStyle = k % 3 === 0 ? '#FF9C84' : k % 3 === 1 ? '#EC5F4C' : '#D4463A';
-      ctx.beginPath();
-      ctx.arc(gx + (rnd() - 0.5) * potW * 0.16, gy + (rnd() - 0.5) * potW * 0.13, potW * 0.045, 0, TAU);
-      ctx.fill();
-    }
-  }
-
   if (env.highContrast) {
     // High contrast: the world steps far back behind the interface.
     ctx.fillStyle = 'rgba(255,253,245,0.82)';

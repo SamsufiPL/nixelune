@@ -100,7 +100,7 @@
   --nx-radius-md: 16px;
 
   /* Enamel plaques on a brass back plate: the plate is the lip the button sinks onto. */
-  --btn-radius: 15px;
+  --btn-radius: 14px;
   --btn-font: var(--nx-font-display);
   --btn-transform: none;
   --btn-track: 0.015em;
@@ -163,7 +163,7 @@
   --hud-chain-live: #C2412C;
   --goal-bg: var(--szk-enamel-face);
   --goal-border: 1.5px solid #C79A3E;
-  --goal-radius: 11px;
+  --goal-radius: 14px;
   --goal-fg: #1C6646;
   --header-line: 0 solid transparent;
 
@@ -278,8 +278,11 @@
 }
 
 /* Small round enamel button: pause and back. */
-[data-skin="szklarnia"] .icon-btn {
+[data-skin="szklarnia"] .page__header .icon-btn {
   position: relative;
+}
+
+[data-skin="szklarnia"] .icon-btn {
   color: var(--szk-green);
   isolation: isolate;
 }
@@ -619,26 +622,17 @@
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 0 12px rgba(255, 252, 242, 0.95);
 }
 
-[data-skin="szklarnia"] .game__header .brand {
-  padding: 3px 16px 4px;
-  border: 1.5px solid #C79A3E;
-  border-radius: 999px;
-  background: var(--szk-enamel-face);
-  box-shadow: 0 2px 0 var(--szk-brass-dark), -2px 6px 8px rgba(52, 44, 20, 0.2), inset -1px 2px 0 #FFFFFF;
-}
-
 /* Stats: one long plant label of cream enamel. */
 [data-skin="szklarnia"] .game__stats {
   position: relative;
   padding: 5px 14px 6px;
   border: 1.5px solid #C79A3E;
-  border-radius: 13px;
+  border-radius: 14px;
   background: var(--szk-enamel-face);
   box-shadow:
     0 3px 0 var(--szk-brass-dark),
     -3px 8px 10px rgba(52, 44, 20, 0.22),
-    inset 0 0 0 2.5px #FFFDF5,
-    inset 0 0 0 3.5px rgba(31, 106, 74, 0.22);
+    inset -1px 2px 0 #FFFFFF;
 }
 
 [data-skin="szklarnia"] .stat__value {
@@ -677,38 +671,6 @@
     -1px 1px 0 #FFFFFF;
 }
 
-/* Brass bosses on the corners. */
-[data-skin="szklarnia"] .szk-boss {
-  display: block !important;
-  position: absolute;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 66% 30%, #FFF3C4 0%, #E3BF68 28%, #B98E36 58%, #6B4C16 100%);
-  box-shadow: -1px 1.5px 1.5px rgba(52, 44, 20, 0.5), inset 0 0 0 1px rgba(107, 76, 22, 0.5);
-  pointer-events: none;
-}
-
-[data-skin="szklarnia"] .szk-boss--tl {
-  left: -3px;
-  top: -3px;
-}
-
-[data-skin="szklarnia"] .szk-boss--tr {
-  right: -3px;
-  top: -3px;
-}
-
-[data-skin="szklarnia"] .szk-boss--bl {
-  left: -3px;
-  bottom: -3px;
-}
-
-[data-skin="szklarnia"] .szk-boss--br {
-  right: -3px;
-  bottom: -3px;
-}
-
 [data-skin="szklarnia"] .countdown {
   font-size: 5rem;
   font-weight: 700;
@@ -741,7 +703,7 @@
   }
 }
 
-/* Goal: a plant label with its hole for the wire. */
+/* Goal: the same enamel label as the stats. */
 [data-skin="szklarnia"] .game__goal {
   position: relative;
   box-shadow: 0 2.5px 0 var(--szk-brass-dark), -2px 7px 9px rgba(52, 44, 20, 0.2), inset -1px 2px 0 #FFFFFF;
@@ -762,34 +724,6 @@
   color: #B98E36;
 }
 
-@media not ((min-width: 640px) and (min-aspect-ratio: 6/5)) {
-  [data-skin="szklarnia"] .game__goal {
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-
-  [data-skin="szklarnia"] .game__goal::before,
-  [data-skin="szklarnia"] .game__goal::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 8px;
-    height: 8px;
-    margin-top: -4px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 60% 35%, #5F5540 0%, #3A3324 60%);
-    box-shadow: 0 0 0 1.5px #C79A3E, -0.5px 1px 0 2px rgba(255, 255, 255, 0.9);
-  }
-
-  [data-skin="szklarnia"] .game__goal::before {
-    left: 11px;
-  }
-
-  [data-skin="szklarnia"] .game__goal::after {
-    right: 11px;
-  }
-}
-
 [data-skin="szklarnia"] .goal__hint {
   font-weight: 600;
   color: #1B3327;
@@ -797,10 +731,6 @@
 
 /* Wide layouts: the side columns sit on cards of the same enamel. */
 @media (min-width: 640px) and (min-aspect-ratio: 6/5) {
-  [data-skin="szklarnia"] .game__header .brand {
-    padding: 4px 26px 6px;
-  }
-
   [data-skin="szklarnia"] .game__stats {
     padding: var(--nx-space-3);
     align-self: start;
@@ -820,7 +750,7 @@
     align-self: start;
     padding: var(--nx-space-2) var(--nx-space-3) var(--nx-space-3);
     border: 1.5px solid #C79A3E;
-    border-radius: 13px;
+    border-radius: 14px;
     background: var(--szk-enamel-face);
     font-weight: 500;
     letter-spacing: 0;
@@ -850,7 +780,7 @@
   [data-skin="szklarnia"] .game__keys {
     padding: var(--nx-space-2) var(--nx-space-3);
     border: 1.5px solid #C79A3E;
-    border-radius: 13px;
+    border-radius: 14px;
     background: var(--szk-enamel-face);
     box-shadow: 0 3px 0 var(--szk-brass-dark), -3px 8px 10px rgba(52, 44, 20, 0.22);
   }
@@ -881,7 +811,7 @@
   position: absolute;
   inset: 6px;
   border: 1.5px solid rgba(31, 106, 74, 0.55);
-  border-radius: 13px;
+  border-radius: 14px;
   box-shadow: inset 0 0 0 2.5px #FFFDF5, inset 0 0 0 3.5px rgba(199, 154, 62, 0.6);
   pointer-events: none;
 }

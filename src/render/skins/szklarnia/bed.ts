@@ -32,7 +32,7 @@ export function paintBed(b: BedPaint): void {
 
   if (!b.highContrast) {
     // Fossil flecks and pores of the limestone.
-    const flecks = Math.round((width * height) / 260);
+    const flecks = Math.round((width * height) / 520);
     for (let i = 0; i < flecks; i++) {
       const x = rnd() * width;
       const y = rnd() * height;
@@ -62,28 +62,13 @@ export function paintBed(b: BedPaint): void {
   }
   if (b.highContrast) return;
 
-  // Sunlight through the roof: slanted panes of warm light, glazing bars between.
-  ctx.save();
-  ctx.globalCompositeOperation = 'soft-light';
-  const slant = height * 0.42;
-  const pane = Math.max(r * 4.2, width * 0.3);
-  const bar = pane * 0.12;
-  for (let i = -2; i < 6; i++) {
-    const x = width * 0.18 + i * (pane + bar);
-    const light = ctx.createLinearGradient(x + slant * 0.5, 0, x - slant * 0.5, height);
-    light.addColorStop(0, 'rgba(255,246,214,0.5)');
-    light.addColorStop(0.55, 'rgba(255,246,214,0.28)');
-    light.addColorStop(1, 'rgba(255,246,214,0)');
-    ctx.fillStyle = light;
-    ctx.beginPath();
-    ctx.moveTo(x + slant, 0);
-    ctx.lineTo(x + slant + pane, 0);
-    ctx.lineTo(x + pane - slant * 0.4, height);
-    ctx.lineTo(x - slant * 0.4, height);
-    ctx.closePath();
-    ctx.fill();
-  }
-  ctx.restore();
+  // One broad wash of morning light from the upper right; no pattern to compete
+  // with the tiles.
+  const light = ctx.createLinearGradient(width, 0, width * 0.2, height * 0.8);
+  light.addColorStop(0, 'rgba(255,250,228,0.4)');
+  light.addColorStop(1, 'rgba(255,250,228,0)');
+  ctx.fillStyle = light;
+  ctx.fillRect(0, 0, width, height);
 
   // Soft shade at the foot and the left, where the frame stands in the light.
   const shade = ctx.createLinearGradient(width, 0, 0, height);

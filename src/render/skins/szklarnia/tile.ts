@@ -105,15 +105,18 @@ export function paintMotif(ctx: Ctx2D, color: TileColor, x: number, y: number, s
     }
     case 'amber': {
       // Sun: a disc and eight separate rays.
-      ctx.moveTo(x + s * 0.5, y);
-      ctx.arc(x, y, s * 0.5, 0, Math.PI * 2);
+      // Small tiles get a bigger disc and stouter rays so it stays a sun, not a dot.
+      const small = s < 9;
+      const disc = s * (small ? 0.56 : 0.5);
+      ctx.moveTo(x + disc, y);
+      ctx.arc(x, y, disc, 0, Math.PI * 2);
       for (let i = 0; i < 8; i++) {
         const a = (Math.PI / 4) * i - Math.PI / 2;
         const ca = Math.cos(a);
         const sa = Math.sin(a);
-        const r0 = s * 0.7;
-        const r1 = s * 1.14;
-        const half = s * 0.17;
+        const r0 = s * (small ? 0.74 : 0.7);
+        const r1 = s * 1.16;
+        const half = s * (small ? 0.22 : 0.17);
         ctx.moveTo(x + ca * r1, y + sa * r1);
         ctx.lineTo(x + ca * r0 - sa * half, y + sa * r0 + ca * half);
         ctx.lineTo(x + ca * r0 + sa * half, y + sa * r0 - ca * half);
@@ -166,45 +169,39 @@ function paintMotifDetail(ctx: Ctx2D, color: TileColor, x: number, y: number, s:
       }
       break;
     case 'amber':
-      ctx.lineWidth = Math.max(0.6, s * 0.08);
-      ctx.arc(x, y, s * 0.27, 0, Math.PI * 2);
-      ctx.stroke();
+      if (s > 9) {
+        ctx.lineWidth = Math.max(0.6, s * 0.08);
+        ctx.arc(x, y, s * 0.27, 0, Math.PI * 2);
+        ctx.stroke();
+      }
       break;
     default:
       break;
   }
 }
 
-/** A sash window mirrored in the glaze: four panes, bowed with the surface. */
-function paintWindowGloss(ctx: Ctx2D, x: number, y: number, r: number, strength: number): void {
-  const w = r * 0.19;
-  const h = r * 0.15;
-  const gap = Math.max(0.5, r * 0.035);
+/**
+ * The window mirrored in the glaze, drawn for the size it will be seen at: two
+ * crisp panes on a large tile, one pane on a board tile, a single fleck on the
+ * smallest. Never a scaled-down copy of the large one.
+ */
+function paintWindowGloss(ctx: Ctx2D, x: number, y: number, r: number): void {
   ctx.save();
   ctx.translate(x, y);
-  ctx.rotate(0.5);
-  ctx.transform(1, 0, -0.18, 1, 0, 0);
-  for (let i = 0; i < 4; i++) {
-    const px = i % 2 === 0 ? -w - gap / 2 : gap / 2;
-    const py = i < 2 ? -h - gap / 2 : gap / 2;
-    // The pane nearest the light is the brightest.
-    ctx.fillStyle = `rgba(255,255,255,${(i === 1 ? 0.96 : i === 2 ? 0.6 : 0.8) * strength})`;
-    ctx.beginPath();
-    ctx.roundRect(px, py, w, h, Math.min(w, h) * 0.3);
-    ctx.fill();
-  }
-  ctx.restore();
-}
-
-function paintGlint(ctx: Ctx2D, x: number, y: number, size: number, color: string): void {
-  ctx.fillStyle = color;
+  ctx.rotate(Math.PI / 6);
+  ctx.fillStyle = 'rgba(255,255,255,0.94)';
   ctx.beginPath();
-  ctx.moveTo(x, y - size);
-  ctx.quadraticCurveTo(x, y, x + size, y);
-  ctx.quadraticCurveTo(x, y, x, y + size);
-  ctx.quadraticCurveTo(x, y, x - size, y);
-  ctx.quadraticCurveTo(x, y, x, y - size);
+  if (r >= 26) {
+    const gap = r * 0.035;
+    ctx.roundRect(-r * 0.2, -r * 0.085, r * 0.23, r * 0.17, r * 0.045);
+    ctx.roundRect(r * 0.03 + gap, -r * 0.085, r * 0.12, r * 0.17, r * 0.045);
+  } else if (r >= 14) {
+    ctx.roundRect(-r * 0.17, -r * 0.08, r * 0.34, r * 0.16, r * 0.07);
+  } else {
+    ctx.ellipse(0, 0, Math.max(1.4, r * 0.15), Math.max(0.9, r * 0.085), 0, 0, Math.PI * 2);
+  }
   ctx.fill();
+  ctx.restore();
 }
 
 function paintGhost(p: TilePaint, glaze: Glaze): void {
@@ -256,10 +253,9 @@ export function paintTile(p: TilePaint): void {
   if (lit) {
     ctx.save();
     ctx.shadowColor = 'rgba(255,214,102,0.95)';
-    ctx.shadowBlur = r * 0.3 * dpr;
+    ctx.shadowBlur = r * 0.2 * dpr;
     roundedHex(ctx, cx, fy + r * DEPTH * 0.5, face, corner);
     ctx.fillStyle = '#FFE9A8';
-    ctx.fill();
     ctx.fill();
     ctx.restore();
   }
@@ -327,7 +323,7 @@ export function paintTile(p: TilePaint): void {
 
   // A broad sheen falling in from the window.
   const sheen = ctx.createLinearGradient(cx + r * 0.6, fy - r * 0.85, cx - r * 0.25, fy + r * 0.3);
-  sheen.addColorStop(0, 'rgba(255,255,255,0.4)');
+  sheen.addColorStop(0, 'rgba(255,255,255,0.3)');
   sheen.addColorStop(0.5, 'rgba(255,255,255,0.08)');
   sheen.addColorStop(1, 'rgba(255,255,255,0)');
   ctx.fillStyle = sheen;
@@ -371,7 +367,7 @@ export function paintTile(p: TilePaint): void {
   ctx.lineWidth = r * 0.06;
   ctx.stroke();
 
-  paintWindowGloss(ctx, cx + r * 0.36, fy - r * 0.46, r, lit ? 1 : 0.92);
+  paintWindowGloss(ctx, cx + r * 0.36, fy - r * 0.47, r);
   ctx.restore();
 
   // Rim light on the edges that face the window, a darker line on those that do not.
@@ -395,16 +391,9 @@ export function paintTile(p: TilePaint): void {
     // Sunlight gathering on a forming path: a gilt line inside the rim.
     const strong = state === 'hint2';
     roundedHex(ctx, cx, fy, face - r * 0.1, corner * 0.8);
-    ctx.strokeStyle = strong ? 'rgba(255,248,214,0.98)' : 'rgba(255,244,200,0.6)';
-    ctx.lineWidth = Math.max(1, r * (strong ? 0.085 : 0.05));
+    ctx.strokeStyle = strong ? 'rgba(255,250,224,0.98)' : 'rgba(255,248,214,0.5)';
+    ctx.lineWidth = Math.max(1, r * (strong ? 0.08 : 0.045));
     ctx.stroke();
-    if (strong) {
-      roundedHex(ctx, cx, fy, face - r * 0.1, corner * 0.8);
-      ctx.strokeStyle = alpha(WORLD.brass, 0.55);
-      ctx.lineWidth = Math.max(0.5, r * 0.02);
-      ctx.stroke();
-      paintGlint(ctx, cx + r * 0.36, fy - r * 0.46, r * 0.3, 'rgba(255,255,255,0.95)');
-    }
   } else if (active) {
     // The piece in hand: a bright enamel line all round.
     roundedHex(ctx, cx, fy, face, corner);
@@ -435,7 +424,6 @@ export function paintTile(p: TilePaint): void {
     ctx.strokeStyle = '#FFFBE8';
     ctx.lineWidth = Math.max(1.5, r * 0.09);
     ctx.stroke();
-    paintGlint(ctx, cx + r * 0.38, fy - r * 0.48, r * 0.46, '#FFFFFF');
   }
 }
 
@@ -444,35 +432,31 @@ export function paintTile(p: TilePaint): void {
  * light throws a shadow into it; the far lip catches the light.
  */
 export function paintSocket(ctx: Ctx2D, cx: number, cy: number, r: number, dpr: number, strong: boolean): void {
-  const radius = r * 0.9;
+  const radius = r * 0.88;
   const corner = r * CORNER;
-  const well = ctx.createLinearGradient(cx + r * 0.7, cy - r * 0.8, cx - r * 0.7, cy + r * 0.8);
-  well.addColorStop(0, '#C9BCA3');
-  well.addColorStop(0.5, '#DACFB9');
-  well.addColorStop(1, '#E6DCC8');
   roundedHex(ctx, cx, cy, radius, corner);
-  ctx.fillStyle = well;
+  ctx.fillStyle = strong ? '#DDD2BC' : '#E9E0CE';
   ctx.fill();
   ctx.save();
   roundedHex(ctx, cx, cy, radius, corner);
   ctx.clip();
-  // Inner shadow from the upper right lip.
-  ctx.shadowColor = 'rgba(82,62,36,0.55)';
-  ctx.shadowBlur = r * 0.2 * dpr;
-  ctx.shadowOffsetX = -r * 0.07 * dpr;
-  ctx.shadowOffsetY = r * 0.1 * dpr;
-  roundedHex(ctx, cx, cy, radius + r * 0.08, corner);
-  ctx.strokeStyle = 'rgba(96,74,44,0.6)';
-  ctx.lineWidth = r * 0.14;
+  // The lip nearest the light shades the recess a little.
+  ctx.shadowColor = 'rgba(96,76,48,0.38)';
+  ctx.shadowBlur = r * 0.16 * dpr;
+  ctx.shadowOffsetX = -r * 0.05 * dpr;
+  ctx.shadowOffsetY = r * 0.07 * dpr;
+  roundedHex(ctx, cx, cy, radius + r * 0.07, corner);
+  ctx.strokeStyle = 'rgba(110,88,58,0.4)';
+  ctx.lineWidth = r * 0.12;
   ctx.stroke();
   ctx.restore();
-  // The lit lower left lip, and a crisp upper right edge.
+  // The far lip catches it.
   const lip = ctx.createLinearGradient(cx + r * 0.7, cy - r * 0.8, cx - r * 0.7, cy + r * 0.8);
-  lip.addColorStop(0, strong ? 'rgba(40,30,16,0.9)' : 'rgba(98,76,46,0.5)');
-  lip.addColorStop(0.5, strong ? 'rgba(40,30,16,0.9)' : 'rgba(98,76,46,0.12)');
-  lip.addColorStop(1, strong ? 'rgba(40,30,16,0.9)' : 'rgba(255,255,255,0.95)');
-  roundedHex(ctx, cx, cy, radius + r * 0.01, corner);
+  lip.addColorStop(0, strong ? 'rgba(40,30,16,0.9)' : 'rgba(110,88,58,0.3)');
+  lip.addColorStop(0.5, strong ? 'rgba(40,30,16,0.9)' : 'rgba(110,88,58,0.05)');
+  lip.addColorStop(1, strong ? 'rgba(40,30,16,0.9)' : 'rgba(255,255,255,0.75)');
+  roundedHex(ctx, cx, cy, radius, corner);
   ctx.strokeStyle = lip;
-  ctx.lineWidth = Math.max(1, r * (strong ? 0.07 : 0.05));
+  ctx.lineWidth = Math.max(0.75, r * (strong ? 0.07 : 0.04));
   ctx.stroke();
 }
