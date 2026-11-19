@@ -1,0 +1,722 @@
+/*
+ * Theme of skin `klejnoty` (Jewels): engraved gold, dark rosewood and leather, ivory
+ * text. Buttons are polished keys of metal and stone with real travel; panels are
+ * leather with gold tooling; the board frame is brushed gold. Light from the upper
+ * left, as everywhere in this skin.
+ */
+
+/* Cinzel (display) and Jost (text), variable, latin + latin-ext only. */
+@font-face {
+  font-family: "Cinzel Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url("../../../node_modules/@fontsource-variable/cinzel/files/cinzel-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Cinzel Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url("../../../node_modules/@fontsource-variable/cinzel/files/cinzel-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Jost Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../../../node_modules/@fontsource-variable/jost/files/jost-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Jost Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../../../node_modules/@fontsource-variable/jost/files/jost-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+[data-skin="klejnoty"] {
+  --kj-gold: #E3BA6B;
+  --kj-gold-pale: #FBE7B0;
+  --kj-gold-deep: #8A5F1F;
+  --kj-ink: #2E1406;
+  --kj-metal: linear-gradient(180deg, #FFF2C4 0%, #F1CF7E 16%, #DDAF57 50%, #C08D3A 84%, #A97528 100%);
+  --kj-metal-hover: linear-gradient(180deg, #FFF8DA 0%, #F8DC96 16%, #E8BE6A 50%, #CC9A46 84%, #B48030 100%);
+  --kj-metal-pressed: linear-gradient(180deg, #E9C777 0%, #D8AA52 40%, #BC8A38 100%);
+  --kj-stone: linear-gradient(180deg, #6A3D2A 0%, #4A261A 22%, #351A11 60%, #26110A 100%);
+  --kj-stone-hover: linear-gradient(180deg, #7A4934 0%, #583022 22%, #402117 60%, #2E160E 100%);
+  --kj-stone-pressed: linear-gradient(180deg, #3E2016 0%, #2E160E 60%, #221009 100%);
+  --kj-leather: linear-gradient(155deg, #43251A 0%, #2C150E 46%, #1E0D08 100%);
+
+  --nx-ink: #150A07;
+  --nx-deep: #0B0504;
+  --nx-night: #1E0F0A;
+  --nx-panel: #2A160F;
+  --nx-panel2: #3A2016;
+  --nx-slate: #5A3A1A;
+  --nx-outline: #8C6A36;
+  --nx-line: rgba(227, 186, 107, 0.28);
+  --nx-text: #F6ECD6;
+  --nx-muted: #D6C6A6;
+  --nx-accent: var(--kj-gold);
+  --nx-accent-hover: #F1CD86;
+  --nx-accent-pressed: #C99A45;
+  --nx-on-accent: var(--kj-ink);
+  --nx-live: #86EBC4;
+  --nx-focus: #FFF6CF;
+  --nx-scrim: rgba(10, 4, 3, 0.8);
+
+  --nx-font: "Jost Variable", Jost, "Segoe UI", system-ui, sans-serif;
+  --nx-font-display: "Cinzel Variable", Cinzel, "Times New Roman", serif;
+  --nx-text-logo: 2.375rem;
+  --nx-track-label: 0.14em;
+  --nx-track-button: 0.12em;
+  --label-weight: 600;
+  --logo-weight: 800;
+  --logo-track: 0.14em;
+  --score-weight: 700;
+  --title-weight: 700;
+  --title-track: 0.1em;
+  --title-accent: var(--kj-gold);
+
+  --nx-radius-sm: 8px;
+  --nx-radius-md: 12px;
+
+  /* Keys: a face, a 5 px side below it, and travel almost down to the bench. */
+  --btn-radius: 12px;
+  --btn-font: var(--nx-font-display);
+  --btn-depth: 5px;
+  --btn-travel: 4px;
+  --btn-shadow: 0 11px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.75), inset 0 -2px 3px rgba(90, 50, 8, 0.45);
+  --btn-shadow-pressed: 0 3px 5px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(60, 30, 4, 0.5);
+  --btn-primary-bg: var(--kj-metal);
+  --btn-primary-bg-hover: var(--kj-metal-hover);
+  --btn-primary-bg-pressed: var(--kj-metal-pressed);
+  --btn-primary-fg: var(--kj-ink);
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-edge: #6E4712;
+  --btn-primary-weight: 800;
+  --btn-secondary-bg: var(--kj-stone);
+  --btn-secondary-bg-hover: var(--kj-stone-hover);
+  --btn-secondary-bg-pressed: var(--kj-stone-pressed);
+  --btn-secondary-fg: var(--kj-gold-pale);
+  --btn-secondary-border: 1px solid #B58A42;
+  --btn-secondary-edge: #120704;
+  --btn-secondary-weight: 700;
+  --btn-text-fg: var(--kj-gold);
+  --btn-text-fg-hover: var(--kj-gold-pale);
+  --press-scale: 0.985;
+
+  --act-bg: radial-gradient(circle at 34% 26%, #7A4832 0%, #452318 46%, #230F09 100%);
+  --act-bg-pressed: radial-gradient(circle at 34% 26%, #54301F 0%, #311810 50%, #1C0C07 100%);
+  --act-fg: var(--kj-gold-pale);
+  --act-border: 2px solid #C99A45;
+  --act-edge: #120704;
+  --act-depth: 5px;
+  --act-travel: 4px;
+  --act-shadow: 0 10px 14px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 225, 170, 0.5), inset 0 -3px 5px rgba(0, 0, 0, 0.45);
+  --act-main-bg: radial-gradient(circle at 34% 24%, #FFF6D2 0%, #F0CC7A 34%, #CE9E48 70%, #A97528 100%);
+  --act-main-bg-pressed: radial-gradient(circle at 34% 24%, #F2D48C 0%, #D8AC56 40%, #A97528 100%);
+  --act-main-fg: var(--kj-ink);
+  --act-main-border: 2px solid #FFE9A8;
+  --act-main-edge: #6E4712;
+  --act-label: #D6C6A6;
+  --act-main-label: var(--nx-text);
+
+  --panel-bg: var(--kj-leather);
+  --panel-border: 2px solid #C99A45;
+  --panel-radius: 16px;
+  --panel-shadow: 0 26px 50px rgba(0, 0, 0, 0.65), 0 2px 0 #5A3A10, inset 0 1px 0 rgba(255, 220, 160, 0.22);
+
+  --frame-bg: linear-gradient(135deg, #FFF3C8 0%, #E9C36C 12%, #B98A38 32%, #F2D283 50%, #AB7A2A 70%, #DFB65E 86%, #7A5519 100%);
+  --frame-border: 1px solid #5A3C10;
+  --frame-radius: 14px;
+  --frame-pad: 8px;
+  --frame-shadow: 0 3px 0 #4A300C, 5px 16px 26px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 252, 228, 0.95), inset 1px 0 0 rgba(255, 246, 205, 0.6), inset 0 -1px 0 rgba(60, 35, 5, 0.7);
+  --frame-inner-bg: #1C040C;
+  --frame-inner-border: 1.5px solid #2B1505;
+  --frame-inner-radius: 7px;
+  --countdown-bg: rgba(20, 5, 10, 0.62);
+  --hud-score: var(--nx-text);
+  --hud-stage: var(--kj-gold);
+  --hud-chain: var(--nx-muted);
+  --hud-chain-live: var(--nx-live);
+  --goal-bg: rgba(30, 14, 9, 0.9);
+  --goal-border: 1px solid rgba(227, 186, 107, 0.6);
+  --goal-radius: 9px;
+  --goal-fg: var(--kj-gold-pale);
+  --header-line: 0 solid transparent;
+
+  --switch-on: #86EBC4;
+  --switch-on-bg: rgba(60, 200, 150, 0.2);
+
+  --nx-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --enter-screen-ms: 380ms;
+  --enter-screen-shift: 14px;
+  --enter-screen-scale: 0.985;
+  --enter-panel-ms: 440ms;
+  --enter-panel-shift: 24px;
+  --enter-panel-scale: 0.9;
+  --enter-ease: cubic-bezier(0.3, 1.45, 0.5, 1);
+  --enter-stagger: 80ms;
+}
+
+/* --- Brand: the wordmark is engraved gold, the symbol a cut diamond ---------------- */
+
+[data-skin="klejnoty"] .brand__symbol > * {
+  display: none;
+}
+
+[data-skin="klejnoty"] .brand__symbol,
+[data-skin="klejnoty"] .panel__symbol {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23FFF6CF'/%3E%3Cstop offset='.45' stop-color='%23E3BA6B'/%3E%3Cstop offset='1' stop-color='%23835818'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M14 8h20l11 12L24 45 3 20z' fill='url(%23g)'/%3E%3Cpath d='M14 8l3.5 12H3zM24 8l6.500 12h-13zM17.500 20l6.500 25L3 20z' fill='%23fff' fill-opacity='.42'/%3E%3Cpath d='M34 8l11 12H30.500zM30.500 20H45L24 45z' fill='%233A1C06' fill-opacity='.28'/%3E%3Cpath d='M3 20h42M14 8l3.500 12L24 8l6.500 12L34 8M17.500 20L24 45l6.500-25' fill='none' stroke='%233A1C06' stroke-opacity='.6' stroke-width='1.100' stroke-linejoin='round'/%3E%3Cpath d='M14 8h20l11 12L24 45 3 20z' fill='none' stroke='%23FFF6CF' stroke-width='1.200' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+[data-skin="klejnoty"] .panel__symbol > * {
+  display: none;
+}
+
+[data-skin="klejnoty"] .brand__word {
+  font-weight: 800;
+  color: var(--kj-gold);
+  background: linear-gradient(180deg, #FFF6CF 0%, #F3D283 34%, #C9993F 62%, #F0CE7E 80%, #9C6C22 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-skin="klejnoty"] .brand--stacked {
+  gap: 4px;
+}
+
+[data-skin="klejnoty"] .brand--stacked .brand__symbol {
+  width: 2.75rem;
+  height: 2.75rem;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+}
+
+[data-skin="klejnoty"] .brand--stacked .brand__word {
+  font-size: min(var(--nx-text-logo), 10.4vw);
+  padding: 0.08em 0;
+  filter: drop-shadow(0 1.5px 0 #4A2C08) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.7));
+}
+
+/* --- Menu ---------------------------------------------------------------------------- */
+
+[data-skin="klejnoty"] .menu__brand {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* A tooled rule with a lozenge, in place of the plain hairline. */
+[data-skin="klejnoty"] .menu__brand::after {
+  content: "";
+  width: min(15rem, 76%);
+  height: 11px;
+  margin-top: 8px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 11'%3E%3Cpath d='M11 .5l5 5-5 5-5-5z' fill='%23E3BA6B'/%3E%3Cpath d='M11 .5l5 5H6z' fill='%23FFF6CF'/%3E%3Ccircle cx='2' cy='5.500' r='1.300' fill='%23E3BA6B'/%3E%3Ccircle cx='20' cy='5.500' r='1.300' fill='%23E3BA6B'/%3E%3C/svg%3E") center / 22px 11px no-repeat,
+    linear-gradient(90deg, rgba(227, 186, 107, 0), rgba(227, 186, 107, 0.9) 34%, rgba(227, 186, 107, 0) 43%, rgba(227, 186, 107, 0) 57%, rgba(227, 186, 107, 0.9) 66%, rgba(227, 186, 107, 0)) center / 100% 1px no-repeat;
+}
+
+[data-skin="klejnoty"] .menu__promise {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 14px rgba(10, 4, 2, 0.9);
+}
+
+[data-skin="klejnoty"] .menu__lead {
+  font-family: var(--nx-font-display);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--nx-text);
+}
+
+[data-skin="klejnoty"] .menu__rest {
+  font-weight: 400;
+  color: var(--nx-muted);
+}
+
+[data-skin="klejnoty"] .menu__art {
+  max-height: 17rem;
+}
+
+[data-skin="klejnoty"] .klej-art {
+  position: relative;
+}
+
+[data-skin="klejnoty"] .klej-art > canvas,
+[data-skin="klejnoty"] .klej-art > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+[data-skin="klejnoty"] .klej-twinkle {
+  fill: #FFFFFF;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: kj-twinkle 4.2s ease-in-out infinite;
+}
+
+[data-skin="klejnoty"] .klej-twinkle--b {
+  animation-delay: 1.3s;
+  animation-duration: 5.1s;
+}
+
+[data-skin="klejnoty"] .klej-twinkle--c {
+  animation-delay: 2.4s;
+  animation-duration: 6.3s;
+}
+
+[data-skin="klejnoty"] .klej-twinkle--d {
+  animation-delay: 3.1s;
+  animation-duration: 4.7s;
+}
+
+@keyframes kj-twinkle {
+  0%,
+  58%,
+  100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(0deg);
+  }
+
+  72% {
+    opacity: 1;
+    transform: scale(1.5) rotate(40deg);
+  }
+
+  86% {
+    opacity: 0;
+    transform: scale(0.3) rotate(80deg);
+  }
+}
+
+[data-skin="klejnoty"] .menu__best {
+  padding: 2px 14px;
+  border-radius: 999px;
+  background: rgba(16, 7, 5, 0.6);
+  border: 1px solid rgba(227, 186, 107, 0.35);
+}
+
+[data-skin="klejnoty"] .menu__best b {
+  font-family: var(--nx-font-display);
+  font-weight: 700;
+  color: var(--kj-gold-pale);
+}
+
+/* --- Buttons: polished keys ---------------------------------------------------------- */
+
+[data-skin="klejnoty"] .btn--primary {
+  text-shadow: 0 1px 0 rgba(255, 246, 205, 0.75);
+}
+
+[data-skin="klejnoty"] .btn--secondary {
+  --btn-shadow: 0 11px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 215, 160, 0.35), inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+  --btn-shadow-pressed: 0 3px 5px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+/* Polish: a sheet of reflected lamp light across the upper left of the key. */
+[data-skin="klejnoty"] .btn--primary::before,
+[data-skin="klejnoty"] .btn--secondary::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 11px;
+  background: linear-gradient(112deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.14) 30%, rgba(255, 255, 255, 0) 31%);
+  pointer-events: none;
+}
+
+[data-skin="klejnoty"] .btn--secondary::before {
+  background: linear-gradient(112deg, rgba(255, 220, 170, 0.22) 0%, rgba(255, 220, 170, 0.05) 30%, rgba(255, 220, 170, 0) 31%);
+}
+
+/* An engraved line just inside the edge. */
+[data-skin="klejnoty"] .btn--primary::after,
+[data-skin="klejnoty"] .btn--secondary::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 8px;
+  border: 1px solid rgba(110, 68, 14, 0.45);
+  box-shadow: 0 1px 0 rgba(255, 246, 210, 0.5);
+  pointer-events: none;
+}
+
+[data-skin="klejnoty"] .btn--secondary::after {
+  border-color: rgba(227, 186, 107, 0.32);
+  box-shadow: none;
+}
+
+[data-skin="klejnoty"] .btn--text {
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+[data-skin="klejnoty"] .icon-btn {
+  color: var(--kj-gold);
+}
+
+[data-skin="klejnoty"] .icon-btn:active {
+  color: var(--kj-gold-pale);
+  transform: translateY(1px) scale(0.94);
+}
+
+/* --- Round actions: stone and gold keys ---------------------------------------------- */
+
+[data-skin="klejnoty"] .act__disc::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.08) 36%, rgba(255, 255, 255, 0) 37%);
+  pointer-events: none;
+}
+
+[data-skin="klejnoty"] .act:not(.act--main) .act__disc::before {
+  background: linear-gradient(140deg, rgba(255, 220, 170, 0.28) 0%, rgba(255, 220, 170, 0.05) 36%, rgba(255, 220, 170, 0) 37%);
+}
+
+[data-skin="klejnoty"] .act__disc > * {
+  position: relative;
+}
+
+[data-skin="klejnoty"] .act__disc > .act__held {
+  position: absolute;
+}
+
+[data-skin="klejnoty"] .act__label {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95), 0 0 8px rgba(8, 3, 2, 0.9);
+}
+
+/* --- Game HUD -------------------------------------------------------------------------- */
+
+[data-skin="klejnoty"] .game__header .brand__word {
+  filter: drop-shadow(0 1px 0 #3A2206) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.7));
+}
+
+[data-skin="klejnoty"] .game__pause {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-top: -1.25rem;
+  right: -4px;
+  border-radius: 50%;
+  border: 1.5px solid #C99A45;
+  background: radial-gradient(circle at 34% 26%, #6A3D2A 0%, #3A1D13 55%, #1F0D08 100%);
+  box-shadow: 0 3px 0 #120704, 0 6px 9px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 225, 170, 0.45);
+}
+
+[data-skin="klejnoty"] .game__pause:active {
+  transform: translateY(2px) scale(0.96);
+  box-shadow: 0 1px 0 #120704, 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Enlarge the hit area of the smaller pause key back to a full touch target. */
+[data-skin="klejnoty"] .game__pause::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+}
+
+[data-skin="klejnoty"] .game__pause svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+[data-skin="klejnoty"] .stat__value {
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+[data-skin="klejnoty"] .stat--chain[data-live] .stat__value {
+  animation: kj-chain 520ms var(--enter-ease);
+  text-shadow: 0 0 10px rgba(110, 240, 190, 0.7);
+}
+
+@keyframes kj-chain {
+  from {
+    transform: scale(1.5);
+  }
+}
+
+[data-skin="klejnoty"] .countdown {
+  font-family: var(--nx-font-display);
+  font-weight: 700;
+  color: var(--kj-gold-pale);
+  text-shadow: 0 2px 0 #4A2C08, 0 6px 16px rgba(0, 0, 0, 0.8);
+}
+
+/* Brushed grain on the gold frame (sits under the tray, above the frame's gradient). */
+[data-skin="klejnoty"] .board-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: repeating-linear-gradient(100deg, rgba(255, 255, 255, 0.1) 0 1px, rgba(60, 30, 0, 0.08) 1px 2px, rgba(255, 255, 255, 0) 2px 4px);
+  pointer-events: none;
+}
+
+/* The lip between frame and velvet: a bright bevel on the far sides, dark on the lamp side. */
+[data-skin="klejnoty"] .board-frame__inner {
+  box-shadow: 1px 1px 0 rgba(255, 246, 205, 0.75), -1px -1px 0 rgba(70, 40, 6, 0.8);
+}
+
+@media not ((min-width: 640px) and (min-aspect-ratio: 6/5)) {
+  /* Portrait: the counters sit on a leather plaque with gold tooling. */
+  [data-skin="klejnoty"] .game__stats {
+    padding: 6px 12px 7px;
+    border: 1px solid rgba(227, 186, 107, 0.6);
+    border-radius: 10px;
+    background: linear-gradient(170deg, rgba(62, 34, 23, 0.94), rgba(30, 14, 9, 0.95));
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 220, 160, 0.22), inset 0 0 0 3px rgba(20, 8, 5, 0.5), inset 0 0 0 4px rgba(227, 186, 107, 0.2);
+  }
+
+  /* The mission is an engraved brass plate under the tray. */
+  [data-skin="klejnoty"] .game__goal {
+    border: 1px solid #5E3F10;
+    background:
+      repeating-linear-gradient(96deg, rgba(255, 255, 255, 0.09) 0 1px, rgba(60, 30, 0, 0.06) 1px 2px, rgba(255, 255, 255, 0) 2px 4px),
+      linear-gradient(180deg, #F6DC97 0%, #DFB45C 45%, #C3923F 100%);
+    box-shadow: 0 2px 0 #4A300C, 0 7px 10px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 252, 228, 0.9);
+    color: var(--kj-ink);
+    font-weight: 700;
+    text-shadow: 0 1px 0 rgba(255, 244, 200, 0.7);
+  }
+
+  [data-skin="klejnoty"] .game__goal .goal__hint {
+    color: var(--kj-ink);
+    font-weight: 500;
+  }
+
+  [data-skin="klejnoty"] .goal__progress::before {
+    color: #6E4712;
+  }
+}
+
+@media (max-height: 600px) and (max-aspect-ratio: 6/5) {
+  [data-skin="klejnoty"] .game__stats {
+    padding: 4px 3.25rem 5px 10px;
+  }
+
+  [data-skin="klejnoty"] .game__pause {
+    margin: 0;
+    right: auto;
+  }
+
+  [data-skin="klejnoty"] .game__header {
+    top: max(8px, calc(var(--nx-safe-top) + 6px));
+    right: max(22px, calc(var(--nx-safe-right) + 22px));
+  }
+}
+
+@media (min-width: 640px) and (min-aspect-ratio: 6/5) {
+  [data-skin="klejnoty"] .game__stats,
+  [data-skin="klejnoty"] .game__goal,
+  [data-skin="klejnoty"] .game__keys,
+  [data-skin="klejnoty"] .queue__slot > .label {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 12px rgba(10, 4, 2, 0.8);
+  }
+
+  [data-skin="klejnoty"] .queue__box {
+    border: 1px solid rgba(227, 186, 107, 0.6);
+    background: linear-gradient(170deg, rgba(62, 34, 23, 0.94), rgba(30, 14, 9, 0.95));
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 220, 160, 0.22), inset 0 0 0 4px rgba(20, 8, 5, 0.5), inset 0 0 0 5px rgba(227, 186, 107, 0.2);
+  }
+
+  [data-skin="klejnoty"] .keys__list kbd {
+    border-color: #B58A42;
+    background: var(--kj-stone);
+    color: var(--kj-gold-pale);
+    box-shadow: 0 2px 0 #120704;
+  }
+}
+
+/* --- Panels: leather with gold tooling ------------------------------------------------- */
+
+[data-skin="klejnoty"] .panel::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(227, 186, 107, 0.4);
+  border-radius: 9px;
+  pointer-events: none;
+}
+
+/* A lozenge set into the top edge. */
+[data-skin="klejnoty"] .panel::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -11px;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  transform: rotate(45deg);
+  border: 1.5px solid #FFF0BE;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #FFF6CF 0%, #E3BA6B 45%, #8A5F1F 100%);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+[data-skin="klejnoty"] .panel__title {
+  color: var(--nx-text);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+[data-skin="klejnoty"] .panel__score {
+  color: var(--kj-gold-pale);
+  text-shadow: 0 2px 0 #4A2C08, 0 0 18px rgba(227, 186, 107, 0.35);
+  animation: kj-score 620ms var(--enter-ease) 160ms both;
+}
+
+@keyframes kj-score {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+[data-skin="klejnoty"] .panel__symbol {
+  width: 3.5rem;
+  height: 3.5rem;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+  animation: kj-score 560ms var(--enter-ease) 80ms both;
+}
+
+[data-skin="klejnoty"] .panel__actions > * {
+  animation: nx-rise var(--enter-panel-ms) var(--enter-ease) 180ms both;
+}
+
+[data-skin="klejnoty"] .panel__actions > :nth-child(2) {
+  animation-delay: 260ms;
+}
+
+[data-skin="klejnoty"] .panel__actions > :nth-child(3) {
+  animation-delay: 340ms;
+}
+
+[data-skin="klejnoty"] .panel__actions {
+  gap: 14px;
+}
+
+/* --- Pages: a ledger of dark leather over the dimmed workshop ------------------------- */
+
+[data-skin="klejnoty"] .page {
+  background: linear-gradient(rgba(14, 6, 4, 0.72), rgba(14, 6, 4, 0.86));
+}
+
+[data-skin="klejnoty"] .page__inner {
+  position: relative;
+  margin-top: 8px;
+  padding: 2px 16px 12px;
+  border: 2px solid #C99A45;
+  border-radius: 16px;
+  background: var(--kj-leather);
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 220, 160, 0.22), inset 0 0 0 5px rgba(20, 8, 5, 0.4), inset 0 0 0 6px rgba(227, 186, 107, 0.28);
+}
+
+[data-skin="klejnoty"] .page__title {
+  font-family: var(--nx-font-display);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--kj-gold-pale);
+}
+
+[data-skin="klejnoty"] .challenge__number {
+  font-family: var(--nx-font-display);
+  font-weight: 700;
+  color: var(--kj-gold);
+}
+
+[data-skin="klejnoty"] .challenge {
+  transition: transform var(--nx-dur-fast) var(--nx-ease);
+}
+
+[data-skin="klejnoty"] .challenge:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+[data-skin="klejnoty"] .heading {
+  font-family: var(--nx-font-display);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--kj-gold-pale);
+}
+
+/* Form controls: stone wells, gold selection, a brass knob. */
+[data-skin="klejnoty"] .segmented {
+  border-color: #8C6A36;
+  background: #1A0C07;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+[data-skin="klejnoty"] .segmented__option input:checked + span {
+  background: var(--kj-metal);
+  color: var(--kj-ink);
+  font-weight: 600;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+[data-skin="klejnoty"] .switch__track {
+  border-color: #8C6A36;
+  background: #1A0C07;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+[data-skin="klejnoty"] .switch__track::after {
+  background: radial-gradient(circle at 34% 28%, #E8DCC4, #9C8E78 70%, #6A5E4E);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+[data-skin="klejnoty"] .switch[aria-checked="true"] .switch__track::after {
+  background: radial-gradient(circle at 34% 28%, #E6FFF4, #5FE0B0 55%, #128A62);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6), 0 0 10px rgba(80, 230, 170, 0.6);
+}
+
+[data-skin="klejnoty"] .range input::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--kj-gold) var(--fill, 50%), #3A2016 var(--fill, 50%));
+}
+
+[data-skin="klejnoty"] .range input::-webkit-slider-thumb {
+  margin-top: calc(-0.6875rem + 2px);
+  background: radial-gradient(circle at 34% 28%, #FFF6D2, #E3BA6B 55%, #8A5F1F);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+[data-skin="klejnoty"] .range input::-moz-range-thumb {
+  background: radial-gradient(circle at 34% 28%, #FFF6D2, #E3BA6B 55%, #8A5F1F);
+}
+
+/* --- High contrast: plain surfaces, stronger lines ---------------------------------- */
+
+:root[data-contrast="more"][data-skin="klejnoty"] {
+  --nx-muted: #F2E8D2;
+  --nx-outline: #E3BA6B;
+  --nx-line: rgba(227, 186, 107, 0.9);
+  --nx-scrim: rgba(4, 1, 1, 0.92);
+  --panel-bg: #170A06;
+  --goal-border: 1px solid #E3BA6B;
+}
+
+:root[data-contrast="more"][data-skin="klejnoty"] .game__stats,
+:root[data-contrast="more"][data-skin="klejnoty"] .page__inner {
+  background: #170A06;
+}
+
+:root[data-contrast="more"][data-skin="klejnoty"] .page {
+  background: rgba(8, 3, 2, 0.95);
+}

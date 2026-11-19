@@ -16,6 +16,7 @@ export const SKINS: Readonly<Record<string, SkinEntry>> = {
   demo: { name: { pl: 'Demo (próbny)', en: 'Demo (rough)' }, load: () => import('./demo/index') },
   lampiony: { name: { pl: 'Lampiony', en: 'Lanterns' }, load: () => import('./lampiony/index') },
   klejnoty: { name: { pl: 'Klejnoty', en: 'Jewels' }, load: () => import('./klejnoty/index') },
+  szklarnia: { name: { pl: 'Szklarnia', en: 'Glasshouse' }, load: () => import('./szklarnia/index') },
 };
 
 /** Skin used when neither the URL nor the save names one that exists. */

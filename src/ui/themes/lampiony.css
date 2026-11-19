@@ -1,3 +1,682 @@
+/*
+ * Theme of skin `lampiony`: lacquer, brass and paper by a lake at dusk.
+ *   - buttons and round actions are lacquered wood with a brass edge and a wet gloss,
+ *     standing on a lip they sink onto when pressed;
+ *   - dialogs are paper banners hanging from a lacquered rod by a cord; the mission
+ *     strip is a paper slip tied under the tray;
+ *   - the board frame is the rim of the lacquered tray with a brass inlay;
+ *   - list screens sit on a sheet of dark lacquer so text never fights the lake.
+ * One light, from the upper left: gloss on top, shade below and to the right.
+ */
+
+/* Fraunces (display) and Alegreya Sans (text): Latin and Latin Extended only, which
+   cover Polish and English. A face is fetched only while a rule in effect uses it. */
+@font-face {
+  font-family: "Fraunces Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../../../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-ext-opsz-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Fraunces Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../../../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Alegreya Sans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../../../node_modules/@fontsource/alegreya-sans/files/alegreya-sans-latin-ext-400-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Alegreya Sans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../../../node_modules/@fontsource/alegreya-sans/files/alegreya-sans-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Alegreya Sans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("../../../node_modules/@fontsource/alegreya-sans/files/alegreya-sans-latin-ext-500-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Alegreya Sans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("../../../node_modules/@fontsource/alegreya-sans/files/alegreya-sans-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Alegreya Sans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("../../../node_modules/@fontsource/alegreya-sans/files/alegreya-sans-latin-ext-700-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Alegreya Sans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("../../../node_modules/@fontsource/alegreya-sans/files/alegreya-sans-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 [data-skin="lampiony"] {
+  /* Material swatches used by the rules below. */
+  --lp-brass: #E7B95F;
+  --lp-brass-light: #FFE9A8;
+  --lp-brass-deep: #9A6A22;
+  --lp-cream: #FFF3DC;
+  --lp-ink: #2B1216;
+  --lp-ink-soft: #6A4234;
+  --lp-vermilion: #C93A22;
+  --lp-paper: linear-gradient(100deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 32%, rgba(120, 70, 20, 0.12) 100%),
+    repeating-linear-gradient(92deg, rgba(120, 80, 30, 0.05) 0 1px, rgba(255, 255, 255, 0) 1px 7px),
+    repeating-linear-gradient(2deg, rgba(255, 255, 255, 0.16) 0 1px, rgba(255, 255, 255, 0) 1px 5px),
+    linear-gradient(#F8EACB, #EDD7AA);
+  --lp-lacquer: linear-gradient(168deg, #4A2029 0%, #2A131B 42%, #1A0A11 100%);
+  --lp-lacquer-red: linear-gradient(168deg, #EC5A37 0%, #C93A22 44%, #9A2515 100%);
+  --lp-brass-ring: inset 0 0 0 1.5px var(--lp-brass), inset 0 0 0 3px rgba(40, 8, 6, 0.55);
+
   --nx-ink: #1A0F2E;
+  --nx-deep: #0D0716;
+  --nx-night: #150B22;
+  --nx-panel: #2A131B;
+  --nx-panel2: #3A1A23;
+  --nx-slate: #A32B19;
+  --nx-outline: #9A7436;
+  --nx-line: rgba(231, 185, 95, 0.26);
+  --nx-text: #FFF3DC;
+  --nx-muted: #DCC5B4;
+  --nx-accent: #F6C566;
+  --nx-accent-hover: #FFD98A;
+  --nx-accent-pressed: #D9A441;
+  --nx-on-accent: #2B1216;
+  --nx-live: #FFAE57;
+  --nx-focus: #FFF3DC;
+  --nx-scrim: rgba(9, 5, 15, 0.66);
+
+  --nx-font: "Alegreya Sans", "Segoe UI", system-ui, sans-serif;
+  --nx-font-display: "Fraunces Variable", Fraunces, Georgia, serif;
+  --nx-text-label: 0.75rem;
+  --nx-text-button: 1rem;
+  --nx-text-score: 1.75rem;
+  --nx-text-logo: 3.1rem;
+  --nx-track-label: 0.13em;
+  --nx-track-button: 0.12em;
+  --label-weight: 700;
+  --logo-weight: 620;
+  --logo-track: 0.06em;
+  --score-weight: 620;
+  --title-weight: 620;
+  --title-track: 0.01em;
+  --title-transform: none;
+  --title-accent: #B5321C;
+
+  --nx-radius-sm: 9px;
+  --nx-radius-md: 15px;
+
+  /* Lacquered buttons on a 5 px lip. */
+  --btn-radius: 15px;
+  --btn-font: var(--nx-font-display);
+  --btn-depth: 5px;
+  --btn-travel: 4px;
+  --btn-shadow: var(--lp-brass-ring), inset 0 9px 8px -6px rgba(255, 228, 205, 0.5), inset 0 -8px 8px -6px rgba(0, 0, 0, 0.45), 0 12px 16px rgba(4, 2, 8, 0.5);
+  --btn-shadow-pressed: var(--lp-brass-ring), inset 0 7px 9px -4px rgba(0, 0, 0, 0.45), 0 3px 5px rgba(4, 2, 8, 0.5);
+  --btn-primary-bg: var(--lp-lacquer-red);
+  --btn-primary-bg-hover: linear-gradient(168deg, #F46A45 0%, #D54428 44%, #A82A18 100%);
+  --btn-primary-bg-pressed: linear-gradient(168deg, #D04A2B 0%, #B5321C 44%, #8E2113 100%);
+  --btn-primary-fg: #FFF3DC;
+  --btn-primary-edge: #5A130B;
+  --btn-primary-weight: 640;
+  --btn-secondary-bg: var(--lp-lacquer);
+  --btn-secondary-bg-hover: linear-gradient(168deg, #58272F 0%, #33171F 42%, #200D14 100%);
+  --btn-secondary-bg-pressed: linear-gradient(168deg, #3A1820 0%, #221017 42%, #15080D 100%);
+  --btn-secondary-fg: #FFF3DC;
+  --btn-secondary-border: 0 solid transparent;
+  --btn-secondary-edge: #0B0407;
+  --btn-secondary-weight: 600;
+  --btn-text-fg: #EAD6C2;
+  --btn-text-fg-hover: #FFF3DC;
+  --press-scale: 0.985;
+
+  --act-bg: radial-gradient(circle at 34% 26%, #5A2731, #2A131B 58%, #170910);
+  --act-bg-pressed: radial-gradient(circle at 34% 26%, #47202A, #221017 58%, #12070C);
+  --act-fg: #FFF3DC;
+  --act-border: 0 solid transparent;
+  --act-edge: #0B0407;
+  --act-depth: 5px;
+  --act-travel: 4px;
+  --act-shadow: inset 0 0 0 2px var(--lp-brass), inset 0 0 0 3.5px rgba(40, 8, 6, 0.6), inset 0 -7px 8px -4px rgba(0, 0, 0, 0.5), 0 10px 14px rgba(4, 2, 8, 0.55);
+  --act-main-bg: radial-gradient(circle at 34% 26%, #F87550, #CC3D24 56%, #8E2113);
+  --act-main-bg-pressed: radial-gradient(circle at 34% 26%, #DC5B3A, #B5321C 56%, #7E1C10);
+  --act-main-fg: #FFF3DC;
+  --act-main-border: 0 solid transparent;
+  --act-main-edge: #5A130B;
+  --act-label: #EAD6C2;
+  --act-main-label: #FFF3DC;
+
+  /* A paper banner. */
+  --panel-bg: var(--lp-paper);
+  --panel-border: 0 solid transparent;
+  --panel-radius: 3px;
+  --panel-shadow: inset 0 0 0 1px rgba(120, 70, 20, 0.22), inset 0 0 26px rgba(150, 90, 30, 0.2), 0 26px 44px rgba(4, 2, 8, 0.6);
+
+  /* The rim of the tray. */
+  --frame-bg: linear-gradient(150deg, #6A2A2C 0%, #3A161C 30%, #23101A 62%, #160810 100%);
+  --frame-border: 0 solid transparent;
+  --frame-radius: 22px;
+  --frame-pad: 9px;
+  --frame-shadow: inset 0 1.5px 0 rgba(255, 214, 190, 0.42), inset 1.5px 0 0 rgba(255, 214, 190, 0.16), inset 0 -2px 0 rgba(0, 0, 0, 0.6), 0 5px 0 #0B0407, 0 18px 26px rgba(4, 2, 8, 0.6);
+  --frame-inner-bg: #170A0F;
+  --frame-inner-border: 1.5px solid #C9973F;
+  --frame-inner-radius: 14px;
+  --countdown-bg: rgba(18, 8, 13, 0.6);
+  --hud-score: #FFF3DC;
+  --hud-stage: #F6C566;
+  --hud-chain: #DCC5B4;
+  --hud-chain-live: #FFAE57;
+  --goal-bg: var(--lp-paper);
+  --goal-border: 0 solid transparent;
+  --goal-radius: 2px;
+  --goal-fg: #7A2412;
+  --header-line: 0 solid transparent;
+
+  --switch-on: #FFC860;
+  --switch-on-bg: #7A2412;
+
+  --nx-dur-fast: 110ms;
+  --enter-screen-ms: 340ms;
+  --enter-screen-shift: 14px;
+  --enter-screen-scale: 0.985;
+  --enter-panel-ms: 420ms;
+  --enter-panel-shift: 22px;
+  --enter-panel-scale: 0.94;
+  --enter-ease: cubic-bezier(0.22, 1.25, 0.36, 1);
+  --enter-stagger: 80ms;
+}
+
+/* --- Wordmark: a lantern, the name in gold, a string of lights under it ------------ */
+[data-skin="lampiony"] .brand__symbol {
+  display: none;
+}
+[data-skin="lampiony"] .brand::before {
+  content: "";
+  flex: none;
+  width: 1.2rem;
+  height: 1.4rem;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 56'%3E%3Cdefs%3E%3CradialGradient id='g' cx='.4' cy='.4' r='.66'%3E%3Cstop offset='0' stop-color='%23FFFBEA'/%3E%3Cstop offset='.42' stop-color='%23FFD27A'/%3E%3Cstop offset='1' stop-color='%23E8742E'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='24' cy='6' r='4' fill='none' stroke='%23E7B95F' stroke-width='2.2'/%3E%3Crect x='16' y='10' width='16' height='6' rx='2' fill='%23E7B95F'/%3E%3Ccircle cx='24' cy='33' r='18' fill='url(%23g)'/%3E%3Cpath d='M24 15V51M14.5 18.5Q7 33 14.5 47.5M33.5 18.5Q41 33 33.5 47.5' stroke='%23A8481A' stroke-opacity='.42' fill='none' stroke-width='1.5'/%3E%3Crect x='17' y='49' width='14' height='4.5' rx='2' fill='%23C9973F'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+[data-skin="lampiony"] .brand--stacked::before {
+  width: 2.2rem;
+  height: 2.6rem;
+  margin-bottom: 2px;
+}
+[data-skin="lampiony"] .brand__word {
+  font-variation-settings: "opsz" 144;
+  background: linear-gradient(176deg, #FFF8E2 8%, #FFDA8C 46%, #F0A247 78%, #D9763A 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1.5px 0 rgba(58, 14, 10, 0.9)) drop-shadow(0 4px 10px rgba(10, 4, 16, 0.55));
+  padding-bottom: 0.08em;
+}
+[data-skin="lampiony"] .brand--stacked .brand__word {
+  font-size: min(var(--nx-text-logo), 13.4vw);
+}
+[data-skin="lampiony"] .menu__brand {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+[data-skin="lampiony"] .lp-swag {
+  width: min(100%, 19rem);
+  height: auto;
+  margin-top: 4px;
+  overflow: visible;
+}
+[data-skin="lampiony"] .lp-swag__bulb {
+  animation: lp-twinkle 3.6s ease-in-out infinite;
+}
+[data-skin="lampiony"] .lp-swag__bulb:nth-of-type(3n) {
+  animation-delay: -1.3s;
+}
+[data-skin="lampiony"] .lp-swag__bulb:nth-of-type(3n + 1) {
+  animation-delay: -2.5s;
+}
+@keyframes lp-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* --- Menu -------------------------------------------------------------------------- */
+[data-skin="lampiony"] .menu__lead {
+  font-family: var(--nx-font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0.005em;
+  text-shadow: 0 1px 10px rgba(16, 6, 24, 0.9);
+}
+[data-skin="lampiony"] .menu__rest {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: #F0D9C6;
+  text-shadow: 0 1px 8px rgba(16, 6, 24, 0.9);
+}
+[data-skin="lampiony"] .menu__best {
+  text-shadow: 0 1px 6px rgba(4, 8, 14, 0.9);
+}
+[data-skin="lampiony"] .menu__best b {
+  font-family: var(--nx-font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--nx-accent);
+}
+[data-skin="lampiony"] .menu__skin {
+  text-shadow: 0 1px 6px rgba(4, 8, 14, 0.9);
+}
+[data-skin="lampiony"] .lp-float {
+  position: relative;
+}
+[data-skin="lampiony"] .lp-float canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: lp-bob 5.6s ease-in-out infinite alternate;
+}
+@keyframes lp-bob {
+  from {
+    transform: translateY(-2px);
+  }
+  to {
+    transform: translateY(2.5px);
+  }
+}
+
+/* --- Buttons: wet gloss on the lacquer --------------------------------------------- */
+[data-skin="lampiony"] .btn--primary::before,
+[data-skin="lampiony"] .btn--secondary::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  top: 4px;
+  height: 46%;
+  border-radius: 11px 11px 60% 60% / 11px 11px 16px 16px;
+  background: linear-gradient(rgba(255, 244, 232, 0.34), rgba(255, 244, 232, 0.03));
+  pointer-events: none;
+}
+[data-skin="lampiony"] .btn--primary,
+[data-skin="lampiony"] .btn--secondary {
+  text-shadow: 0 1.5px 0 rgba(40, 6, 4, 0.7);
+  font-variation-settings: "opsz" 36;
+}
+[data-skin="lampiony"] .btn--primary:active:not(:disabled)::before,
+[data-skin="lampiony"] .btn--secondary:active:not(:disabled)::before {
+  opacity: 0.45;
+}
+[data-skin="lampiony"] .btn--large {
+  min-height: 3.75rem;
+  font-size: 1.1875rem;
+  letter-spacing: 0.16em;
+}
+[data-skin="lampiony"] .btn--text {
+  font-family: var(--nx-font);
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-shadow: 0 1px 6px rgba(4, 8, 14, 0.9);
+}
+[data-skin="lampiony"] .icon-btn {
+  color: #F0D9C6;
+}
+
+/* --- Round actions ----------------------------------------------------------------- */
+[data-skin="lampiony"] .act__disc::before {
+  content: "";
+  position: absolute;
+  left: 15%;
+  top: 8%;
+  width: 62%;
+  height: 40%;
+  border-radius: 50%;
+  background: linear-gradient(170deg, rgba(255, 244, 232, 0.42), rgba(255, 244, 232, 0) 78%);
+  transform: rotate(-16deg);
+  pointer-events: none;
+}
+[data-skin="lampiony"] .act__disc > * {
+  position: relative;
+}
+[data-skin="lampiony"] .act__disc svg {
+  filter: drop-shadow(0 1.5px 0 rgba(40, 6, 4, 0.7));
+}
+[data-skin="lampiony"] .act__label {
+  text-shadow: 0 1px 5px rgba(4, 8, 14, 0.95);
+}
+
+/* --- HUD --------------------------------------------------------------------------- */
+[data-skin="lampiony"] .game__stats,
+[data-skin="lampiony"] .game__queue,
+[data-skin="lampiony"] .game__keys {
+  text-shadow: 0 1px 7px rgba(14, 6, 22, 0.95);
+}
+[data-skin="lampiony"] .stat__value {
+  font-variation-settings: "opsz" 48;
+}
+[data-skin="lampiony"] .label {
+  color: #E6CFBC;
+}
+[data-skin="lampiony"] .countdown {
+  font-family: var(--nx-font-display);
+  font-weight: 600;
+  color: #FFE9B8;
+  text-shadow: 0 0 26px rgba(255, 160, 70, 0.75), 0 2px 0 rgba(58, 14, 10, 0.9);
+}
+[data-skin="lampiony"] .queue__box {
+  border: 0;
+  background: var(--lp-lacquer);
+  box-shadow: var(--lp-brass-ring), inset 0 8px 14px -8px rgba(255, 228, 205, 0.3), 0 10px 18px rgba(4, 2, 8, 0.45);
+}
+
+/* The tray: brass pins in the corners of the rim. */
+[data-skin="lampiony"] .board-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  --pin: #FFF1C4 0 1px, #D9A441 1.2px 2.4px, rgba(30, 8, 6, 0.6) 2.6px 3.3px, transparent 3.6px;
+  background:
+    radial-gradient(circle at 9px 9px, var(--pin)),
+    radial-gradient(circle at calc(100% - 9px) 9px, var(--pin)),
+    radial-gradient(circle at 9px calc(100% - 9px), var(--pin)),
+    radial-gradient(circle at calc(100% - 9px) calc(100% - 9px), var(--pin));
+  pointer-events: none;
+}
+[data-skin="lampiony"] .board-frame__inner {
+  box-shadow: 0 0 0 1.5px rgba(20, 6, 8, 0.75), inset 0 0 0 1px rgba(20, 6, 8, 0.6);
+}
+
+/* The mission slip: paper tied under the tray (portrait arrangement only). */
+@media not ((min-width: 640px) and (min-aspect-ratio: 6/5)) {
+  [data-skin="lampiony"] .game__goal {
+    position: relative;
+    margin: 2px 14px 0;
+    font-family: var(--nx-font);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    box-shadow: inset 0 0 0 1px rgba(120, 70, 20, 0.25), inset 0 0 14px rgba(150, 90, 30, 0.22), 0 6px 12px rgba(4, 2, 8, 0.5);
+  }
+  [data-skin="lampiony"] .game__goal::before,
+  [data-skin="lampiony"] .game__goal::after {
+    content: "";
+    position: absolute;
+    top: calc(var(--gap) * -1 - 4px);
+    width: 2px;
+    height: calc(var(--gap) + 9px);
+    border-radius: 1px;
+    background: linear-gradient(#8A5A1C, #E7B95F);
+    box-shadow: 0 3px 0 2px #C93A22, 1px 1px 2px rgba(0, 0, 0, 0.5);
+  }
+  [data-skin="lampiony"] .game__goal::before {
+    left: 16%;
+  }
+  [data-skin="lampiony"] .game__goal::after {
+    right: 16%;
+  }
+  [data-skin="lampiony"] .game__goal .goal__hint {
+    color: var(--lp-ink);
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+  [data-skin="lampiony"] .game__goal .goal__progress {
+    color: var(--lp-ink);
+  }
+  [data-skin="lampiony"] .game__goal .goal__progress::before {
+    color: var(--lp-ink-soft);
+  }
+}
+@media (max-width: 350px) {
+  [data-skin="lampiony"] .game__goal {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    margin-inline: 8px;
+  }
+}
+
+/* --- Dialog: a paper banner on a lacquered rod ------------------------------------- */
+[data-skin="lampiony"] .panel {
+  --nx-text: var(--lp-ink);
+  --nx-muted: var(--lp-ink-soft);
+  --nx-live: #9A3110;
+  --nx-accent: #B5321C;
+  --nx-focus: #2B1216;
+  --btn-text-fg: var(--lp-ink-soft);
+  --btn-text-fg-hover: var(--lp-ink);
+  color: var(--lp-ink);
+  margin-top: 46px;
+  padding: calc(var(--nx-space-4) + 6px) var(--nx-space-3) var(--nx-space-4);
+  transform-origin: 50% -40px;
+  animation: lp-hang 620ms cubic-bezier(0.3, 1.3, 0.4, 1) both;
+}
+[data-skin="lampiony"] .panel .label,
+[data-skin="lampiony"] .panel .help {
+  color: var(--lp-ink-soft);
+}
+[data-skin="lampiony"] .panel .btn--text {
+  text-shadow: none;
+}
+/* The rod, its brass caps and the cord it hangs by. */
+[data-skin="lampiony"] .panel::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  right: -12px;
+  top: -44px;
+  height: 56px;
+  background:
+    linear-gradient(90deg, #9A6A22, #FFE9A8 5px, #D9A441 9px, #6A4414 13px, transparent 13px, transparent calc(100% - 13px), #9A6A22 calc(100% - 13px), #FFE9A8 calc(100% - 8px), #D9A441 calc(100% - 4px), #6A4414) 0 100% / 100% 16px no-repeat,
+    linear-gradient(#5A2731, #2A131B 45%, #12070C) 0 100% / 100% 16px no-repeat,
+    linear-gradient(to top right, transparent calc(50% - 1.1px), #C9A46A calc(50% - 1.1px), #C9A46A calc(50% + 1.1px), transparent calc(50% + 1.1px)) 18% 0 / 32.5% 42px no-repeat,
+    linear-gradient(to top left, transparent calc(50% - 1.1px), #C9A46A calc(50% - 1.1px), #C9A46A calc(50% + 1.1px), transparent calc(50% + 1.1px)) 82% 0 / 32.5% 42px no-repeat;
+  border-radius: 0 0 8px 8px;
+  filter: drop-shadow(0 6px 5px rgba(4, 2, 8, 0.45));
+  pointer-events: none;
+}
+/* The weight rod at the foot of the banner. */
+[data-skin="lampiony"] .panel::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  bottom: -7px;
+  height: 12px;
+  border-radius: 6px;
+  background:
+    linear-gradient(90deg, #9A6A22, #FFE9A8 4px, #D9A441 7px, #6A4414 10px, transparent 10px, transparent calc(100% - 10px), #9A6A22 calc(100% - 10px), #FFE9A8 calc(100% - 6px), #D9A441 calc(100% - 3px), #6A4414),
+    linear-gradient(#5A2731, #2A131B 45%, #12070C);
+  box-shadow: 0 6px 8px rgba(4, 2, 8, 0.45);
+  pointer-events: none;
+}
+@keyframes lp-hang {
+  0% {
+    opacity: 0;
+    transform: translateY(-26px) rotate(-3deg);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(0) rotate(1.4deg);
+  }
+  72% {
+    transform: rotate(-0.6deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+[data-skin="lampiony"] .panel__title {
+  font-size: 2rem;
+  font-variation-settings: "opsz" 144;
+  line-height: 1.12;
+}
+[data-skin="lampiony"] .panel__title::after {
+  /* A vermilion seal line under the title. */
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 3px;
+  margin: 12px auto 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #C93A22 18%, #C93A22 82%, transparent);
+}
+[data-skin="lampiony"] .panel__symbol {
+  display: none;
+}
+[data-skin="lampiony"] .panel__score {
+  font-size: 2.75rem;
+  font-variation-settings: "opsz" 144;
+  color: var(--lp-ink);
+}
+[data-skin="lampiony"] .panel__note {
+  font-weight: 700;
+}
+
+/* --- List screens: a sheet of lacquer ---------------------------------------------- */
+[data-skin="lampiony"] .page__inner {
+  margin-top: var(--nx-space-1);
+  padding: 4px var(--nx-space-2) var(--nx-space-2);
+  border-radius: 18px;
+  background: linear-gradient(168deg, rgba(64, 28, 38, 0.95) 0%, rgba(36, 16, 24, 0.95) 30%, rgba(22, 9, 15, 0.96) 100%);
+  box-shadow: var(--lp-brass-ring), inset 0 10px 18px -10px rgba(255, 228, 205, 0.35), 0 20px 36px rgba(4, 2, 8, 0.55);
+}
+[data-skin="lampiony"] .page__title {
+  font-family: var(--nx-font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variation-settings: "opsz" 72;
+  color: #FFE2A6;
+}
+[data-skin="lampiony"] .row__title,
+[data-skin="lampiony"] .challenge__goal,
+[data-skin="lampiony"] .row-link {
+  font-size: 1.0625rem;
+  font-weight: 500;
+}
+[data-skin="lampiony"] .row__help,
+[data-skin="lampiony"] .challenge__meta {
+  font-size: 0.875rem;
+}
+[data-skin="lampiony"] .challenge__number {
+  font-family: var(--nx-font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+[data-skin="lampiony"] .rows > :last-child,
+[data-skin="lampiony"] .challenges > :last-child .challenge {
+  border-bottom: 0;
+}
+[data-skin="lampiony"] .segmented {
+  border: 0;
+  background: #170910;
+  box-shadow: inset 0 0 0 1.5px #9A7436, inset 0 3px 6px rgba(0, 0, 0, 0.6);
+  padding: 3px;
+}
+[data-skin="lampiony"] .segmented__option span {
+  min-height: calc(var(--nx-touch) - 6px);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  border-radius: 7px;
+}
+[data-skin="lampiony"] .segmented__option input:checked + span {
+  background: var(--lp-lacquer-red);
+  box-shadow: inset 0 0 0 1px var(--lp-brass), inset 0 6px 6px -4px rgba(255, 228, 205, 0.5), 0 2px 3px rgba(0, 0, 0, 0.5);
+  color: #FFF3DC;
+}
+[data-skin="lampiony"] .switch__track {
+  border: 0;
+  background: #170910;
+  box-shadow: inset 0 0 0 1.5px #9A7436, inset 0 3px 6px rgba(0, 0, 0, 0.6);
+}
+[data-skin="lampiony"] .switch__track::after {
+  background: radial-gradient(circle at 36% 30%, #F1E2D2, #A89080 60%, #6A5648);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6);
+}
+[data-skin="lampiony"] .switch[aria-checked="true"] .switch__track {
+  background: linear-gradient(#7A2412, #A8371C);
+  box-shadow: inset 0 0 0 1.5px var(--lp-brass), inset 0 3px 6px rgba(0, 0, 0, 0.45);
+}
+[data-skin="lampiony"] .switch[aria-checked="true"] .switch__track::after {
+  background: radial-gradient(circle at 36% 30%, #FFFBEA, #FFD27A 55%, #F0963C);
+  box-shadow: 0 0 10px rgba(255, 190, 90, 0.9), 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+[data-skin="lampiony"] .range input::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, #F6C566 var(--fill, 50%), #4A2A2A var(--fill, 50%));
+}
+[data-skin="lampiony"] .range input::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: #4A2A2A;
+}
+[data-skin="lampiony"] .range input::-moz-range-progress {
+  height: 4px;
+  background: #F6C566;
+}
+[data-skin="lampiony"] .range input::-webkit-slider-thumb {
+  margin-top: calc(-0.6875rem + 2px);
+  background: radial-gradient(circle at 36% 30%, #FFF6D8, #E7B95F 55%, #9A6A22);
+  box-shadow: 0 0 0 1px #3D2408, 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+[data-skin="lampiony"] .range input::-moz-range-thumb {
+  background: radial-gradient(circle at 36% 30%, #FFF6D8, #E7B95F 55%, #9A6A22);
+  box-shadow: 0 0 0 1px #3D2408, 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+[data-skin="lampiony"] .keys__list kbd {
+  background: var(--lp-lacquer);
+  border-color: #9A7436;
+}
+
+/* --- High contrast: plain surfaces, stronger lines --------------------------------- */
+:root[data-contrast="more"][data-skin="lampiony"] {
+  --nx-muted: #FFF3DC;
+  --nx-outline: #FFE9A8;
+  --nx-line: rgba(255, 233, 168, 0.8);
+  --nx-scrim: rgba(4, 2, 8, 0.9);
+  --lp-ink-soft: #2B1216;
+  --lp-paper: linear-gradient(#FFF6DF, #FFF6DF);
+  --lp-brass: #FFE9A8;
+  --goal-fg: #2B1216;
+  --frame-inner-border: 2px solid #FFE9A8;
+}
+:root[data-contrast="more"][data-skin="lampiony"] .label {
+  color: #FFF3DC;
+}
+:root[data-contrast="more"][data-skin="lampiony"] .panel .label,
+:root[data-contrast="more"][data-skin="lampiony"] .panel .help {
+  color: #2B1216;
+}
+:root[data-contrast="more"][data-skin="lampiony"] .page__inner {
+  background: #12070C;
 }

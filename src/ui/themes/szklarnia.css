@@ -1,0 +1,1148 @@
+/*
+ * Theme of skin `szklarnia` (Glasshouse): cream enamel, brass and botanical green.
+ * Buttons are enamel plaques with brass rims, panels are seed packets, the stats and
+ * the goal are plant labels, the board stands in a white-painted iron frame. Light
+ * comes from the upper right, as in the painters: highlights sit top right, edges
+ * and shadows fall to the lower left.
+ */
+
+/* Fraunces (display: name, numbers, titles, buttons) with its SOFT and WONK axes;
+   Figtree (labels and running text). Latin and Latin Extended only; both fetched
+   only while this theme uses them. */
+@font-face {
+  font-family: "Fraunces Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../../../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-ext-full-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Fraunces Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../../../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Figtree Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 900;
+  src: url("../../../node_modules/@fontsource-variable/figtree/files/figtree-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Figtree Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 900;
+  src: url("../../../node_modules/@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+[data-skin="szklarnia"] {
+  color-scheme: light;
+
+  /* Materials. */
+  --szk-cream: #FBF6E9;
+  --szk-enamel: #FFFDF5;
+  --szk-enamel-shade: #EFE6CF;
+  --szk-brass: #C79A3E;
+  --szk-brass-light: #F2D88F;
+  --szk-brass-dark: #8A6420;
+  --szk-brass-deep: #6B4C16;
+  --szk-green: #1F6A4A;
+  --szk-green-light: #3E9A6B;
+  --szk-green-deep: #154A34;
+  --szk-coral: #C2412C;
+  --szk-brass-rim: linear-gradient(215deg, #FBE9B0 0%, #D9AE4C 28%, #A87A26 55%, #E3BF68 78%, #8A6420 100%);
+  --szk-enamel-face: linear-gradient(205deg, #FFFFFF 0%, #FFFCF2 38%, #F3EAD4 100%);
+  --szk-green-face: linear-gradient(205deg, #4DAA78 0%, #23744F 42%, #175238 100%);
+
+  --nx-ink: #F4EEDD;
+  --nx-deep: #E9E0C8;
+  --nx-night: #F4EEDD;
+  --nx-panel: #FFFDF5;
+  --nx-panel2: #F4ECD8;
+  --nx-slate: #1F6A4A;
+  --nx-outline: #C9B27A;
+  --nx-line: rgba(138, 100, 32, 0.26);
+  --nx-text: #1B3327;
+  --nx-muted: #4F6156;
+  --nx-accent: #1F6A4A;
+  --nx-accent-hover: #2A7D59;
+  --nx-accent-pressed: #175238;
+  --nx-on-accent: #FFFDF5;
+  --nx-live: #1C7450;
+  --nx-focus: #0B4BB3;
+  --nx-scrim: rgba(40, 56, 44, 0.5);
+
+  --nx-font: "Figtree Variable", "Segoe UI", system-ui, sans-serif;
+  --nx-font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+  --nx-track-label: 0.09em;
+  --nx-track-button: 0.015em;
+  --nx-text-score: 1.75rem;
+  --label-weight: 700;
+  --logo-weight: 700;
+  --logo-track: 0.05em;
+  --score-weight: 620;
+  --title-weight: 680;
+  --title-track: 0.005em;
+  --title-transform: none;
+  --title-accent: #B4472F;
+
+  --nx-radius-sm: 10px;
+  --nx-radius-md: 16px;
+
+  /* Enamel plaques on a brass back plate: the plate is the lip the button sinks onto. */
+  --btn-radius: 15px;
+  --btn-font: var(--nx-font-display);
+  --btn-transform: none;
+  --btn-track: 0.015em;
+  --btn-depth: 5px;
+  --btn-travel: 4px;
+  --btn-shadow: -3px 10px 14px rgba(52, 44, 20, 0.26);
+  --btn-shadow-pressed: -1px 3px 5px rgba(52, 44, 20, 0.3);
+  --btn-primary-bg: var(--szk-green-face);
+  --btn-primary-bg-hover: linear-gradient(205deg, #5AB886 0%, #2A7F58 42%, #1A5A3E 100%);
+  --btn-primary-bg-pressed: linear-gradient(205deg, #3A9265 0%, #1C6444 42%, #134730 100%);
+  --btn-primary-fg: #FFFDF5;
+  --btn-primary-border: 2px solid #D2A84A;
+  --btn-primary-edge: #7A5718;
+  --btn-primary-weight: 640;
+  --btn-secondary-bg: var(--szk-enamel-face);
+  --btn-secondary-bg-hover: linear-gradient(205deg, #FFFFFF 0%, #FFFEF8 38%, #F8F0DC 100%);
+  --btn-secondary-bg-pressed: linear-gradient(205deg, #FBF6E6 0%, #F4EBD5 38%, #E8DDC2 100%);
+  --btn-secondary-fg: #174E37;
+  --btn-secondary-border: 2px solid #CDA347;
+  --btn-secondary-edge: #8A6420;
+  --btn-secondary-weight: 620;
+  --btn-text-fg: #1F5A41;
+  --btn-text-fg-hover: #123C2B;
+  --press-scale: 0.985;
+
+  --act-bg: var(--szk-enamel-face);
+  --act-bg-pressed: linear-gradient(205deg, #FBF6E6 0%, #F4EBD5 38%, #E6DABC 100%);
+  --act-fg: #1F6A4A;
+  --act-border: 2.5px solid #CDA347;
+  --act-edge: #8A6420;
+  --act-depth: 5px;
+  --act-travel: 4px;
+  --act-shadow: -3px 9px 12px rgba(52, 44, 20, 0.28);
+  --act-main-bg: var(--szk-green-face);
+  --act-main-bg-pressed: linear-gradient(205deg, #3A9265 0%, #1C6444 42%, #134730 100%);
+  --act-main-fg: #FFFDF5;
+  --act-main-border: 2.5px solid #D9B255;
+  --act-main-edge: #7A5718;
+  --act-label: #2C4A3B;
+  --act-main-label: #174E37;
+
+  --panel-bg: linear-gradient(200deg, #FFFEF8 0%, #FBF5E4 60%, #F3EAD2 100%);
+  --panel-border: 2px solid #C79A3E;
+  --panel-radius: 20px;
+  --panel-shadow: 0 5px 0 #CDBB8E, -8px 26px 44px rgba(30, 42, 28, 0.38);
+
+  /* White-painted iron round a brass fillet. */
+  --frame-bg: linear-gradient(205deg, #FFFFFF 0%, #F4F2EA 45%, #D9D5C6 100%);
+  --frame-border: 1px solid #B5AF9A;
+  --frame-radius: 15px;
+  --frame-pad: 7px;
+  --frame-shadow: 0 4px 0 #AEA892, -5px 14px 22px rgba(52, 44, 20, 0.3);
+  --frame-inner-bg: #EFE8DA;
+  --frame-inner-border: 2px solid #B98E36;
+  --frame-inner-radius: 9px;
+  --countdown-bg: rgba(251, 246, 233, 0.74);
+  --hud-score: #1B3327;
+  --hud-stage: #8A4E12;
+  --hud-chain: #4F6156;
+  --hud-chain-live: #C2412C;
+  --goal-bg: var(--szk-enamel-face);
+  --goal-border: 1.5px solid #C79A3E;
+  --goal-radius: 11px;
+  --goal-fg: #1C6646;
+  --header-line: 0 solid transparent;
+
+  --switch-on: #1F6A4A;
+  --switch-on-bg: #CFE8D6;
+
+  /* Things arrive with a little spring, like a label pushed into soil. */
+  --nx-ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+  --enter-screen-ms: 340ms;
+  --enter-screen-shift: 14px;
+  --enter-screen-scale: 0.985;
+  --enter-panel-ms: 420ms;
+  --enter-panel-shift: 24px;
+  --enter-panel-scale: 0.9;
+  --enter-ease: cubic-bezier(0.3, 1.45, 0.5, 1);
+  --enter-stagger: 80ms;
+}
+
+[data-skin="szklarnia"] body {
+  font-feature-settings: "ss01";
+}
+
+/* --- Type ------------------------------------------------------------------------ */
+
+[data-skin="szklarnia"] .brand__word,
+[data-skin="szklarnia"] .stat__value,
+[data-skin="szklarnia"] .panel__title,
+[data-skin="szklarnia"] .panel__score,
+[data-skin="szklarnia"] .btn,
+[data-skin="szklarnia"] .page__title,
+[data-skin="szklarnia"] .challenge__number,
+[data-skin="szklarnia"] .countdown,
+[data-skin="szklarnia"] .menu__lead,
+[data-skin="szklarnia"] .heading,
+[data-skin="szklarnia"] .goal__text {
+  font-family: var(--nx-font-display);
+  font-variation-settings: "SOFT" 100, "WONK" 0;
+  font-optical-sizing: auto;
+}
+
+[data-skin="szklarnia"] .btn {
+  font-size: 1.0625rem;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+[data-skin="szklarnia"] .btn--large {
+  font-size: 1.25rem;
+}
+
+/* --- Buttons: enamel plaques ------------------------------------------------------ */
+
+/* Inner bevel of the enamel and the window mirrored in it. */
+[data-skin="szklarnia"] .btn--primary::before,
+[data-skin="szklarnia"] .btn--secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: calc(var(--btn-radius) - 2px);
+  box-shadow:
+    inset -2px 3px 0 rgba(255, 255, 255, 0.55),
+    inset 2px -3px 0 rgba(60, 44, 10, 0.16);
+  pointer-events: none;
+}
+
+[data-skin="szklarnia"] .btn--primary::before {
+  box-shadow:
+    inset -2px 3px 0 rgba(190, 240, 205, 0.38),
+    inset 2px -3px 0 rgba(6, 30, 18, 0.3);
+}
+
+[data-skin="szklarnia"] .btn--primary::after,
+[data-skin="szklarnia"] .btn--secondary::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 6px;
+  width: 26px;
+  height: 11px;
+  border-radius: 5px 7px 6px 8px;
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(0, 0, 0, 0) 46%, rgba(0, 0, 0, 0) 54%, transparent 54%),
+    linear-gradient(200deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.35));
+  transform: skewX(-14deg);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+[data-skin="szklarnia"] .btn--primary::after {
+  opacity: 0.5;
+}
+
+[data-skin="szklarnia"] .btn--primary {
+  text-shadow: 0 -1px 0 rgba(6, 36, 22, 0.55);
+}
+
+[data-skin="szklarnia"] .btn--text {
+  font-family: var(--nx-font);
+  font-size: 0.9375rem;
+  font-weight: 650;
+  text-shadow: 0 0 10px rgba(255, 252, 242, 0.95), 0 0 3px rgba(255, 252, 242, 0.95);
+}
+
+[data-skin="szklarnia"] .panel .btn--text {
+  text-shadow: none;
+}
+
+@media (hover: hover) {
+  [data-skin="szklarnia"] .btn--primary:hover:not(:disabled):not(:active),
+  [data-skin="szklarnia"] .btn--secondary:hover:not(:disabled):not(:active) {
+    transform: translateY(-1px);
+  }
+}
+
+/* Small round enamel button: pause and back. */
+[data-skin="szklarnia"] .icon-btn {
+  position: relative;
+  color: var(--szk-green);
+  isolation: isolate;
+}
+
+[data-skin="szklarnia"] .icon-btn::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  z-index: -1;
+  border: 2px solid #CDA347;
+  border-radius: 50%;
+  background: var(--szk-enamel-face);
+  box-shadow:
+    0 3px 0 var(--szk-brass-dark),
+    -2px 6px 8px rgba(52, 44, 20, 0.26),
+    inset -1px 2px 0 rgba(255, 255, 255, 0.9);
+  transition:
+    transform var(--nx-dur-fast) var(--nx-ease),
+    box-shadow var(--nx-dur-fast) var(--nx-ease);
+}
+
+[data-skin="szklarnia"] .icon-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke-width: 2.25;
+  transition: transform var(--nx-dur-fast) var(--nx-ease);
+}
+
+[data-skin="szklarnia"] .icon-btn:active::before {
+  transform: translateY(2px);
+  box-shadow:
+    0 1px 0 var(--szk-brass-dark),
+    -1px 2px 4px rgba(52, 44, 20, 0.3),
+    inset -1px 2px 0 rgba(255, 255, 255, 0.9);
+}
+
+[data-skin="szklarnia"] .icon-btn:active svg {
+  transform: translateY(2px);
+}
+
+[data-skin="szklarnia"] .icon-btn:active,
+[data-skin="szklarnia"] .icon-btn:hover {
+  color: var(--szk-green-deep);
+}
+
+/* --- Round thumb actions ---------------------------------------------------------- */
+
+[data-skin="szklarnia"] .act__disc {
+  /* Brass rim catching the light on its upper right. */
+  box-shadow:
+    0 var(--act-depth) 0 var(--disc-edge),
+    var(--act-shadow),
+    inset -2px 3px 0 rgba(255, 255, 255, 0.75),
+    inset 2px -3px 0 rgba(90, 66, 20, 0.16);
+}
+
+[data-skin="szklarnia"] .act--main .act__disc {
+  box-shadow:
+    0 var(--act-depth) 0 var(--disc-edge),
+    var(--act-shadow),
+    inset -2px 3px 0 rgba(190, 240, 205, 0.4),
+    inset 2px -3px 0 rgba(6, 30, 18, 0.3);
+}
+
+[data-skin="szklarnia"] .act:active:not(:disabled) .act__disc,
+[data-skin="szklarnia"] .act[data-pressed] .act__disc {
+  box-shadow:
+    0 max(0px, calc(var(--act-depth) - var(--act-travel))) 0 var(--disc-edge),
+    -1px 3px 5px rgba(52, 44, 20, 0.3),
+    inset -2px 3px 0 rgba(255, 255, 255, 0.4),
+    inset 2px -3px 0 rgba(90, 66, 20, 0.2);
+}
+
+/* The window in the enamel. */
+[data-skin="szklarnia"] .act__disc::before {
+  content: "";
+  position: absolute;
+  right: 17%;
+  top: 13%;
+  width: 24%;
+  height: 15%;
+  border-radius: 40% 55% 45% 60%;
+  background: linear-gradient(200deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.4));
+  transform: rotate(32deg);
+  pointer-events: none;
+}
+
+[data-skin="szklarnia"] .act--main .act__disc::before {
+  opacity: 0.62;
+}
+
+[data-skin="szklarnia"] .act__disc svg {
+  position: relative;
+  stroke-width: 2.25;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.8));
+}
+
+[data-skin="szklarnia"] .act--main .act__disc svg {
+  filter: drop-shadow(0 -1px 0 rgba(6, 36, 22, 0.5));
+}
+
+[data-skin="szklarnia"] .act__label {
+  font-weight: 750;
+  text-shadow: 0 0 8px rgba(255, 252, 242, 0.95), 0 0 3px rgba(255, 252, 242, 0.95), 0 0 2px rgba(255, 252, 242, 1);
+}
+
+/* --- Menu: the hanging name sign ---------------------------------------------------- */
+
+[data-skin="szklarnia"] .menu__brand {
+  border-bottom: 0;
+  padding-bottom: 0;
+  padding-top: 14px;
+}
+
+[data-skin="szklarnia"] .brand__symbol {
+  display: none;
+}
+
+[data-skin="szklarnia"] .brand--stacked {
+  position: relative;
+  gap: 3px;
+  padding: 15px 28px 10px;
+  border: 2.5px solid transparent;
+  border-radius: 18px;
+  background:
+    linear-gradient(205deg, #FFFFFF 0%, #FFFCF2 40%, #F1E7CF 100%) padding-box,
+    var(--szk-brass-rim) border-box;
+  box-shadow:
+    0 4px 0 var(--szk-brass-deep),
+    -6px 16px 22px rgba(52, 44, 20, 0.3),
+    inset 0 0 0 3px #FFFDF5,
+    inset 0 0 0 4.5px rgba(31, 106, 74, 0.6),
+    inset -3px 4px 0 3px rgba(255, 255, 255, 0.5);
+  transform-origin: 50% -40px;
+  animation: szk-sway 7s ease-in-out infinite;
+}
+
+/* Screws of the sign. */
+[data-skin="szklarnia"] .brand--stacked::before,
+[data-skin="szklarnia"] .brand--stacked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 65% 30%, #FBE9B0, #B98E36 55%, #6B4C16);
+  box-shadow: -0.5px 1px 0 rgba(60, 44, 10, 0.5);
+}
+
+[data-skin="szklarnia"] .brand--stacked::before {
+  left: 10px;
+}
+
+[data-skin="szklarnia"] .brand--stacked::after {
+  right: 10px;
+}
+
+[data-skin="szklarnia"] .brand--stacked .brand__word {
+  font-size: min(2.35rem, 11.2vw);
+  font-weight: 760;
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  letter-spacing: 0.045em;
+  margin-right: -0.045em;
+  line-height: 1.05;
+  color: transparent;
+  background: linear-gradient(190deg, #2E8A60 0%, #1B5E41 48%, #113F2C 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 1.5px 0 rgba(255, 255, 255, 0.95)) drop-shadow(-0.5px 2.5px 0 rgba(199, 154, 62, 0.75));
+}
+
+[data-skin="szklarnia"] .szk-flourish {
+  display: block !important;
+  width: min(13.5rem, 64vw);
+  height: auto;
+}
+
+[data-skin="szklarnia"] .szk-chain {
+  display: block !important;
+  position: absolute;
+  bottom: calc(100% + 1px);
+  width: 7px;
+  height: 64px;
+  /* Oval links, alternately seen flat and on edge. */
+  background:
+    radial-gradient(ellipse 3px 4.5px at 50% 5px, transparent 1.4px, #A87A26 1.6px, #E3BF68 2.6px, #8A6420 3px, transparent 3.2px) 0 0 / 7px 14px,
+    linear-gradient(90deg, transparent 2.6px, #B98E36 2.6px, #E3BF68 3.6px, #8A6420 4.4px, transparent 4.4px) 0 7px / 7px 14px;
+  background-repeat: repeat-y;
+}
+
+[data-skin="szklarnia"] .szk-chain--left {
+  left: 22%;
+}
+
+[data-skin="szklarnia"] .szk-chain--right {
+  right: 22%;
+}
+
+@keyframes szk-sway {
+  0%,
+  100% {
+    transform: rotate(-0.7deg);
+  }
+
+  50% {
+    transform: rotate(0.7deg);
+  }
+}
+
+[data-skin="szklarnia"] .menu__promise {
+  gap: 2px;
+}
+
+[data-skin="szklarnia"] .menu__lead {
+  font-size: 1.4375rem;
+  font-weight: 560;
+  color: #173F2D;
+  text-shadow: 0 0 14px rgba(255, 252, 242, 1), 0 0 6px rgba(255, 252, 242, 1), 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+[data-skin="szklarnia"] .menu__rest {
+  font-weight: 500;
+  color: #2F4A3C;
+  text-shadow: 0 0 12px rgba(255, 252, 242, 1), 0 0 5px rgba(255, 252, 242, 1), 0 0 2px rgba(255, 252, 242, 1);
+}
+
+[data-skin="szklarnia"] .menu__art {
+  position: relative;
+  max-height: 16rem;
+}
+
+[data-skin="szklarnia"] .szk-menu-art {
+  filter: drop-shadow(0 0 0 transparent);
+}
+
+[data-skin="szklarnia"] .szk-twinkles {
+  display: block !important;
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  pointer-events: none;
+}
+
+[data-skin="szklarnia"] .szk-twinkle {
+  display: block !important;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #FFFFFF;
+  clip-path: polygon(50% 0, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0 50%, 42% 42%);
+  opacity: 0;
+  animation: szk-twinkle 3.6s ease-in-out infinite;
+}
+
+[data-skin="szklarnia"] .szk-twinkle:nth-child(1) {
+  left: 47%;
+  top: 22%;
+}
+
+[data-skin="szklarnia"] .szk-twinkle:nth-child(2) {
+  left: 62%;
+  top: 44%;
+  animation-delay: 0.9s;
+  width: 12px;
+  height: 12px;
+}
+
+[data-skin="szklarnia"] .szk-twinkle:nth-child(3) {
+  left: 30%;
+  top: 40%;
+  animation-delay: 1.7s;
+  width: 11px;
+  height: 11px;
+}
+
+[data-skin="szklarnia"] .szk-twinkle:nth-child(4) {
+  left: 70%;
+  top: 62%;
+  animation-delay: 2.6s;
+}
+
+@keyframes szk-twinkle {
+  0%,
+  62%,
+  100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+  }
+
+  76% {
+    opacity: 1;
+    transform: scale(1.15) rotate(20deg);
+  }
+
+  88% {
+    opacity: 0.4;
+    transform: scale(0.7) rotate(34deg);
+  }
+}
+
+[data-skin="szklarnia"] .menu__best,
+[data-skin="szklarnia"] .menu__skin {
+  padding: 5px 14px;
+  border: 1.5px solid #C79A3E;
+  border-radius: 999px;
+  background: var(--szk-enamel-face);
+  box-shadow: 0 2px 0 var(--szk-brass-dark), -2px 6px 8px rgba(52, 44, 20, 0.2);
+}
+
+[data-skin="szklarnia"] .menu__best {
+  align-items: center;
+  min-height: 2rem;
+}
+
+[data-skin="szklarnia"] .menu__best b {
+  font-family: var(--nx-font-display);
+  font-size: 1.0625rem;
+  font-weight: 650;
+}
+
+[data-skin="szklarnia"] .menu__skin {
+  min-height: var(--nx-touch);
+  text-shadow: none;
+  background-clip: padding-box;
+}
+
+/* --- Game: labels, frame, goal ------------------------------------------------------ */
+
+[data-skin="szklarnia"] .game__header .brand__word {
+  font-weight: 760;
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 72;
+  letter-spacing: 0.06em;
+  color: #17543A;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 0 12px rgba(255, 252, 242, 0.95);
+}
+
+[data-skin="szklarnia"] .game__header .brand {
+  padding: 3px 16px 4px;
+  border: 1.5px solid #C79A3E;
+  border-radius: 999px;
+  background: var(--szk-enamel-face);
+  box-shadow: 0 2px 0 var(--szk-brass-dark), -2px 6px 8px rgba(52, 44, 20, 0.2), inset -1px 2px 0 #FFFFFF;
+}
+
+/* Stats: one long plant label of cream enamel. */
+[data-skin="szklarnia"] .game__stats {
+  position: relative;
+  padding: 5px 14px 6px;
+  border: 1.5px solid #C79A3E;
+  border-radius: 13px;
+  background: var(--szk-enamel-face);
+  box-shadow:
+    0 3px 0 var(--szk-brass-dark),
+    -3px 8px 10px rgba(52, 44, 20, 0.22),
+    inset 0 0 0 2.5px #FFFDF5,
+    inset 0 0 0 3.5px rgba(31, 106, 74, 0.22);
+}
+
+[data-skin="szklarnia"] .stat__value {
+  line-height: 1.1;
+}
+
+[data-skin="szklarnia"] .stat--chain[data-live] .stat__value {
+  animation: szk-pulse 420ms var(--enter-ease);
+}
+
+@keyframes szk-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.22);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Board frame: painted iron with a highlight on the edges that face the window. */
+[data-skin="szklarnia"] .board-frame {
+  box-shadow:
+    var(--frame-shadow),
+    inset -1.5px 1.5px 0 #FFFFFF,
+    inset 1.5px -1.5px 0 rgba(120, 112, 88, 0.35);
+}
+
+[data-skin="szklarnia"] .board-frame__inner {
+  box-shadow:
+    1px -1px 0 rgba(120, 112, 88, 0.45),
+    -1px 1px 0 #FFFFFF;
+}
+
+/* Brass bosses on the corners. */
+[data-skin="szklarnia"] .szk-boss {
+  display: block !important;
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 66% 30%, #FFF3C4 0%, #E3BF68 28%, #B98E36 58%, #6B4C16 100%);
+  box-shadow: -1px 1.5px 1.5px rgba(52, 44, 20, 0.5), inset 0 0 0 1px rgba(107, 76, 22, 0.5);
+  pointer-events: none;
+}
+
+[data-skin="szklarnia"] .szk-boss--tl {
+  left: -3px;
+  top: -3px;
+}
+
+[data-skin="szklarnia"] .szk-boss--tr {
+  right: -3px;
+  top: -3px;
+}
+
+[data-skin="szklarnia"] .szk-boss--bl {
+  left: -3px;
+  bottom: -3px;
+}
+
+[data-skin="szklarnia"] .szk-boss--br {
+  right: -3px;
+  bottom: -3px;
+}
+
+[data-skin="szklarnia"] .countdown {
+  font-size: 5rem;
+  font-weight: 700;
+  color: #17543A;
+  text-shadow: 0 2px 0 #FFFFFF, -1px 5px 0 rgba(199, 154, 62, 0.65);
+}
+
+[data-skin="szklarnia"] .countdown span {
+  animation: szk-count 560ms var(--enter-ease) both;
+}
+
+@keyframes szk-count {
+  from {
+    opacity: 0;
+    transform: scale(0.55) rotate(-8deg);
+  }
+
+  35% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.2;
+    transform: scale(0.96);
+  }
+}
+
+/* Goal: a plant label with its hole for the wire. */
+[data-skin="szklarnia"] .game__goal {
+  position: relative;
+  box-shadow: 0 2.5px 0 var(--szk-brass-dark), -2px 7px 9px rgba(52, 44, 20, 0.2), inset -1px 2px 0 #FFFFFF;
+  font-family: var(--nx-font);
+  font-weight: 750;
+  letter-spacing: 0.06em;
+}
+
+[data-skin="szklarnia"] .goal__text {
+  font-family: var(--nx-font);
+}
+
+[data-skin="szklarnia"] .goal__progress {
+  color: #8A4E12;
+}
+
+[data-skin="szklarnia"] .goal__progress::before {
+  color: #B98E36;
+}
+
+@media not ((min-width: 640px) and (min-aspect-ratio: 6/5)) {
+  [data-skin="szklarnia"] .game__goal {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  [data-skin="szklarnia"] .game__goal::before,
+  [data-skin="szklarnia"] .game__goal::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 60% 35%, #5F5540 0%, #3A3324 60%);
+    box-shadow: 0 0 0 1.5px #C79A3E, -0.5px 1px 0 2px rgba(255, 255, 255, 0.9);
+  }
+
+  [data-skin="szklarnia"] .game__goal::before {
+    left: 11px;
+  }
+
+  [data-skin="szklarnia"] .game__goal::after {
+    right: 11px;
+  }
+}
+
+[data-skin="szklarnia"] .goal__hint {
+  font-weight: 600;
+  color: #1B3327;
+}
+
+/* Wide layouts: the side columns sit on cards of the same enamel. */
+@media (min-width: 640px) and (min-aspect-ratio: 6/5) {
+  [data-skin="szklarnia"] .game__header .brand {
+    padding: 4px 26px 6px;
+  }
+
+  [data-skin="szklarnia"] .game__stats {
+    padding: var(--nx-space-3);
+    align-self: start;
+    margin-top: var(--nx-space-3);
+  }
+
+  [data-skin="szklarnia"] .stat--score {
+    border-bottom-color: rgba(138, 100, 32, 0.35);
+  }
+
+  [data-skin="szklarnia"] .stat--stage .label,
+  [data-skin="szklarnia"] .stat--stage .stat__value {
+    color: #8A4E12;
+  }
+
+  [data-skin="szklarnia"] .game__goal {
+    align-self: start;
+    padding: var(--nx-space-2) var(--nx-space-3) var(--nx-space-3);
+    border: 1.5px solid #C79A3E;
+    border-radius: 13px;
+    background: var(--szk-enamel-face);
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  [data-skin="szklarnia"] .goal__text {
+    font-family: var(--nx-font-display);
+    font-weight: 560;
+  }
+
+  [data-skin="szklarnia"] .goal__progress {
+    font-weight: 750;
+  }
+
+  [data-skin="szklarnia"] .queue__slot .label,
+  [data-skin="szklarnia"] .game__keys > .label {
+    text-shadow: 0 0 8px rgba(255, 252, 242, 1), 0 0 3px rgba(255, 252, 242, 1);
+    color: #2C4A3B;
+  }
+
+  [data-skin="szklarnia"] .queue__box {
+    border: 1.5px solid #C79A3E;
+    background: var(--szk-enamel-face);
+    box-shadow: 0 3px 0 var(--szk-brass-dark), -3px 8px 10px rgba(52, 44, 20, 0.22), inset -1px 2px 0 #FFFFFF;
+  }
+
+  [data-skin="szklarnia"] .game__keys {
+    padding: var(--nx-space-2) var(--nx-space-3);
+    border: 1.5px solid #C79A3E;
+    border-radius: 13px;
+    background: var(--szk-enamel-face);
+    box-shadow: 0 3px 0 var(--szk-brass-dark), -3px 8px 10px rgba(52, 44, 20, 0.22);
+  }
+
+  [data-skin="szklarnia"] .keys__list kbd {
+    border-color: #C79A3E;
+    background: #FFFFFF;
+    box-shadow: 0 2px 0 #C9B27A;
+  }
+}
+
+/* --- Panels: seed packets ----------------------------------------------------------- */
+
+[data-skin="szklarnia"] .overlay {
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(255, 244, 200, 0.28), transparent 60%),
+    var(--nx-scrim);
+}
+
+[data-skin="szklarnia"] .panel {
+  gap: 20px;
+  padding: 34px var(--nx-space-3) 26px;
+}
+
+/* The printed frame of the packet. */
+[data-skin="szklarnia"] .panel::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1.5px solid rgba(31, 106, 74, 0.55);
+  border-radius: 13px;
+  box-shadow: inset 0 0 0 2.5px #FFFDF5, inset 0 0 0 3.5px rgba(199, 154, 62, 0.6);
+  pointer-events: none;
+}
+
+/* A sprig printed at the head of the packet. */
+[data-skin="szklarnia"] .panel::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -17px;
+  width: 92px;
+  height: 34px;
+  margin-left: -46px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92 34'%3E%3Crect x='1.5' y='5.5' width='89' height='23' rx='11.5' fill='%23FFFDF5' stroke='%23C79A3E' stroke-width='2'/%3E%3Cg fill='%232E8257'%3E%3Cpath d='M38 17c-5-6-13-7-19-3 6 4 13 5 19 3z'/%3E%3Cpath d='M38 17c-5 6-13 7-19 3 6-4 13-5 19-3z' fill='%231F6A4A'/%3E%3Cpath d='M54 17c5-6 13-7 19-3-6 4-13 5-19 3z'/%3E%3Cpath d='M54 17c5 6 13 7 19 3-6-4-13-5-19-3z' fill='%231F6A4A'/%3E%3C/g%3E%3Cpath d='M46 8.5l7.4 4.25v8.5L46 25.5l-7.4-4.25v-8.5z' fill='%23F4B224' stroke='%238F4F08' stroke-width='1.2' stroke-linejoin='round'/%3E%3Ccircle cx='46' cy='17' r='2.6' fill='%23FFFBE6'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  filter: drop-shadow(0 2px 0 #8A6420);
+  pointer-events: none;
+}
+
+[data-skin="szklarnia"] .panel > * {
+  position: relative;
+}
+
+[data-skin="szklarnia"] .panel__title {
+  font-size: 1.875rem;
+  color: #17543A;
+  text-shadow: 0 1px 0 #FFFFFF;
+  line-height: 1.12;
+}
+
+[data-skin="szklarnia"] .panel__symbol {
+  display: none;
+}
+
+[data-skin="szklarnia"] .panel__note {
+  padding: 5px 16px;
+  border-radius: 999px;
+  background: #1F6A4A;
+  color: #FFFDF5;
+  font-weight: 750;
+  letter-spacing: 0.07em;
+  margin-right: 0;
+  box-shadow: inset -1px 2px 0 rgba(190, 240, 205, 0.35), 0 2px 0 #134730;
+}
+
+[data-skin="szklarnia"] .panel__score {
+  font-size: 2.75rem;
+  color: #1B3327;
+  text-shadow: 0 1.5px 0 #FFFFFF, -0.5px 3.5px 0 rgba(199, 154, 62, 0.6);
+}
+
+[data-skin="szklarnia"] .panel__figures {
+  gap: 4px;
+  padding: 10px 28px 12px;
+  border-radius: 14px;
+  background: linear-gradient(205deg, #F6EFDC, #EFE5CB);
+  box-shadow: inset 1px -1px 0 #FFFFFF, inset -1px 2px 3px rgba(107, 76, 22, 0.28);
+}
+
+[data-skin="szklarnia"] .panel__actions {
+  gap: 13px;
+  padding-bottom: 4px;
+}
+
+/* --- Pages: a sheet of the gardener's notebook --------------------------------------- */
+
+[data-skin="szklarnia"] .page__inner {
+  margin-top: 6px;
+  padding: 2px var(--nx-space-2) var(--nx-space-2);
+  border: 1.5px solid #C79A3E;
+  border-radius: 18px;
+  background: linear-gradient(200deg, rgba(255, 254, 248, 0.97) 0%, rgba(251, 245, 228, 0.97) 100%);
+  box-shadow: 0 4px 0 #CDBB8E, -6px 18px 30px rgba(30, 42, 28, 0.26);
+}
+
+[data-skin="szklarnia"] .page__header .icon-btn {
+  margin-left: -8px;
+}
+
+[data-skin="szklarnia"] .page__title {
+  font-size: 1.5rem;
+  font-weight: 680;
+  color: #17543A;
+}
+
+[data-skin="szklarnia"] .row__title,
+[data-skin="szklarnia"] .challenge__goal,
+[data-skin="szklarnia"] .row-link {
+  font-weight: 600;
+}
+
+[data-skin="szklarnia"] .row__help,
+[data-skin="szklarnia"] .challenge__meta {
+  font-weight: 500;
+}
+
+[data-skin="szklarnia"] .challenges > li:last-child .challenge,
+[data-skin="szklarnia"] .rows > :last-child {
+  border-bottom: 0;
+}
+
+/* Challenge number on a brass tag. */
+[data-skin="szklarnia"] .challenge__number {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background:
+    linear-gradient(205deg, #FFFFFF, #F3EAD4) padding-box,
+    var(--szk-brass-rim) border-box;
+  box-shadow: 0 2px 0 var(--szk-brass-dark), -2px 5px 6px rgba(52, 44, 20, 0.2);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #17543A;
+}
+
+[data-skin="szklarnia"] .challenge {
+  transition: transform var(--nx-dur-fast) var(--nx-ease);
+}
+
+[data-skin="szklarnia"] .challenge:active {
+  transform: translateY(2px);
+}
+
+[data-skin="szklarnia"] .challenge:active .challenge__goal {
+  color: var(--szk-green);
+}
+
+[data-skin="szklarnia"] .challenge__state {
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  background: #1F6A4A;
+  color: #FFFDF5;
+}
+
+/* Form controls. */
+[data-skin="szklarnia"] .segmented {
+  border: 1.5px solid #C79A3E;
+  border-radius: 12px;
+  background: linear-gradient(205deg, #F6EFDC, #EDE3C8);
+  box-shadow: inset -1px 2px 3px rgba(107, 76, 22, 0.25);
+  padding: 2px;
+  gap: 2px;
+}
+
+[data-skin="szklarnia"] .segmented__option span {
+  border-radius: 9px;
+  font-weight: 650;
+  color: #3F5548;
+}
+
+[data-skin="szklarnia"] .segmented__option input:checked + span {
+  background: var(--szk-green-face);
+  color: #FFFDF5;
+  box-shadow: 0 2px 0 #134730, inset -1px 2px 0 rgba(190, 240, 205, 0.35);
+}
+
+[data-skin="szklarnia"] .switch__track {
+  border: 1.5px solid #C79A3E;
+  background: linear-gradient(205deg, #F1E8D2, #E6DABC);
+  box-shadow: inset -1px 2px 3px rgba(107, 76, 22, 0.3);
+}
+
+[data-skin="szklarnia"] .switch__track::after {
+  background: radial-gradient(circle at 64% 30%, #FFFFFF 0%, #FFFCF2 45%, #E6DABC 100%);
+  box-shadow: 0 0 0 1.5px #B98E36, -1px 2px 2px rgba(52, 44, 20, 0.4);
+}
+
+[data-skin="szklarnia"] .switch[aria-checked="true"] .switch__track {
+  border-color: #175238;
+  background: linear-gradient(205deg, #4DAA78, #1F6A4A);
+  box-shadow: inset -1px 2px 3px rgba(6, 30, 18, 0.4);
+}
+
+[data-skin="szklarnia"] .switch[aria-checked="true"] .switch__track::after {
+  background: radial-gradient(circle at 64% 30%, #FFFFFF 0%, #FFFCF2 45%, #E6DABC 100%);
+}
+
+[data-skin="szklarnia"] .range input::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, #1F6A4A var(--fill, 50%), #DCCFAE var(--fill, 50%));
+  box-shadow: inset 0 1px 1px rgba(52, 44, 20, 0.35);
+}
+
+[data-skin="szklarnia"] .range input::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #DCCFAE;
+}
+
+[data-skin="szklarnia"] .range input::-moz-range-progress {
+  height: 6px;
+  border-radius: 3px;
+  background: #1F6A4A;
+}
+
+[data-skin="szklarnia"] .range input::-webkit-slider-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: calc(-0.75rem + 3px);
+  background: radial-gradient(circle at 64% 30%, #FFFFFF 0%, #FFFCF2 45%, #E6DABC 100%);
+  box-shadow: 0 0 0 2px #B98E36, -1px 3px 3px rgba(52, 44, 20, 0.4);
+}
+
+[data-skin="szklarnia"] .range input::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  background: radial-gradient(circle at 64% 30%, #FFFFFF 0%, #FFFCF2 45%, #E6DABC 100%);
+  box-shadow: 0 0 0 2px #B98E36, -1px 3px 3px rgba(52, 44, 20, 0.4);
+}
+
+[data-skin="szklarnia"] .range output {
+  font-weight: 650;
+}
+
+[data-skin="szklarnia"] .about__body,
+[data-skin="szklarnia"] .licences__licence {
+  color: #44574B;
+}
+
+/* --- High contrast: darker ink, solid lines, plain surfaces -------------------------- */
+
+:root[data-contrast="more"][data-skin="szklarnia"] {
+  --nx-text: #0C1F16;
+  --nx-muted: #24382C;
+  --nx-outline: #5C4410;
+  --nx-line: rgba(60, 44, 10, 0.75);
+  --nx-scrim: rgba(20, 30, 22, 0.82);
+  --nx-live: #0E4F35;
+  --hud-stage: #5C3206;
+  --hud-chain: #24382C;
+  --hud-chain-live: #8E1E10;
+  --goal-fg: #0E4F35;
+  --goal-border: 2px solid #5C4410;
+  --btn-primary-border: 2px solid #5C4410;
+  --btn-secondary-border: 2px solid #5C4410;
+  --btn-secondary-fg: #0C2A1C;
+  --act-border: 2.5px solid #5C4410;
+  --act-main-border: 2.5px solid #5C4410;
+  --panel-border: 2px solid #5C4410;
+  --frame-inner-border: 2px solid #5C4410;
+  --frame-border: 1.5px solid #3A3424;
+}
+
+:root[data-contrast="more"][data-skin="szklarnia"] .game__stats,
+:root[data-contrast="more"][data-skin="szklarnia"] .page__inner,
+:root[data-contrast="more"][data-skin="szklarnia"] .segmented,
+:root[data-contrast="more"][data-skin="szklarnia"] .switch__track {
+  border-color: #5C4410;
+}
+
+:root[data-contrast="more"][data-skin="szklarnia"] .goal__progress {
+  color: #5C3206;
+}
+
+/* Reduced motion: the sign hangs still (base.css already cuts every duration). */
+:root[data-motion="reduced"][data-skin="szklarnia"] .brand--stacked,
+:root[data-motion="reduced"][data-skin="szklarnia"] .szk-twinkle {
+  animation: none;
+}
