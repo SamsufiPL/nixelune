@@ -1,4 +1,4 @@
-import type { TileColor } from '../game/types';
+import type { TileColor } from '../../../game/types';
 
 /** Canvas colours. Values mirror the kit tokens in src/ui/styles/tokens.css. */
 export const TILE_FILL: Readonly<Record<TileColor, string>> = {

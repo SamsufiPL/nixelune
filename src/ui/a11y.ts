@@ -1,6 +1,7 @@
 /** Screen reader support: a polite live region that does not flood, and a board summary. */
 import type { GameView, PiecePreview, TileColor } from '../game/types';
 import type { I18n } from '../platform/types';
+import type { SkinMeta } from '../render/skin';
 import { formatCount, goalProgressText, goalText } from './format';
 
 /** Minimum gap between routine announcements, ms. Important ones always go through. */
@@ -27,21 +28,26 @@ export class Announcer {
   }
 }
 
-function colorName(i18n: I18n, color: TileColor): string {
-  return i18n.t(`color.${color}`);
+type Marks = SkinMeta['marks'] | null;
+
+/** Colour name, with the active skin's mark for that colour when there is one. */
+function colorName(i18n: I18n, color: TileColor, marks: Marks): string {
+  const name = i18n.t(`color.${color}`);
+  const mark = marks?.[color]?.name[i18n.language];
+  return mark ? i18n.t('color.withMark', { color: name, mark }) : name;
 }
 
-function pieceColor(i18n: I18n, piece: PiecePreview): string {
+function pieceColor(i18n: I18n, piece: PiecePreview, marks: Marks): string {
   // A piece may carry two colours; name each once, in cell order.
   const colors: TileColor[] = [];
   for (const cell of piece.cells) {
     if (!colors.includes(cell.color)) colors.push(cell.color);
   }
-  return colors.map((color) => colorName(i18n, color)).join(' + ');
+  return colors.map((color) => colorName(i18n, color, marks)).join(' + ');
 }
 
 /** The text alternative of the canvas: what a sighted player reads off the board. */
-export function describeBoard(view: GameView, i18n: I18n): string {
+export function describeBoard(view: GameView, i18n: I18n, marks: Marks = null): string {
   const parts: string[] = [];
   parts.push(
     i18n.t('a11y.summary.status', {
@@ -77,16 +83,16 @@ export function describeBoard(view: GameView, i18n: I18n): string {
     const first = active[0];
     parts.push(
       i18n.t('a11y.summary.active', {
-        color: first ? colorName(i18n, first.color) : '',
+        color: first ? colorName(i18n, first.color, marks) : '',
         from: from + 1,
         to: to + 1,
         row: row + 1,
       }),
     );
   }
-  parts.push(i18n.t('a11y.summary.next', { color: pieceColor(i18n, view.next) }));
+  parts.push(i18n.t('a11y.summary.next', { color: pieceColor(i18n, view.next, marks) }));
   parts.push(
-    view.held ? i18n.t('a11y.summary.held', { color: pieceColor(i18n, view.held) }) : i18n.t('a11y.summary.held.none'),
+    view.held ? i18n.t('a11y.summary.held', { color: pieceColor(i18n, view.held, marks) }) : i18n.t('a11y.summary.held.none'),
   );
   return parts.join(' ');
 }

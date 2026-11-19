@@ -2,7 +2,12 @@
 import type { PiecePreview } from '../game/types';
 import { cappedDpr } from './boardRenderer';
 import { axialX, axialY, fitPreview } from './hex';
-import { drawTile, type TileStyle } from './tile';
+import type { Skin } from './skin';
+
+export interface PreviewStyle {
+  readonly marks: boolean;
+  readonly highContrast: boolean;
+}
 
 export function previewKey(piece: PiecePreview | null, dimmed: boolean): string {
   if (!piece) return 'none';
@@ -22,12 +27,12 @@ export class PiecePreviewCanvas {
     private readonly maxRadius: number,
   ) {}
 
-  /** Forget the cached content, e.g. after a style change. */
+  /** Forget the cached content, e.g. after a style or skin change. */
   invalidate(): void {
     this.key = '';
   }
 
-  draw(piece: PiecePreview | null, style: TileStyle, dimmed = false): void {
+  draw(piece: PiecePreview | null, skin: Skin, style: PreviewStyle, dimmed = false): void {
     const canvas = this.canvas;
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
@@ -45,17 +50,26 @@ export class PiecePreviewCanvas {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, width, height);
     if (!piece) return;
-    const layout = fitPreview(piece.cells, width, height, this.maxRadius, 2);
-    for (const cell of piece.cells) {
-      drawTile(
+    const tile = skin.tile;
+    // Leave room for what the skin paints beyond the cell (thickness, shadow).
+    const margin = 2 + this.maxRadius * Math.max(tile.overflow.x, tile.overflow.bottom) * 0.5;
+    const layout = fitPreview(piece.cells, width, height, this.maxRadius, margin);
+    // Same row order as on the board, so overlaps match. Pieces have at most a few cells.
+    const cells = [...piece.cells].sort((a, b) => (tile.rowOrder === 'topDown' ? a.r - b.r : b.r - a.r) || a.q - b.q);
+    for (const cell of cells) {
+      ctx.save();
+      tile.paint({
         ctx,
-        cell.color,
-        'locked',
-        layout.pivotX + axialX(cell.q, cell.r, layout.r),
-        layout.pivotY + axialY(cell.r, layout.r),
-        layout.r,
-        style,
-      );
+        color: cell.color,
+        state: 'normal',
+        cx: layout.pivotX + axialX(cell.q, cell.r, layout.r),
+        cy: layout.pivotY + axialY(cell.r, layout.r),
+        r: layout.r,
+        marks: style.marks,
+        highContrast: style.highContrast,
+        dpr,
+      });
+      ctx.restore();
     }
     if (dimmed) {
       // Swap already used for this piece: the held preview steps back.

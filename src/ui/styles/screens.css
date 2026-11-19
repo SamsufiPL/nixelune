@@ -41,12 +41,47 @@
   color: var(--nx-muted);
 }
 
-.menu__orbit {
+.menu__art {
   width: 100%;
   height: 100%;
   min-height: 0;
   max-height: 15rem;
   align-self: center;
+  display: grid;
+  place-items: center;
+}
+
+.menu__art > * {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+/* Temporary skin switcher while candidate looks are judged. */
+.menu__skin {
+  position: absolute;
+  bottom: max(4px, var(--nx-safe-bottom));
+  right: max(4px, var(--nx-safe-right));
+  min-height: var(--nx-touch);
+  padding: 0 12px;
+  gap: 0.6em;
+  font-size: 0.75rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Menu buttons come in one after another when the theme sets --enter-stagger. */
+.menu__actions > * {
+  animation: nx-rise var(--enter-panel-ms) var(--enter-ease) both;
+}
+
+.menu__actions > :nth-child(2) {
+  animation-delay: var(--enter-stagger);
+}
+
+.menu__actions > :nth-child(3) {
+  animation-delay: calc(var(--enter-stagger) * 2);
 }
 
 .menu__actions {
@@ -107,7 +142,7 @@
     grid-row: 2;
   }
 
-  .menu__orbit {
+  .menu__art {
     display: none;
   }
 
@@ -149,7 +184,7 @@
     font-size: 1.125rem;
   }
 
-  .menu__orbit {
+  .menu__art {
     max-height: 20rem;
   }
 
@@ -256,7 +291,7 @@
   font-size: 1.25rem;
   font-weight: 400;
   font-variant-numeric: tabular-nums;
-  color: var(--nx-brass);
+  color: var(--nx-accent);
 }
 
 .challenge__text {
@@ -278,7 +313,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--nx-teal);
+  color: var(--nx-live);
 }
 
 .challenge__state svg {
@@ -287,12 +322,12 @@
 }
 
 .challenge:active .challenge__goal {
-  color: var(--nx-brass);
+  color: var(--nx-accent);
 }
 
 @media (hover: hover) {
   .challenge:hover .challenge__goal {
-    color: var(--nx-brass);
+    color: var(--nx-accent);
   }
 }
 

@@ -5,7 +5,7 @@
 import type { ChallengeDef } from '../game/types';
 import type { Services, Settings } from '../platform/types';
 import { Announcer } from './a11y';
-import { createBackdrop } from './backdrop';
+import { createBackdropHost } from './backdrop';
 import type { AppContext, ScreenView } from './context';
 import { el } from './dom';
 import type { LicenceEntry } from './licences';
@@ -17,6 +17,7 @@ import { createGameScreen, type GameScreen } from './screens/game';
 import { createMenuScreen } from './screens/menu';
 import { createSettingsScreen } from './screens/settings';
 import { Session, type CreateGame } from './session';
+import type { SkinManager } from './skinManager';
 import { INITIAL_STATE, transition, type Action, type AppState, type Effect, type Screen } from './state';
 
 export interface AppDeps {
@@ -26,6 +27,7 @@ export interface AppDeps {
   readonly challenges: readonly ChallengeDef[];
   readonly licences: readonly LicenceEntry[];
   readonly version: string;
+  readonly skins: SkinManager;
 }
 
 export interface App {
@@ -54,7 +56,8 @@ export function createApp(deps: AppDeps): App {
   const stage = el('div', { class: 'stage' });
   const live = el('div', { class: 'sr-only', 'aria-live': 'polite', 'aria-atomic': 'true' });
   root.classList.add('app');
-  root.replaceChildren(createBackdrop(), stage, live);
+  const backdrop = createBackdropHost();
+  root.replaceChildren(backdrop.root, stage, live);
   const announcer = new Announcer(live);
 
   function applyPrefs(): void {
@@ -65,6 +68,19 @@ export function createApp(deps: AppDeps): App {
     else delete html.dataset.contrast;
     if (prefs.reducedMotion) html.dataset.motion = 'reduced';
     else delete html.dataset.motion;
+    backdrop.set(deps.skins.skin, prefs);
+  }
+
+  /** Everything outside the screens that follows the active skin. */
+  function applySkin(): void {
+    const skin = deps.skins.skin;
+    document.documentElement.dataset.skin = skin.id;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', skin.ui.themeColor);
+    backdrop.set(skin, prefs);
+  }
+
+  function decorate(view: ScreenView, screen: Screen): void {
+    deps.skins.skin.ui.decorate?.(view.root, screen);
   }
 
   function persist(mutate: Parameters<typeof save.update>[0]): void {
@@ -79,6 +95,15 @@ export function createApp(deps: AppDeps): App {
     licences: deps.licences,
     version: deps.version,
     announcer,
+    skins: deps.skins,
+    skin: () => deps.skins.skin,
+    selectSkin(id) {
+      void deps.skins.select(id).then((changed) => {
+        if (changed) persist((draft) => {
+          draft.settings.skin = id;
+        });
+      });
+    },
     dispatch,
     prefs: () => prefs,
     settings: () => save.data.settings,
@@ -179,12 +204,12 @@ export function createApp(deps: AppDeps): App {
       }
     }
     const view = build(screen);
-    const holder = el('div', { class: 'screen', 'data-state': 'entering' }, view.root);
+    decorate(view, screen);
+    // The entrance is a CSS animation on .screen, tuned per skin through variables.
+    const holder = el('div', { class: 'screen', 'data-screen': screen }, view.root);
     stage.append(holder);
     current = view;
     currentScreen = screen;
-    // Two frames: one to commit the starting opacity, one to start the transition.
-    requestAnimationFrame(() => requestAnimationFrame(() => delete holder.dataset.state));
     view.focus();
   }
 
@@ -242,7 +267,14 @@ export function createApp(deps: AppDeps): App {
     current?.refresh();
   });
 
+  deps.skins.onChange(() => {
+    applySkin();
+    current?.refresh();
+    if (current && currentScreen) decorate(current, currentScreen);
+  });
+
   applyPrefs();
+  applySkin();
   show(state.screen);
 
   return {

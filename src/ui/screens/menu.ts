@@ -1,50 +1,8 @@
 /** Main menu, after the mobile menu mockup: logo, promise, a quiet orbit, three actions. */
 import { brand } from '../brand';
 import type { AppContext, ScreenView } from '../context';
-import { el, focusQuietly, svg, Texts } from '../dom';
+import { el, focusQuietly, Texts } from '../dom';
 import { formatCount } from '../format';
-
-const SQ = Math.sqrt(3) / 2;
-
-function hexPoints(cx: number, cy: number, r: number): string {
-  const p = [
-    [cx + SQ * r, cy + r / 2],
-    [cx, cy + r],
-    [cx - SQ * r, cy + r / 2],
-    [cx - SQ * r, cy - r / 2],
-    [cx, cy - r],
-    [cx + SQ * r, cy - r / 2],
-  ];
-  return p.map(([x, y]) => `${(x ?? 0).toFixed(2)},${(y ?? 0).toFixed(2)}`).join(' ');
-}
-
-/** The six tiles and the ring of the menu mockup, same coordinates, no glow. */
-function orbitArt(): SVGSVGElement {
-  const tiles: readonly (readonly [number, number, string])[] = [
-    [402, 623, '#64D3C1'],
-    [450, 695, '#8DBEF1'],
-    [594, 623, '#F18479'],
-    [642, 695, '#F0BD75'],
-    [498, 767, '#B5A7E4'],
-    [354, 839, '#64D3C1'],
-  ];
-  let body = '';
-  for (const [x, y, fill] of tiles) {
-    body +=
-      `<polygon points="${hexPoints(x, y, 54)}" fill="${fill}" stroke="${fill}" stroke-width="2" stroke-linejoin="round" opacity="0.94"/>` +
-      `<polygon points="${hexPoints(x, y, 39)}" fill="url(#nx-menu-bevel)" opacity="0.55"/>`;
-  }
-  return svg(
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="206 462 488 488" preserveAspectRatio="xMidYMid meet">' +
-      '<defs><linearGradient id="nx-menu-bevel" x1="0" y1="0" x2="1" y2="1">' +
-      '<stop stop-color="#FFFFFF" stop-opacity=".24"/><stop offset=".45" stop-color="#FFFFFF" stop-opacity=".03"/>' +
-      '<stop offset="1" stop-color="#000000" stop-opacity=".25"/></linearGradient></defs>' +
-      '<circle cx="450" cy="706" r="232" fill="none" stroke="#D7AA75" stroke-width="1.5" opacity="0.42" vector-effect="non-scaling-stroke"/>' +
-      body +
-      '</svg>',
-    'menu__orbit',
-  );
-}
 
 export function createMenuScreen(ctx: AppContext): ScreenView {
   const { i18n } = ctx;
@@ -67,6 +25,30 @@ export function createMenuScreen(ctx: AppContext): ScreenView {
     bestValue.textContent = formatCount(i18n, score);
   });
 
+  // The picture between the promise and the buttons belongs to the skin.
+  const art = el('div', { class: 'menu__art', 'aria-hidden': 'true' });
+  const skinName = el('span');
+  const skinSwitch = el('button', { class: 'btn btn--text menu__skin', type: 'button' }, el('span', { class: 'label' }), skinName);
+  skinSwitch.hidden = ctx.skins.choices.length < 2;
+  skinSwitch.addEventListener('click', () => {
+    const choices = ctx.skins.choices;
+    const at = choices.findIndex((choice) => choice.id === ctx.skins.id);
+    const next = choices[(at + 1) % choices.length];
+    if (next) ctx.selectSkin(next.id);
+  });
+  let artSkin = '';
+  texts.run(() => {
+    const label = skinSwitch.firstElementChild;
+    if (label) label.textContent = i18n.t('settings.look');
+    skinName.textContent = ctx.skins.choices.find((choice) => choice.id === ctx.skins.id)?.name[i18n.language] ?? ctx.skins.id;
+    if (artSkin !== ctx.skins.id) {
+      artSkin = ctx.skins.id;
+      const picture = ctx.skin().ui.menuArt?.() ?? null;
+      art.replaceChildren();
+      if (picture) art.append(picture);
+    }
+  });
+
   const root = el(
     'main',
     { class: 'menu' },
@@ -77,9 +59,10 @@ export function createMenuScreen(ctx: AppContext): ScreenView {
       texts.text(el('p', { class: 'menu__lead' }), t('menu.promise.lead')),
       texts.text(el('p', { class: 'menu__rest' }), t('menu.promise.rest')),
     ),
-    orbitArt(),
+    art,
     el('nav', { class: 'menu__actions' }, play, challenges, settings),
     best,
+    skinSwitch,
   );
 
   return {

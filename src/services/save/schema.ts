@@ -1,4 +1,4 @@
-import { DEFAULT_SETTINGS, LANGUAGES } from '../../platform/types';
+import { DEFAULT_SETTINGS, LANGUAGES, SKIN_ID_PATTERN } from '../../platform/types';
 import type { ChallengeRecord, SaveData, Settings } from '../../platform/types';
 
 /** Highest save format this build understands. */
@@ -75,6 +75,18 @@ function oneOf<T extends string>(value: unknown, allowed: readonly T[], fallback
   return fallback;
 }
 
+/**
+ * Skin ids are validated by shape, not against a list: the set of skins changes from
+ * build to build, and an id this build does not ship is resolved to the default skin
+ * when it is applied. A missing field is an older save, not damage: no repair noted.
+ */
+function skinId(value: unknown, repairs: Repairs): string {
+  if (value === undefined) return DEFAULT_SETTINGS.skin;
+  if (typeof value === 'string' && SKIN_ID_PATTERN.test(value)) return value;
+  repairs.note();
+  return DEFAULT_SETTINGS.skin;
+}
+
 function sanitizeSettings(value: unknown, repairs: Repairs): Settings {
   if (!isDict(value)) {
     repairs.note();
@@ -94,6 +106,7 @@ function sanitizeSettings(value: unknown, repairs: Repairs): Settings {
     reducedMotion: oneOf(value.reducedMotion, ['system', 'on', 'off'], DEFAULT_SETTINGS.reducedMotion, repairs),
     tileMarks: bool(value.tileMarks, DEFAULT_SETTINGS.tileMarks, repairs),
     highContrast: bool(value.highContrast, DEFAULT_SETTINGS.highContrast, repairs),
+    skin: skinId(value.skin, repairs),
   };
 }
 

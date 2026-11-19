@@ -3,7 +3,7 @@ import type { GameView } from '../../src/game/types';
 import { DEFAULT_SETTINGS, type SaveData } from '../../src/platform/types';
 import { createI18n } from '../../src/services/i18n';
 import { Announcer, ANNOUNCE_GAP_MS, describeBoard } from '../../src/ui/a11y';
-import { starField } from '../../src/ui/backdrop';
+import { starField } from '../../src/render/skins/kit/backdrop';
 import { chainText, formatCount, goalProgressText, goalText, pad2, pointsText, splitTitle } from '../../src/ui/format';
 import { FALLBACK_LICENCES, loadLicences, parseLicences } from '../../src/ui/licences';
 import { resolvePrefs } from '../../src/ui/prefs';

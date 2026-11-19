@@ -3,7 +3,9 @@ import type { ChallengeDef } from '../game/types';
 import type { I18n, Services, Settings } from '../platform/types';
 import type { Announcer } from './a11y';
 import type { LicenceEntry } from './licences';
+import type { Skin } from '../render/skin';
 import type { Prefs } from './prefs';
+import type { SkinManager } from './skinManager';
 import type { Action } from './state';
 
 export interface AppContext {
@@ -13,6 +15,11 @@ export interface AppContext {
   readonly licences: readonly LicenceEntry[];
   readonly version: string;
   readonly announcer: Announcer;
+  readonly skins: SkinManager;
+  /** The active skin. Screens read it again in `refresh`, which runs after a switch. */
+  skin(): Skin;
+  /** Choose a skin: applied live, stored in the save. */
+  selectSkin(id: string): void;
   dispatch(action: Action): void;
   /** Effective presentation preferences (settings resolved against the system). */
   prefs(): Prefs;

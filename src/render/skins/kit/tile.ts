@@ -4,8 +4,9 @@
  * facet is replaced by an engraved per-colour mark, so a tile never carries more
  * than these three things. Proportions are taken from the mockup SVG, in hex radii.
  */
-import { TILE_COLORS, type TileColor } from '../game/types';
-import { hexPath, SQRT3 } from './hex';
+import type { TileColor } from '../../../game/types';
+import { hexPath, SQRT3 } from '../../hex';
+import type { Ctx2D, TilePaint } from '../../skin';
 import { CELL_FILL, CELL_STROKE, CELL_STROKE_STRONG, BRASS, TEXT, TILE_FILL } from './palette';
 
 export const TILE_RADIUS = 0.854;
@@ -22,7 +23,7 @@ export interface TileStyle {
   readonly highContrast: boolean;
 }
 
-type Ctx = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
+type Ctx = Ctx2D;
 
 /** Each colour has its own simple mark, so colour is never the only cue. */
 export const MARK_SHAPE: Readonly<Record<TileColor, 'ring' | 'triangle' | 'bars' | 'diamond' | 'cross'>> = {
@@ -173,60 +174,12 @@ export function drawGhost(ctx: Ctx, cx: number, cy: number, r: number, highContr
   ctx.globalAlpha = 1;
 }
 
-const VARIANTS: readonly TileVariant[] = ['locked', 'active', 'lit'];
-
-/**
- * Tiles pre-rendered at device resolution, one sprite per colour and variant, so the
- * per-frame cost of a tile is a single drawImage.
- */
-export class TileSprites {
-  private readonly sprites: Record<TileColor, Partial<Record<TileVariant, HTMLCanvasElement>>> = {
-    teal: {},
-    coral: {},
-    ice: {},
-    lilac: {},
-    amber: {},
-  };
-  /** Sprite edge in CSS px. */
-  readonly size: number;
-  private readonly dpr: number;
-
-  constructor(r: number, dpr: number, style: TileStyle, doc: Document = document) {
-    this.dpr = dpr;
-    const edgePx = Math.max(2, Math.ceil((2 * r + 4) * dpr));
-    this.size = edgePx / dpr;
-    for (const color of TILE_COLORS) {
-      for (const variant of VARIANTS) {
-        const canvas = doc.createElement('canvas');
-        canvas.width = edgePx;
-        canvas.height = edgePx;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          drawTile(ctx, color, variant, this.size / 2, this.size / 2, r, style);
-        }
-        this.sprites[color][variant] = canvas;
-      }
-    }
+/** The kit tile as a skin painter. Forming groups are shown by links, not by the tile. */
+export function paintKitTile(p: TilePaint): void {
+  if (p.state === 'ghost') {
+    drawGhost(p.ctx, p.cx, p.cy, p.r, p.highContrast);
+    return;
   }
-
-  /** Draw a sprite centred on (cx, cy); `ctx` must be scaled by the same DPR. */
-  draw(
-    ctx: CanvasRenderingContext2D,
-    color: TileColor,
-    variant: TileVariant,
-    cx: number,
-    cy: number,
-    scale = 1,
-    snap = true,
-  ): void {
-    const sprite = this.sprites[color][variant];
-    if (!sprite) return;
-    const size = this.size * scale;
-    const dpr = this.dpr;
-    // Snap to device pixels so resting tiles stay crisp.
-    const x = snap && scale === 1 ? Math.round((cx - size / 2) * dpr) / dpr : cx - size / 2;
-    const y = snap && scale === 1 ? Math.round((cy - size / 2) * dpr) / dpr : cy - size / 2;
-    ctx.drawImage(sprite, x, y, size, size);
-  }
+  const variant: TileVariant = p.state === 'active' ? 'active' : p.state === 'lit' ? 'lit' : 'locked';
+  drawTile(p.ctx, p.color, variant, p.cx, p.cy, p.r, p);
 }

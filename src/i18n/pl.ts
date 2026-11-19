@@ -121,6 +121,8 @@ export const messages: Record<string, Message> = {
   'settings.marks.help': 'Każdy kolor ma własny znak, więc pola rozróżnisz nie tylko po barwie.',
   'settings.contrast': 'Wysoki kontrast',
   'settings.contrast.help': 'Mocniejsze obrysy pól i wyraźniejsze znaki.',
+  'settings.look': 'Wygląd',
+  'settings.look.help': 'Tymczasowy wybór na czas oceny propozycji.',
   'settings.about': 'Licencje i informacje',
 
   // About
@@ -161,9 +163,10 @@ export const messages: Record<string, Message> = {
   'a11y.summary.next': 'Następny: {color}.',
   'a11y.summary.held': 'Zachowany: {color}.',
   'a11y.summary.held.none': 'Nic nie zachowano.',
-  'color.teal': 'morski, znak: pierścień',
-  'color.coral': 'koralowy, znak: trójkąt',
-  'color.ice': 'lodowy, znak: dwie kreski',
-  'color.lilac': 'liliowy, znak: romb',
-  'color.amber': 'bursztynowy, znak: krzyżyk',
+  'color.teal': 'morski',
+  'color.coral': 'koralowy',
+  'color.ice': 'lodowy',
+  'color.lilac': 'liliowy',
+  'color.amber': 'bursztynowy',
+  'color.withMark': '{color}, znak: {mark}',
 };

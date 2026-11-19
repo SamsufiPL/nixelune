@@ -2,10 +2,10 @@
 
 .label {
   font-size: var(--nx-text-label);
-  font-weight: 600;
+  font-weight: var(--label-weight);
   letter-spacing: var(--nx-track-label);
-  text-transform: uppercase;
-  color: var(--nx-muted);
+  text-transform: var(--label-transform);
+  color: var(--label-color);
   line-height: 1.3;
 }
 
@@ -37,11 +37,12 @@
 }
 
 .brand__word {
+  font-family: var(--nx-font-display);
   font-size: 1rem;
-  font-weight: 450;
-  letter-spacing: var(--nx-track-label);
+  font-weight: var(--logo-weight);
+  letter-spacing: var(--logo-track);
   /* Optical centring: tracking adds space after the last letter. */
-  margin-right: calc(var(--nx-track-label) * -1);
+  margin-right: calc(var(--logo-track) * -1);
   line-height: 1;
 }
 
@@ -59,79 +60,91 @@
   font-size: min(var(--nx-text-logo), 10vw);
 }
 
-/* --- Buttons -------------------------------------------------------------------- */
+/* --- Buttons --------------------------------------------------------------------
+ * Built from the --btn-* tokens (tokens.css). Variants only map their own tokens to
+ * the working ones, so a theme restyles all buttons by changing tokens, and may add
+ * ::before / ::after for bevels and gloss (the button is position: relative).
+ */
 
 .btn {
+  --btn-bg: transparent;
+  --btn-bg-hover: transparent;
+  --btn-bg-pressed: transparent;
+  --btn-fg: var(--nx-text);
+  --btn-fg-hover: var(--btn-fg);
+  --btn-border: 0 solid transparent;
+  --btn-edge: transparent;
+  --btn-weight: 600;
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   min-height: var(--nx-touch);
   padding: 0 var(--nx-space-3);
-  border-radius: var(--nx-radius-md);
+  border: var(--btn-border);
+  border-radius: var(--btn-radius);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  box-shadow: 0 var(--btn-depth) 0 var(--btn-edge), var(--btn-shadow);
+  font-family: var(--btn-font);
   font-size: var(--nx-text-button);
-  font-weight: 600;
-  letter-spacing: var(--nx-track-button);
-  text-transform: uppercase;
+  font-weight: var(--btn-weight);
+  letter-spacing: var(--btn-track);
+  text-transform: var(--btn-transform);
   text-align: center;
   transition:
     background-color var(--nx-dur-fast) var(--nx-ease),
     border-color var(--nx-dur-fast) var(--nx-ease),
     color var(--nx-dur-fast) var(--nx-ease),
+    box-shadow var(--nx-dur-fast) var(--nx-ease),
     transform var(--nx-dur-fast) var(--nx-ease);
 }
 
+/* Pressed: the button travels down and its edge shortens by the same distance. */
 .btn:active:not(:disabled) {
-  transform: translateY(1px);
+  transform: translateY(var(--btn-travel)) scale(var(--press-scale));
+  background: var(--btn-bg-pressed);
+  color: var(--btn-fg-hover);
+  box-shadow: 0 max(0px, calc(var(--btn-depth) - var(--btn-travel))) 0 var(--btn-edge), var(--btn-shadow-pressed);
 }
 
 .btn:disabled {
   opacity: 0.4;
 }
 
-/* Brass: the one main call to action of a view. */
+/* The one main call to action of a view. */
 .btn--primary {
-  background: var(--nx-brass);
-  color: var(--nx-ink);
-  font-weight: 700;
-}
-
-.btn--primary:active:not(:disabled) {
-  background: var(--nx-brass-pressed);
+  --btn-bg: var(--btn-primary-bg);
+  --btn-bg-hover: var(--btn-primary-bg-hover);
+  --btn-bg-pressed: var(--btn-primary-bg-pressed);
+  --btn-fg: var(--btn-primary-fg);
+  --btn-border: var(--btn-primary-border);
+  --btn-edge: var(--btn-primary-edge);
+  --btn-weight: var(--btn-primary-weight);
 }
 
 .btn--secondary {
-  background: var(--nx-panel);
-  border: 1px solid var(--nx-outline);
-  color: var(--nx-text);
-  font-weight: 500;
-}
-
-.btn--secondary:active:not(:disabled) {
-  background: var(--nx-panel2);
+  --btn-bg: var(--btn-secondary-bg);
+  --btn-bg-hover: var(--btn-secondary-bg-hover);
+  --btn-bg-pressed: var(--btn-secondary-bg-pressed);
+  --btn-fg: var(--btn-secondary-fg);
+  --btn-border: var(--btn-secondary-border);
+  --btn-edge: var(--btn-secondary-edge);
+  --btn-weight: var(--btn-secondary-weight);
 }
 
 .btn--text {
-  color: var(--nx-muted);
-  font-weight: 500;
-}
-
-.btn--text:active:not(:disabled) {
-  color: var(--nx-text);
+  --btn-fg: var(--btn-text-fg);
+  --btn-fg-hover: var(--btn-text-fg-hover);
+  --btn-weight: 500;
+  box-shadow: none;
 }
 
 @media (hover: hover) {
-  .btn--primary:hover:not(:disabled) {
-    background: var(--nx-brass-hover);
-  }
-
-  .btn--secondary:hover:not(:disabled) {
-    background: var(--nx-panel2);
-    border-color: var(--nx-muted);
-  }
-
-  .btn--text:hover:not(:disabled) {
-    color: var(--nx-text);
+  .btn:hover:not(:disabled):not(:active) {
+    background: var(--btn-bg-hover);
+    color: var(--btn-fg-hover);
   }
 }
 
@@ -168,11 +181,16 @@
 /* --- Round thumb actions (mobile mockup) ---------------------------------------- */
 
 .act {
+  --disc-bg: var(--act-bg);
+  --disc-bg-pressed: var(--act-bg-pressed);
+  --disc-fg: var(--act-fg);
+  --disc-border: var(--act-border);
+  --disc-edge: var(--act-edge);
   display: grid;
   justify-items: center;
-  gap: 6px;
+  gap: calc(6px + var(--act-depth));
   min-width: min(var(--nx-touch), 22vw);
-  color: var(--nx-muted);
+  color: var(--act-label);
 }
 
 .act__disc {
@@ -181,13 +199,15 @@
   place-items: center;
   width: var(--act-size, 3.5rem);
   height: var(--act-size, 3.5rem);
-  border: 1.5px solid var(--nx-brass);
+  border: var(--disc-border);
   border-radius: 50%;
-  background: var(--nx-panel);
-  color: var(--nx-text);
+  background: var(--disc-bg);
+  color: var(--disc-fg);
+  box-shadow: 0 var(--act-depth) 0 var(--disc-edge), var(--act-shadow);
   transition:
     background-color var(--nx-dur-fast) var(--nx-ease),
     transform var(--nx-dur-fast) var(--nx-ease),
+    box-shadow var(--nx-dur-fast) var(--nx-ease),
     opacity var(--nx-dur-fast) var(--nx-ease);
 }
 
@@ -198,34 +218,33 @@
 
 .act__label {
   font-size: var(--nx-text-label);
-  font-weight: 600;
+  font-weight: var(--label-weight);
   letter-spacing: var(--nx-track-label);
   margin-right: calc(var(--nx-track-label) * -1);
-  text-transform: uppercase;
+  text-transform: var(--label-transform);
   line-height: 1.3;
 }
 
 .act--main {
-  color: var(--nx-text);
+  --disc-bg: var(--act-main-bg);
+  --disc-bg-pressed: var(--act-main-bg-pressed);
+  --disc-fg: var(--act-main-fg);
+  --disc-border: var(--act-main-border);
+  --disc-edge: var(--act-main-edge);
+  color: var(--act-main-label);
 }
 
 .act--main .act__disc {
   width: var(--act-size-main, 4.25rem);
   height: var(--act-size-main, 4.25rem);
-  border-color: transparent;
-  background: var(--nx-brass);
-  color: var(--nx-ink);
 }
 
+/* Pressed: the disc travels down onto its edge and gives a little. */
 .act:active:not(:disabled) .act__disc,
 .act[data-pressed] .act__disc {
-  transform: scale(0.95);
-  background: var(--nx-panel2);
-}
-
-.act--main:active:not(:disabled) .act__disc,
-.act--main[data-pressed] .act__disc {
-  background: var(--nx-brass-pressed);
+  transform: translateY(var(--act-travel)) scale(0.96);
+  background: var(--disc-bg-pressed);
+  box-shadow: 0 max(0px, calc(var(--act-depth) - var(--act-travel))) 0 var(--disc-edge), var(--act-shadow);
 }
 
 .act:disabled .act__disc {
@@ -269,11 +288,13 @@
   gap: var(--nx-space-3);
   width: min(100%, 23rem);
   padding: var(--nx-space-4) var(--nx-space-3);
-  border: 1px solid var(--nx-brass);
-  border-radius: var(--nx-radius-md);
-  background: var(--nx-dialog);
+  position: relative;
+  border: var(--panel-border);
+  border-radius: var(--panel-radius);
+  background: var(--panel-bg);
+  box-shadow: var(--panel-shadow);
   text-align: center;
-  animation: nx-rise var(--nx-dur-slow) var(--nx-ease);
+  animation: nx-rise var(--enter-panel-ms) var(--enter-ease) both;
 }
 
 .panel__symbol {
@@ -282,11 +303,12 @@
 }
 
 .panel__title {
+  font-family: var(--nx-font-display);
   font-size: 1.625rem;
-  font-weight: 400;
-  letter-spacing: 0.09em;
-  margin-right: -0.09em;
-  text-transform: uppercase;
+  font-weight: var(--title-weight);
+  letter-spacing: var(--title-track);
+  margin-right: calc(var(--title-track) * -1);
+  text-transform: var(--title-transform);
   line-height: 1.2;
 }
 
@@ -295,7 +317,7 @@
 }
 
 .panel__title span + span {
-  color: var(--nx-brass);
+  color: var(--title-accent);
 }
 
 .panel__note {
@@ -304,7 +326,7 @@
   letter-spacing: var(--nx-track-label);
   margin-right: calc(var(--nx-track-label) * -1);
   text-transform: uppercase;
-  color: var(--nx-teal);
+  color: var(--nx-live);
 }
 
 .panel__figures {
@@ -314,8 +336,9 @@
 }
 
 .panel__score {
+  font-family: var(--nx-font-display);
   font-size: 2.25rem;
-  font-weight: 400;
+  font-weight: var(--score-weight);
   letter-spacing: var(--nx-track-tight);
   font-variant-numeric: tabular-nums;
   line-height: 1.1;
@@ -340,11 +363,15 @@
 @keyframes nx-rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(var(--enter-panel-shift)) scale(var(--enter-panel-scale));
   }
 }
 
 /* --- Form controls (settings) --------------------------------------------------- */
+
+.segmented--wrap {
+  flex-wrap: wrap;
+}
 
 .segmented {
   display: inline-flex;
@@ -428,13 +455,13 @@
 
 /* Teal marks an active connection; a switch that is on is one. The knob moves too. */
 .switch[aria-checked="true"] .switch__track {
-  border-color: var(--nx-teal);
-  background: rgba(100, 211, 193, 0.16);
+  border-color: var(--switch-on);
+  background: var(--switch-on-bg);
 }
 
 .switch[aria-checked="true"] .switch__track::after {
   transform: translateX(1.25rem);
-  background: var(--nx-teal);
+  background: var(--switch-on);
 }
 
 .range {

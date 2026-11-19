@@ -14,6 +14,7 @@ import { keyIntent } from '../input/keyboard';
 import { KeyRepeater } from '../input/keyRepeat';
 import { bindBoardTouch } from '../input/touch';
 import { createLoop } from '../loop';
+import { createPerfProbe } from '../perfProbe';
 import type { Session } from '../session';
 import type { RunLayer } from '../state';
 import { createHud } from './gameHud';
@@ -42,13 +43,19 @@ export function createGameScreen(ctx: AppContext, session: Session, hooks: GameS
   const { services, i18n } = ctx;
   const renderOptions = (): RenderOptions => {
     const prefs = ctx.prefs();
-    return { marks: prefs.marks, highContrast: prefs.highContrast, reducedMotion: prefs.reducedMotion };
+    return {
+      marks: prefs.marks,
+      highContrast: prefs.highContrast,
+      reducedMotion: prefs.reducedMotion,
+      formatNumber: (value) => formatCount(i18n, value),
+    };
   };
 
   const hud = createHud(ctx, session.challenge !== null, renderOptions());
   const root = el('div', { class: 'game-screen' }, hud.root);
-  const renderer = new BoardRenderer(hud.canvas, renderOptions());
+  const renderer = new BoardRenderer(hud.canvas, ctx.skin(), renderOptions());
   const repeater = new KeyRepeater();
+  const perf = createPerfProbe(root);
   let layer: RunLayer = 'playing';
   let panel: Panel | null = null;
   let countdownNode: HTMLElement | null = null;
@@ -87,7 +94,7 @@ export function createGameScreen(ctx: AppContext, session: Session, hooks: GameS
   press(hud.swap, 'swap');
   hud.pause.addEventListener('click', () => ctx.dispatch({ type: 'pause' }));
   hud.describe.addEventListener('click', () => {
-    const summary = describeBoard(session.game.view, i18n);
+    const summary = describeBoard(session.game.view, i18n, ctx.skin().meta.marks);
     hud.fallback.textContent = summary;
     ctx.announcer.announce(summary, true);
   });
@@ -189,6 +196,7 @@ export function createGameScreen(ctx: AppContext, session: Session, hooks: GameS
       const view = game.view;
       hud.update(view);
       const drew = renderer.render(view, now);
+      perf?.sample(drew, renderer.lastDrawMs, renderer.liveParticles);
       // Nothing moves outside play: let the loop rest once the last effect has finished.
       if (layer === 'playing' || drew || events.length > 0) idleFrames = 0;
       else if (++idleFrames > IDLE_FRAMES) loop.stop();
@@ -323,6 +331,8 @@ export function createGameScreen(ctx: AppContext, session: Session, hooks: GameS
     },
     refresh() {
       const options = renderOptions();
+      // A skin switch changes the bed padding, and with it the frame's proportions.
+      renderer.setSkin(ctx.skin());
       renderer.setOptions(options);
       hud.restyle(options);
       hud.relabel(session.game.view);
@@ -337,6 +347,7 @@ export function createGameScreen(ctx: AppContext, session: Session, hooks: GameS
     onKey,
     dispose() {
       disposed = true;
+      perf?.dispose();
       loop.stop();
       observer.disconnect();
       touch.dispose();

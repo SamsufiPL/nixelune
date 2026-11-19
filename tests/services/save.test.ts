@@ -140,6 +140,32 @@ describe('parseSave / sanitizeSave', () => {
     expect(data).toEqual(defaultSave());
   });
 
+  it('keeps a well-formed skin id, also one this build does not ship', () => {
+    for (const skin of ['default', 'kit', 'some-later-skin2']) {
+      const save = sample();
+      save.settings.skin = skin;
+      expect(parseSave(save)).toEqual({ kind: 'ok', data: save, repaired: false });
+    }
+  });
+
+  it('treats a save without a skin as an older save, not a damaged one', () => {
+    const old = sample() as unknown as { settings: Record<string, unknown> };
+    delete old.settings.skin;
+    const outcome = sanitizeSave(old);
+    expect(outcome.repaired).toBe(false);
+    expect(outcome.data.settings.skin).toBe(DEFAULT_SETTINGS.skin);
+  });
+
+  it('resets a malformed skin id', () => {
+    for (const skin of ['', 'Kit', '../x', 'a b', 7, null, 'x'.repeat(40), '__proto__']) {
+      const save = sample() as unknown as { settings: Record<string, unknown> };
+      save.settings.skin = skin;
+      const outcome = sanitizeSave(save);
+      expect(outcome.data.settings.skin, String(skin)).toBe(DEFAULT_SETTINGS.skin);
+      expect(outcome.repaired, String(skin)).toBe(true);
+    }
+  });
+
   it('replaces missing settings with defaults', () => {
     expect(sanitizeSave({ version: 1 })).toEqual({ data: defaultSave(), repaired: true });
     expect(sanitizeSave(null)).toEqual({ data: defaultSave(), repaired: true });

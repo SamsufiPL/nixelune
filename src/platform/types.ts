@@ -20,7 +20,17 @@ export interface Settings {
   /** Engraved per-colour marks on tiles, so colour is never the only cue. */
   tileMarks: boolean;
   highContrast: boolean;
+  /**
+   * Visual skin id (see src/render/skins/index.ts), or 'default' to follow the build's
+   * default skin. An id the build no longer ships falls back to the default at run time.
+   */
+  skin: string;
 }
+
+/** Stored value meaning "whatever skin this build ships as its default". */
+export const DEFAULT_SKIN_SETTING = 'default';
+/** Shape of a skin id: lower-case letters, digits and dashes, starting with a letter. */
+export const SKIN_ID_PATTERN = /^[a-z][a-z0-9-]{0,31}$/;
 
 export const DEFAULT_SETTINGS: Readonly<Settings> = {
   language: 'system',
@@ -29,6 +39,7 @@ export const DEFAULT_SETTINGS: Readonly<Settings> = {
   reducedMotion: 'system',
   tileMarks: true,
   highContrast: false,
+  skin: DEFAULT_SKIN_SETTING,
 };
 
 export interface ChallengeRecord {

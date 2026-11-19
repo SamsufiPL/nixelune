@@ -6,8 +6,7 @@
 import type { GameView } from '../../game/types';
 import { PiecePreviewCanvas } from '../../render/preview';
 import { boardAspect } from '../../render/hex';
-import { BOARD_PAD } from '../../render/boardRenderer';
-import type { TileStyle } from '../../render/tile';
+import type { PreviewStyle } from '../../render/preview';
 import { brand } from '../brand';
 import type { AppContext } from '../context';
 import { el, setText, svg, Texts } from '../dom';
@@ -29,7 +28,7 @@ export interface Hud {
   /** Language changed: rebuild every text, including cached values. */
   relabel(view: GameView): void;
   /** Tile style changed: previews must be redrawn. */
-  restyle(style: TileStyle): void;
+  restyle(style: PreviewStyle): void;
   setHint(key: string | null): void;
 }
 
@@ -43,7 +42,7 @@ function action(texts: Texts, ctx: AppContext, icon: string, labelKey: string, m
   );
 }
 
-export function createHud(ctx: AppContext, challengeMode: boolean, initialStyle: TileStyle): Hud {
+export function createHud(ctx: AppContext, challengeMode: boolean, initialStyle: PreviewStyle): Hud {
   const { i18n } = ctx;
   const texts = new Texts();
   const t = (key: string) => () => i18n.t(key);
@@ -231,17 +230,18 @@ export function createHud(ctx: AppContext, challengeMode: boolean, initialStyle:
       shown.held = hasHeld;
       swap.toggleAttribute('data-held', hasHeld);
     }
-    const ratio = boardAspect(view.cols, view.rows, BOARD_PAD);
+    const skin = ctx.skin();
+    const ratio = boardAspect(view.cols, view.rows, ctx.skin().bed.pad);
     if (ratio !== shown.ratio) {
       shown.ratio = ratio;
       root.style.setProperty('--board-ratio', ratio.toFixed(4));
     }
     // Previews compare a content key themselves and skip hidden canvases.
-    previews.nextSmall.draw(view.next, style);
-    previews.nextLarge.draw(view.next, style);
-    previews.heldLarge.draw(view.held, style, !view.canSwap);
+    previews.nextSmall.draw(view.next, skin, style);
+    previews.nextLarge.draw(view.next, skin, style);
+    previews.heldLarge.draw(view.held, skin, style, !view.canSwap);
     // The disabled button already steps back; do not dim its preview twice.
-    previews.heldSmall.draw(view.held, style);
+    previews.heldSmall.draw(view.held, skin, style);
   }
 
   function reset(): void {

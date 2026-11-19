@@ -38,7 +38,7 @@
   align-items: center;
   justify-content: center;
   min-height: var(--nx-touch);
-  border-bottom: 1px solid var(--nx-line);
+  border-bottom: var(--header-line);
 }
 
 .game__pause {
@@ -70,26 +70,28 @@
 }
 
 .stat__value {
+  font-family: var(--nx-font-display);
   font-size: var(--nx-text-score);
-  font-weight: 400;
+  font-weight: var(--score-weight);
   letter-spacing: var(--nx-track-tight);
   font-variant-numeric: tabular-nums;
   line-height: 1.15;
   white-space: nowrap;
+  color: var(--hud-score);
 }
 
 .stat--stage .stat__value {
-  color: var(--nx-brass);
+  color: var(--hud-stage);
 }
 
 /* Teal means an active connection: the chain counter lights only while a chain runs. */
 .stat--chain .stat__value {
-  color: var(--nx-muted);
+  color: var(--hud-chain);
   transition: color var(--nx-dur) var(--nx-ease);
 }
 
 .stat--chain[data-live] .stat__value {
-  color: var(--nx-teal);
+  color: var(--hud-chain-live);
 }
 
 .stat--next {
@@ -118,19 +120,20 @@
   width: min(100cqw, calc(100cqh * var(--board-ratio, 0.73)));
   aspect-ratio: var(--board-ratio, 0.73);
   position: relative;
-  padding: 3px;
-  border: 1px solid var(--nx-outline);
-  border-radius: var(--nx-radius-md);
-  background: var(--nx-frame);
+  padding: var(--frame-pad);
+  border: var(--frame-border);
+  border-radius: var(--frame-radius);
+  background: var(--frame-bg);
+  box-shadow: var(--frame-shadow);
 }
 
 .board-frame__inner {
   position: relative;
   width: 100%;
   height: 100%;
-  border: 1px solid rgba(215, 170, 117, 0.72);
-  border-radius: 13px;
-  background: var(--nx-board);
+  border: var(--frame-inner-border);
+  border-radius: var(--frame-inner-radius);
+  background: var(--frame-inner-bg);
   overflow: hidden;
 }
 
@@ -163,7 +166,7 @@
   z-index: 3;
   display: grid;
   place-items: center;
-  background: rgba(11, 20, 33, 0.66);
+  background: var(--countdown-bg);
   border-radius: inherit;
   font-size: 4rem;
   font-weight: 350;
@@ -207,15 +210,15 @@
   gap: 0 0.6em;
   min-height: 2.5rem;
   padding: 6px var(--nx-space-2);
-  border: 1px solid var(--nx-outline);
-  border-radius: var(--nx-radius-md);
-  background: var(--nx-panel);
+  border: var(--goal-border);
+  border-radius: var(--goal-radius);
+  background: var(--goal-bg);
   text-align: center;
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: var(--nx-teal);
+  color: var(--goal-fg);
   line-height: 1.3;
 }
 
@@ -479,6 +482,7 @@
   }
 
   .stat--score {
+    flex: none;
     padding-bottom: var(--nx-space-3);
     border-bottom: 1px solid var(--nx-outline);
   }
@@ -509,7 +513,7 @@
     font-size: 1.125rem;
     font-weight: 500;
     letter-spacing: var(--nx-track-label);
-    color: var(--nx-brass);
+    color: var(--nx-accent);
     line-height: 1.3;
   }
 
@@ -550,7 +554,7 @@
     font-size: 0.9375rem;
     font-weight: 500;
     letter-spacing: var(--nx-track-label);
-    color: var(--nx-teal);
+    color: var(--nx-live);
   }
 
   .goal__progress::before {

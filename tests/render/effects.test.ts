@@ -1,9 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { TILE_COLORS } from '../../src/game/types';
-import { cappedDpr, lightDelay, LINK_MIN_GROUP, MAX_DPR, TIMING } from '../../src/render/boardRenderer';
+import { cappedDpr, LINK_MIN_GROUP, MAX_DPR } from '../../src/render/boardRenderer';
+import { lightDelay as delayFor, resolveTiming } from '../../src/render/skin';
+import kit from '../../src/render/skins/kit/index';
 import { clamp01, easeInOutQuad, easeInQuad, easeOutCubic, progress } from '../../src/render/easing';
 import { previewKey } from '../../src/render/preview';
-import { MARK_SHAPE } from '../../src/render/tile';
+import { MARK_SHAPE } from '../../src/render/skins/kit/tile';
+
+const TIMING = resolveTiming(kit.effects.timing);
+const lightDelay = (index: number, count: number): number => delayFor(index, count, TIMING);
 
 describe('timing', () => {
   it('keeps the activation inside the art direction window of 200-260 ms', () => {
@@ -14,8 +19,8 @@ describe('timing', () => {
   it('keeps the piece step at or under 80 ms and every motion under 260 ms', () => {
     expect(TIMING.step).toBeLessThanOrEqual(80);
     expect(TIMING.hardDrop).toBeLessThanOrEqual(80);
-    expect(TIMING.settleMax).toBeLessThanOrEqual(260);
-    expect(TIMING.disperse + TIMING.disperseStagger).toBeLessThanOrEqual(260);
+    expect(TIMING.fallMax).toBeLessThanOrEqual(260);
+    expect(TIMING.pop + TIMING.popStagger).toBeLessThanOrEqual(260);
   });
 
   it('lights tiles in order and finishes the last one at the activation time', () => {

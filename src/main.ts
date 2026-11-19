@@ -1,5 +1,4 @@
 /** Entry point: styles, services, then the app shell. */
-import './ui/styles/fonts.css';
 import './ui/styles/tokens.css';
 import './ui/styles/base.css';
 import './ui/styles/components.css';
@@ -12,6 +11,7 @@ import { createGame } from './game/game';
 import { createServices } from './services';
 import { createApp } from './ui/app';
 import { loadLicences } from './ui/licences';
+import { createSkinManager, resolveSkinId, skinFromSearch } from './ui/skinManager';
 
 // docs/licences.md is the list of record; the glob is empty (not an error) if it is missing.
 const licenceDocs = import.meta.glob<string>('../docs/licences.md', {
@@ -24,6 +24,11 @@ async function start(): Promise<void> {
   const root = document.getElementById('app');
   if (!root) throw new Error('#app is missing from index.html');
   const services = await createServices();
+  // ?skin= wins, then the saved choice, then the default; the skin's module, theme
+  // and fonts are the only ones loaded.
+  const skins = await createSkinManager(
+    resolveSkinId(skinFromSearch(window.location.search), services.save.data.settings.skin),
+  );
   const app = createApp({
     root,
     services,
@@ -31,10 +36,11 @@ async function start(): Promise<void> {
     challenges: CHALLENGES,
     licences: loadLicences(licenceDocs),
     version,
+    skins,
   });
   if (import.meta.env.DEV) {
     // Development handle for manual checks and screenshot scripts; not in production builds.
-    (window as unknown as { __nx?: unknown }).__nx = { app, services };
+    (window as unknown as { __nx?: unknown }).__nx = { app, services, skins };
   }
 }
 

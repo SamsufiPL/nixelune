@@ -1,0 +1,138 @@
+/*
+ * ROUGH DEMO THEME - proves that a theme can recolour and rebuild the interface from
+ * tokens alone plus a few skin-scoped rules. Not a design proposal; to be deleted.
+ * Uses system fonts on purpose: a real theme bundles its own with @font-face here.
+ */
+[data-skin="demo"] {
+  --nx-ink: #1A0C33;
+  --nx-deep: #120824;
+  --nx-panel: #3A2463;
+  --nx-panel2: #4A2F7D;
+  --nx-slate: #5B3A96;
+  --nx-outline: #6C4AAE;
+  --nx-line: rgba(160, 130, 220, 0.35);
+  --nx-text: #FFF6E9;
+  --nx-muted: #CDBBEA;
+  --nx-accent: #FFB020;
+  --nx-accent-hover: #FFC14D;
+  --nx-accent-pressed: #F09A00;
+  --nx-on-accent: #3A1D00;
+  --nx-live: #5BE7C4;
+  --nx-focus: #FFFFFF;
+  --nx-scrim: rgba(18, 8, 36, 0.78);
+
+  --nx-font: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --nx-font-display: var(--nx-font);
+  --nx-track-label: 0.06em;
+  --nx-track-button: 0.04em;
+  --label-weight: 700;
+  --logo-weight: 800;
+  --logo-track: 0.04em;
+  --score-weight: 800;
+  --title-weight: 800;
+  --title-track: 0.02em;
+
+  --nx-radius-sm: 12px;
+  --nx-radius-md: 22px;
+
+  /* Chunky buttons: a 5 px lip that the button sinks onto when pressed. */
+  --btn-depth: 5px;
+  --btn-travel: 4px;
+  --btn-shadow: 0 10px 18px rgba(0, 0, 0, 0.35);
+  --btn-shadow-pressed: 0 3px 6px rgba(0, 0, 0, 0.35);
+  --btn-primary-bg: linear-gradient(#FFD166, #FFA51F);
+  --btn-primary-bg-hover: linear-gradient(#FFDD88, #FFB23D);
+  --btn-primary-bg-pressed: linear-gradient(#FFC14D, #F09A00);
+  --btn-primary-edge: #B86A00;
+  --btn-primary-weight: 800;
+  --btn-secondary-bg: linear-gradient(#7B55C7, #5B3A96);
+  --btn-secondary-bg-hover: linear-gradient(#8B66D7, #6644A6);
+  --btn-secondary-bg-pressed: linear-gradient(#6B47B3, #4E3185);
+  --btn-secondary-border: 0 solid transparent;
+  --btn-secondary-edge: #36205F;
+  --btn-secondary-weight: 700;
+  --press-scale: 0.985;
+
+  --act-bg: linear-gradient(#7B55C7, #5B3A96);
+  --act-bg-pressed: linear-gradient(#6B47B3, #4E3185);
+  --act-border: 0 solid transparent;
+  --act-edge: #36205F;
+  --act-depth: 5px;
+  --act-travel: 4px;
+  --act-shadow: 0 8px 14px rgba(0, 0, 0, 0.35);
+  --act-main-bg: linear-gradient(#FFD166, #FFA51F);
+  --act-main-bg-pressed: linear-gradient(#FFC14D, #F09A00);
+  --act-main-border: 0 solid transparent;
+  --act-main-edge: #B86A00;
+
+  --panel-bg: linear-gradient(#4A2F7D, #2E1A55);
+  --panel-border: 3px solid #FFD166;
+  --panel-radius: 28px;
+  --panel-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+
+  --frame-bg: linear-gradient(#6C4AAE, #3A2463);
+  --frame-border: 0 solid transparent;
+  --frame-radius: 26px;
+  --frame-pad: 8px;
+  --frame-shadow: 0 6px 0 #23123F, 0 16px 30px rgba(0, 0, 0, 0.45);
+  --frame-inner-bg: #1B0F2E;
+  --frame-inner-border: 2px solid rgba(0, 0, 0, 0.4);
+  --frame-inner-radius: 19px;
+  --countdown-bg: rgba(27, 15, 46, 0.7);
+  --goal-bg: rgba(58, 36, 99, 0.85);
+  --goal-border: 2px solid #6C4AAE;
+  --goal-fg: #FFD166;
+  --header-line: 0 solid transparent;
+  --hud-stage: #FFD166;
+  --switch-on-bg: rgba(91, 231, 196, 0.2);
+
+  /* Lively entrances. */
+  --enter-screen-ms: 320ms;
+  --enter-screen-shift: 18px;
+  --enter-screen-scale: 0.97;
+  --enter-panel-ms: 380ms;
+  --enter-panel-shift: 26px;
+  --enter-panel-scale: 0.86;
+  --enter-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --enter-stagger: 70ms;
+}
+
+/* Gloss on buttons and action discs through a pseudo-element. */
+[data-skin="demo"] .btn--primary::before,
+[data-skin="demo"] .btn--secondary::before,
+[data-skin="demo"] .act__disc::before {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 6%;
+  height: 42%;
+  border-radius: inherit;
+  background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+[data-skin="demo"] .act__disc > * {
+  position: relative;
+}
+
+[data-skin="demo"] .demo-ribbon {
+  position: absolute;
+  left: -34px;
+  top: 18px;
+  width: 130px;
+  padding: 4px 0;
+  background: #FF5A6E;
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-align: center;
+  transform: rotate(-45deg);
+  pointer-events: none;
+}
+
+:root[data-contrast="more"][data-skin="demo"] {
+  --nx-muted: #F0E6FF;
+  --nx-outline: #C9B4F5;
+}

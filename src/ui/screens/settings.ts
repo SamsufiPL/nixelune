@@ -96,6 +96,26 @@ export function createSettingsScreen(ctx: AppContext): ScreenView {
     return el('div', { class: 'row' }, rowText('settings.sound', undefined, id), el('div', { class: 'range' }, input, output));
   }
 
+  // Temporary: lets the creator compare candidate looks. Goes away with the losing skins.
+  function look(): HTMLElement {
+    const name = `nx-setting-${++groupId}`;
+    const control = el('div', { class: 'segmented segmented--wrap' });
+    for (const choice of ctx.skins.choices) {
+      const input = el('input', { type: 'radio', name, value: choice.id });
+      input.addEventListener('change', () => {
+        if (input.checked) ctx.selectSkin(choice.id);
+      });
+      syncs.push(() => {
+        input.checked = ctx.skins.id === choice.id;
+      });
+      control.append(el('label', { class: 'segmented__option' }, input, texts.text(el('span'), () => choice.name[i18n.language])));
+    }
+    const legend = texts.text(el('legend', { class: 'sr-only' }), t('settings.look'));
+    const group = el('fieldset', { class: 'row' }, legend, rowText('settings.look', 'settings.look.help'), control);
+    group.querySelector('.row__title')?.setAttribute('aria-hidden', 'true');
+    return group;
+  }
+
   const about = el('button', { class: 'row-link', type: 'button' }, texts.text(el('span'), t('settings.about')), svg(ICONS.chevron));
   about.addEventListener('click', () => ctx.dispatch({ type: 'openAbout' }));
 
@@ -153,6 +173,7 @@ export function createSettingsScreen(ctx: AppContext): ScreenView {
           settings.highContrast = value;
         },
       ),
+      ctx.skins.choices.length > 1 ? look() : null,
     ),
     about,
   );

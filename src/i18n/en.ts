@@ -108,6 +108,8 @@ export const messages: Record<string, Message> = {
   'settings.marks.help': 'Each color carries its own mark, so tiles differ by more than color.',
   'settings.contrast': 'High contrast',
   'settings.contrast.help': 'Stronger tile outlines and bolder marks.',
+  'settings.look': 'Look',
+  'settings.look.help': 'A temporary choice while candidate looks are judged.',
   'settings.about': 'Licences and about',
 
   // About
@@ -142,9 +144,10 @@ export const messages: Record<string, Message> = {
   'a11y.summary.next': 'Next: {color}.',
   'a11y.summary.held': 'Held: {color}.',
   'a11y.summary.held.none': 'Nothing held.',
-  'color.teal': 'teal, mark: ring',
-  'color.coral': 'coral, mark: triangle',
-  'color.ice': 'ice blue, mark: two bars',
-  'color.lilac': 'lilac, mark: diamond',
-  'color.amber': 'amber, mark: cross',
+  'color.teal': 'teal',
+  'color.coral': 'coral',
+  'color.ice': 'ice blue',
+  'color.lilac': 'lilac',
+  'color.amber': 'amber',
+  'color.withMark': '{color}, mark: {mark}',
 };

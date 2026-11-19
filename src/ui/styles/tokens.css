@@ -1,69 +1,168 @@
 /*
- * Design tokens. The first block is the kit file
- * docs/brand-kit/04_design_system/tokens.css, copied unchanged apart from the font
- * stack naming the bundled variable font first. The second block extends it with the
- * scales of TYPOGRAFIA_I_UKLAD.md and the surfaces measured from the mockup SVGs.
+ * Design tokens: THE LIST OF WHAT A THEME MAY OVERRIDE.
+ *
+ * Everything that is look (colour, font, radius, shadow, how a button is built, how
+ * things enter) is a custom property here; everything that is structure (grids,
+ * sizes of touch targets, safe areas) lives in the other files of this folder and is
+ * shared by all skins. A theme (src/ui/themes/<id>.css) sets these properties on
+ * `[data-skin="<id>"]` and may add its own rules under the same selector.
+ *
+ * The defaults below are a neutral dark set (the values of the first `kit` skin), so
+ * a theme that leaves a property out still gets a usable interface.
  */
 :root {
-  --nx-ink: #0E1522;
+  /* --- Colour roles -------------------------------------------------------------- */
+  --nx-ink: #0E1522; /* page background behind the backdrop */
+  --nx-deep: #080E17;
   --nx-night: #111D2C;
-  --nx-panel: #172434;
-  --nx-panel2: #1C2C3E;
-  --nx-slate: #304356;
-  --nx-outline: #3A5063;
+  --nx-panel: #172434; /* raised surfaces: secondary buttons, goal strip */
+  --nx-panel2: #1C2C3E; /* the same, hovered or pressed */
+  --nx-slate: #304356; /* selected segment */
+  --nx-outline: #3A5063; /* borders */
+  --nx-line: rgba(58, 80, 99, 0.7); /* hairlines between rows */
   --nx-text: #F2EFE8;
   --nx-muted: #A8B3BF;
-  --nx-brass: #D7AA75;
-  --nx-teal: #64D3C1;
-  --nx-coral: #F18479;
-  --nx-ice: #8DBEF1;
-  --nx-lilac: #B5A7E4;
-  --nx-amber: #F0BD75;
-  --nx-focus: #F9D99D;
+  --nx-accent: #D7AA75; /* main call to action, stage number */
+  --nx-accent-hover: #E0B888;
+  --nx-accent-pressed: #C79A66;
+  --nx-on-accent: #0E1522; /* text on the accent */
+  --nx-live: #64D3C1; /* active state: chain running, switch on, goal text */
+  --nx-focus: #F9D99D; /* focus ring; must stand out on every surface */
+  --nx-scrim: rgba(8, 14, 23, 0.72); /* behind dialogs */
 
+  /* --- Type ---------------------------------------------------------------------- */
+  --nx-font: system-ui, "Segoe UI", sans-serif; /* body */
+  --nx-font-display: var(--nx-font); /* logo, numbers, panel titles */
+  --nx-text-label: 0.6875rem;
+  --nx-text-help: 0.875rem;
+  --nx-text-button: 0.9375rem;
+  --nx-text-heading: 1.125rem;
+  --nx-text-score: 1.6875rem;
+  --nx-text-logo: 1.8125rem;
+  --nx-track-label: 0.12em;
+  --nx-track-button: 0.1em;
+  --nx-track-tight: 0.02em;
+  --label-weight: 600;
+  --label-transform: uppercase;
+  --label-color: var(--nx-muted);
+  --logo-weight: 450;
+  --logo-track: var(--nx-track-label);
+  --score-weight: 400;
+  --title-weight: 400; /* panel titles */
+  --title-track: 0.09em;
+  --title-transform: uppercase;
+  --title-accent: var(--nx-accent); /* second word of two-tone titles */
+
+  /* --- Shape --------------------------------------------------------------------- */
   --nx-radius-sm: 8px;
   --nx-radius-md: 16px;
-  --nx-space-unit: 8px;
-  --nx-font: "Inter Variable", Inter, "Segoe UI", system-ui, sans-serif;
+
+  /* --- Buttons (.btn) -------------------------------------------------------------
+   * A button is: background, optional border, optional "edge" (a solid lip under it,
+   * --btn-depth tall) and an optional soft shadow. Pressing moves it down by
+   * --btn-travel and shortens the edge by the same amount.
+   */
+  --btn-radius: var(--nx-radius-md);
+  --btn-font: var(--nx-font);
+  --btn-transform: uppercase;
+  --btn-track: var(--nx-track-button);
+  --btn-depth: 0px;
+  --btn-travel: 2px;
+  --btn-shadow: 0 0 0 transparent;
+  --btn-shadow-pressed: 0 0 0 transparent;
+  --btn-primary-bg: var(--nx-accent);
+  --btn-primary-bg-hover: var(--nx-accent-hover);
+  --btn-primary-bg-pressed: var(--nx-accent-pressed);
+  --btn-primary-fg: var(--nx-on-accent);
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-edge: transparent;
+  --btn-primary-weight: 700;
+  --btn-secondary-bg: var(--nx-panel);
+  --btn-secondary-bg-hover: var(--nx-panel2);
+  --btn-secondary-bg-pressed: var(--nx-panel2);
+  --btn-secondary-fg: var(--nx-text);
+  --btn-secondary-border: 1px solid var(--nx-outline);
+  --btn-secondary-edge: transparent;
+  --btn-secondary-weight: 500;
+  --btn-text-fg: var(--nx-muted);
+  --btn-text-fg-hover: var(--nx-text);
+
+  /* --- Round game actions (.act) ------------------------------------------------- */
+  --act-bg: var(--nx-panel);
+  --act-bg-pressed: var(--nx-panel2);
+  --act-fg: var(--nx-text);
+  --act-border: 1.5px solid var(--nx-accent);
+  --act-edge: transparent;
+  --act-depth: 0px;
+  --act-travel: 2px;
+  --act-shadow: 0 0 0 transparent;
+  --act-main-bg: var(--nx-accent);
+  --act-main-bg-pressed: var(--nx-accent-pressed);
+  --act-main-fg: var(--nx-on-accent);
+  --act-main-border: 1.5px solid transparent;
+  --act-main-edge: transparent;
+  --act-label: var(--nx-muted);
+  --act-main-label: var(--nx-text);
+
+  /* --- Dialog panel (.panel) ----------------------------------------------------- */
+  --panel-bg: #0D1726;
+  --panel-border: 1px solid var(--nx-accent);
+  --panel-radius: var(--nx-radius-md);
+  --panel-shadow: 0 0 0 transparent;
+
+  /* --- Board frame (.board-frame) and HUD ---------------------------------------- */
+  --frame-bg: #101A29;
+  --frame-border: 1px solid var(--nx-outline);
+  --frame-radius: var(--nx-radius-md);
+  --frame-pad: 3px;
+  --frame-shadow: 0 0 0 transparent;
+  --frame-inner-bg: #0B1421; /* the surface under the canvas */
+  --frame-inner-border: 1px solid rgba(215, 170, 117, 0.72);
+  --frame-inner-radius: 13px;
+  --countdown-bg: rgba(11, 20, 33, 0.66);
+  --hud-score: var(--nx-text);
+  --hud-stage: var(--nx-accent);
+  --hud-chain: var(--nx-muted);
+  --hud-chain-live: var(--nx-live);
+  --goal-bg: var(--nx-panel);
+  --goal-border: 1px solid var(--nx-outline);
+  --goal-radius: var(--nx-radius-md);
+  --goal-fg: var(--nx-live);
+  --header-line: 1px solid var(--nx-line);
+
+  /* --- Form controls ------------------------------------------------------------- */
+  --switch-on: var(--nx-live);
+  --switch-on-bg: rgba(100, 211, 193, 0.16);
+
+  /* --- Motion --------------------------------------------------------------------
+   * Durations of state changes, and how screens, panels and menu buttons come in.
+   * Under reduced motion every animation and transition is cut by base.css.
+   */
+  --nx-dur-fast: 120ms;
+  --nx-dur: 180ms;
+  --nx-dur-slow: 240ms;
+  --nx-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --enter-screen-ms: 220ms;
+  --enter-screen-shift: 0px; /* starts this far below its place */
+  --enter-screen-scale: 1; /* and at this scale */
+  --enter-panel-ms: 240ms;
+  --enter-panel-shift: 8px;
+  --enter-panel-scale: 1;
+  --enter-ease: var(--nx-ease);
+  --enter-stagger: 0ms; /* delay between menu buttons */
+  --press-scale: 1; /* extra squeeze of a pressed button */
 }
 
+/* Structure tokens: shared by all skins; themes do not override these. */
 :root {
-  /* Spacing: the kit's 8 px grid. */
+  --nx-space-unit: 8px;
   --nx-space-1: 8px;
   --nx-space-2: 16px;
   --nx-space-3: 24px;
   --nx-space-4: 32px;
   --nx-space-6: 48px;
   --nx-space-8: 64px;
-
-  /* Type scale (mobile values; wider layouts raise them inside the table's ranges). */
-  --nx-text-label: 0.6875rem; /* 11 px, weight 600, +0.12em */
-  --nx-text-help: 0.875rem; /* 14 px, weight 400 */
-  --nx-text-button: 0.9375rem; /* 15 px, weight 600 */
-  --nx-text-heading: 1.125rem; /* 18 px, weight 500, +0.02em */
-  --nx-text-score: 1.6875rem; /* 27 px, weight 400, +0.02em */
-  --nx-text-logo: 1.8125rem; /* 29 px, weight 450, +0.12em */
-  --nx-track-label: 0.12em;
-  --nx-track-button: 0.1em;
-  --nx-track-tight: 0.02em;
-
-  /* Surfaces from the mockups. */
-  --nx-deep: #080E17;
-  --nx-board: #0B1421;
-  --nx-frame: #101A29;
-  --nx-dialog: #0D1726;
-  --nx-line: rgba(58, 80, 99, 0.7);
-  --nx-scrim: rgba(8, 14, 23, 0.72);
-  --nx-brass-hover: #E0B888;
-  --nx-brass-pressed: #C79A66;
-
-  /* Motion: 120-260 ms, nothing flashes. */
-  --nx-dur-fast: 120ms;
-  --nx-dur: 180ms;
-  --nx-dur-slow: 240ms;
-  --nx-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-
-  /* Touch target: the kit's goal of 48 px, in rem so it grows with text scaling. */
+  /* Touch target: 48 px, in rem so it grows with text scaling. */
   --nx-touch: 3rem;
   --nx-safe-top: env(safe-area-inset-top, 0px);
   --nx-safe-right: env(safe-area-inset-right, 0px);
@@ -71,7 +170,7 @@
   --nx-safe-left: env(safe-area-inset-left, 0px);
 }
 
-/* High contrast: muted text and hairlines step up; colours keep their meaning. */
+/* High contrast defaults: muted text and hairlines step up. Themes may refine. */
 :root[data-contrast="more"] {
   --nx-muted: #D3DAE2;
   --nx-outline: #7C93A8;
