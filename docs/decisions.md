@@ -22,6 +22,7 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
 | D-13 | Odstępstwa interfejsu od makiet | agent | do rewizji (D-15) |
 | D-14 | Elementy mieszane kolorystycznie od wyższych etapów | twórca | obowiązuje, w realizacji |
 | D-15 | Kierunek wizualny z pakietu odrzucony; nowy w wyborze | twórca | obowiązuje; wybór kierunku **otwarty (twórca)** |
+| D-16 | Telefony zablokowane w pionie; tablety i rozłożone składane obracają się | twórca | obowiązuje |
 
 ## Wpisy
 
@@ -176,4 +177,13 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
 - **Kto:** twórca. **Data:** 2026-11-19.
 - **Status:** obowiązuje; wybór nowego kierunku otwarty (twórca).
 
-<!-- Kolejne wpisy: D-16, D-17, ... Dodaj wiersz w tabeli przeglądu i sekcję poniżej. -->
+### D-16 Orientacja ekranu
+
+- **Co:** na telefonach gra działa tylko w pionie; ekrany o najmniejszej szerokości od
+  600 dp (tablety, rozłożone telefony składane) obracają się swobodnie. Blokada jest
+  flagą zasobów `portrait_only` czytaną w `MainActivity`, nie atrybutem manifestu.
+  Wersja w przeglądarce nie blokuje obrotu.
+- **Dlaczego:** decyzja twórcy (2026-11-19) — gra na telefonie ma być pionowa.
+- **Kto:** twórca. **Status:** obowiązuje.
+
+<!-- Kolejne wpisy: D-17, D-18, ... Dodaj wiersz w tabeli przeglądu i sekcję poniżej. -->

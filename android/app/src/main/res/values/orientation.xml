@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Phones play in portrait only; see values-sw600dp for tablets and unfolded foldables. -->
+    <bool name="portrait_only">true</bool>
+</resources>

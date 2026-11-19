@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Smallest width of 600 dp and up (tablets, unfolded foldables) keeps rotation. -->
+    <bool name="portrait_only">false</bool>
+</resources>

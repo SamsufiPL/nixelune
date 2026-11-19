@@ -78,8 +78,16 @@ describe('AndroidManifest components', () => {
     expect(byName('data')).toEqual([]);
   });
 
-  it('allows portrait and landscape', () => {
+  it('locks phones to portrait and lets larger screens rotate', () => {
+    // The lock is a resource flag read by MainActivity, not a manifest attribute,
+    // so tablets and unfolded foldables keep rotation.
     expect(byName('activity')[0]?.attrs['android:screenOrientation']).toBeUndefined();
+    const res = 'android/app/src/main/res';
+    expect(readFileSync(`${res}/values/orientation.xml`, 'utf8')).toContain('<bool name="portrait_only">true</bool>');
+    expect(readFileSync(`${res}/values-sw600dp/orientation.xml`, 'utf8')).toContain('<bool name="portrait_only">false</bool>');
+    const activity = readFileSync('android/app/src/main/java/pl/samsufi/nixelune/MainActivity.java', 'utf8');
+    expect(activity).toContain('R.bool.portrait_only');
+    expect(activity).toContain('SCREEN_ORIENTATION_PORTRAIT');
   });
 });
 
