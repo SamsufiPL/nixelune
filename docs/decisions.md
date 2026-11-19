@@ -16,6 +16,10 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
 | D-07 | Font Inter dołączony przez `@fontsource-variable/inter` (OFL) | agent | obowiązuje |
 | D-08 | Identyfikator aplikacji: tymczasowo `com.nixelune.game` | — | **otwarta (twórca)** |
 | D-09 | Nazwa NIXELUNE jest robocza | — | **otwarta (twórca)** |
+| D-10 | Szczegóły rozgrywki: kształty, etapy, cele, wyzwania | agent | obowiązuje, do sprawdzenia w testach z graczami |
+| D-11 | Poziom trudności: jednokolorowe elementy czy mieszane | — | **otwarta (twórca)** |
+| D-12 | Znaki na polach domyślnie włączone | agent | obowiązuje |
+| D-13 | Odstępstwa interfejsu od makiet | agent | obowiązuje, do oceny przez twórcę |
 
 ## Wpisy
 
@@ -98,4 +102,45 @@ usuwamy: decyzję zmienia nowy wpis, a stary dostaje status „zastąpiona przez
   rejestracja domeny i kont.
 - **Status:** otwarta.
 
-<!-- Kolejne wpisy: D-10, D-11, ... Dodaj wiersz w tabeli przeglądu i sekcję poniżej. -->
+### D-10 Szczegóły rozgrywki
+
+- **Co:** 9 kształtów rodzimych dla heksów (trójkąt, linia 3, łuk, śmigło, półksiężyc,
+  fala, romb, hak, zakrzywienie), bez sylwetek tetromino. Kształty i kolory losowane
+  z worków (bez serii). Opóźnienie blokady 500 ms, okno aktywacji 250 ms. Etapy: cele
+  w kolejności ścieżki → pola → punkty → łańcuch, rosnące co rundę; grawitacja
+  800 ms × 0,92^(etap−1), minimum 150 ms; premia za etap 600 × numer etapu.
+  12 wyzwań `c01`–`c12` ze stałymi ziarnami i limitem elementów. Wszystkie stałe są
+  w `src/game/tuning.ts`.
+- **Dlaczego:** GDD zostawia te parametry do zbalansowania; wartości dobrano botami
+  (`tools/`), a każde wyzwanie ma dowód wygrywalności w `tests/tools/solver.test.ts`.
+- **Kto:** agent. **Status:** obowiązuje, do sprawdzenia w testach z graczami.
+
+### D-11 Poziom trudności (otwarta)
+
+- **Stan wiedzy:** przy jednokolorowych elementach i progu 5 dwa stykające się elementy
+  tego samego koloru już tworzą ścieżkę. Bot układający losowo przegrywa dopiero po
+  medianie 83 elementów, bot zachłanny nie przegrywa wcale; trudność bierze się prawie
+  tylko z tempa.
+- **Do decyzji twórcy:** zostawić (spokojna gra), dodać elementy mieszane kolorystycznie
+  od wyższych etapów (model to obsługuje) albo podnieść próg aktywacji.
+- **Status:** otwarta.
+
+### D-12 Znaki na polach
+
+- **Co:** każdy kolor ma wygrawerowany znak (pierścień, trójkąt, dwie kreski, romb,
+  krzyżyk), domyślnie włączony; można go wyłączyć w ustawieniach.
+- **Dlaczego:** stała zasada „nigdy sam kolor”. Makiety pokazują pola bez znaków, więc
+  to odstępstwo od wizualizacji.
+- **Kto:** agent. **Status:** obowiązuje.
+
+### D-13 Odstępstwa interfejsu od makiet
+
+- **Co:** przycisk „Zamień” (wg mikrocopy, nie „Zamiana” z makiety); na telefonie
+  podgląd następnego układu jest w wierszu statystyk, a zachowany element w przycisku
+  „Zamień”; pominięto wypełniacze „THE LUMINOUS PUZZLE” i „THE CONDUIT” oraz poświatę
+  księżyca i linie morza z tła; ikony to własne rysunki liniowe.
+- **Dlaczego:** mikrocopy ma pierwszeństwo przed tekstami makiet; makieta mobilna nie
+  przewiduje podglądów; tło ma nie konkurować z planszą.
+- **Kto:** agent. **Status:** obowiązuje, do oceny przez twórcę.
+
+<!-- Kolejne wpisy: D-14, D-15, ... Dodaj wiersz w tabeli przeglądu i sekcję poniżej. -->

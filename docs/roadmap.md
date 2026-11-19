@@ -15,9 +15,17 @@ Stan na 2026-11-19. Decyzje: `docs/decisions.md`.
 - Dependabot (npm, Gradle, GitHub Actions) z 7-dniowym opóźnieniem.
 - Rozeznanie: technologia i nazwa (`docs/research/`).
 
+- Rdzeń gry (`src/game`): plansza heksowa, elementy, grupy, kaskady, punktacja, etapy,
+  12 wyzwań; boty i dowód wygrywalności wyzwań w `tools/`.
+- Usługi (`src/services`): zapis dwuslotowy z sumą kontrolną, dźwięk syntezowany,
+  wibracje, cykl życia aplikacji, tłumaczenia PL + EN.
+- Interfejs (`src/ui`, `src/render`): menu, gra, pauza, panel etapu, koniec gry,
+  wyzwania, ustawienia, licencje; sterowanie klawiaturą, dotykiem i przyciskami.
+- APK debug z prawdziwą grą: 4,5 MB.
+
 ## W toku
 
-- Rdzeń gry (`src/game`), interfejs (`src/ui`, `src/render`), usługi (`src/services`).
+- Nic.
 
 ## Następne, w kolejności
 
@@ -37,6 +45,15 @@ Stan na 2026-11-19. Decyzje: `docs/decisions.md`.
 8. Port na iOS (`npx cap add ios`), TestFlight.
 
 ## Znane długi
+
+- Gra nie była uruchomiona na telefonie; dźwięków nikt nie słuchał, czytnik ekranu
+  (TalkBack) nie był sprawdzany. Sprawdzono tylko w Chromium na komputerze.
+- Rozmiar planszy liczony jednostkami `cqw`/`cqh` wymaga WebView opartego na
+  Chromium 105 lub nowszym; brak zapasowego układu dla starszych.
+- `formatCount` w `src/ui/format.ts` powinno trafić do silnika tłumaczeń w `src/services`.
+- Brak testu integracyjnego ekranu gry (pokryty tylko przebiegami w przeglądarce).
+- Etap z celem „łańcuch” nie przyspiesza, dopóki gracz nie zrobi łańcucha.
+- Wibracja przy każdym przesunięciu o kolumnę może być zbyt częsta; ocenić na telefonie.
 
 - Brak workflow wydania i podpisywania — celowo, do czasu D-03 / D-08 / D-09.
 - Powłoka Android nie była uruchomiona na urządzeniu ani emulatorze (tylko build).
